@@ -1,3 +1,9 @@
 {
+    "serverListeningPort": 6500,
     
+    "dbHost": "localhost",
+    "dbPort": 3306,
+    "dbUser": "root",
+    "dbName": "super-market-db",
+    "dbTables": {}
 }
