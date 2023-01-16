@@ -8,9 +8,9 @@ const pool = mySql.createPool({
     database: config.dbName,
 });
 
-function executeQueryAsync(sqlCmd) {
+function executeQueryAsync(sqlCmd, values) {
     return new Promise((resolve, reject) => {
-        pool.query(sqlCmd, (err, result) => {
+        pool.query(sqlCmd, values, (err, result) => {
             if (err)
                 reject(err);
             else

@@ -1,9 +1,12 @@
 {
     "serverListeningPort": 6500,
+
+    "jwtEncriptionKey": "wow, so secure, madhim",
+    "tokenExpirationTime": "30 minutes",
     
     "dbHost": "localhost",
     "dbPort": 3306,
     "dbUser": "root",
-    "dbName": "super-market-db",
+    "dbName": "super_market_db",
     "dbTables": {}
 }
