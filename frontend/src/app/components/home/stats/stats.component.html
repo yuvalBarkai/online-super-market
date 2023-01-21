@@ -1,0 +1,18 @@
+<div *ngIf="orderNumber >= 0">
+  We have finished {{orderNumber}} orders !!
+</div>
+<div *ngIf="productNumber >= 0">
+  You can go through {{productNumber}} products here and choose the ones your like
+</div>
+<div class="notification">
+  <hr>
+  <div *ngIf="openCartDate">
+    You have an open cart from {{openCartDate}}
+  </div>
+  <div *ngIf="lastPurchaseDate">
+    Your last purchase was on {{lastPurchaseDate}}
+  </div>
+  <div *ngIf="customerName">
+    Welcome {{customerName}}
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<header>
+  <span class="title">{{title}}</span>
+  <span class="contact">
+    Contact (0547524226 or yuval120222@gmail.com)
+    Hello <span *ngIf="guestName != '';else guest">{{guestName}}</span>
+    <ng-template #guest>Guest</ng-template>
+  </span>
+</header>

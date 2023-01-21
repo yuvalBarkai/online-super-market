@@ -1,0 +1,21 @@
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px;
+  height: 300px;
+
+  // dont work: 
+  .login {
+    grid-column-start: 0;
+  }
+  .about {
+    grid-column-start: 40%;
+  }
+  .stats {
+    grid-column-start: 60%;
+  }
+}
+
+main>* {
+  border: 2px solid purple;
+}

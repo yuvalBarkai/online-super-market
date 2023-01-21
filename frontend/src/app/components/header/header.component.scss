@@ -1,0 +1,17 @@
+header {
+  background-color: blue;
+  color: white;
+  height: 80px;
+  line-height: 80px;
+  .title {
+    font-size: 40px;
+    font-weight: bolder;
+    padding-left: 30px;
+  }
+  .contact {
+    font-size: 20px;
+    display: inline-block;
+    text-align: right;
+    width:90%;
+  }
+}
