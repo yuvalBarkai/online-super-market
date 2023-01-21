@@ -1,11 +1,11 @@
-const router = require("express").Router();
-const bll = require("../business/bll");
 const jwt = require("jsonwebtoken");
-const config = require("../config.json");
-const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const validator = require("../validations/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
+const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const verifyAdmin = require("../middlewares/verify-admin");
+const config = require("../config.json");
+const bll = require("../business/bll");
+const router = require("express").Router();
 
 router.post("/login", async (req, res) => {
     try {

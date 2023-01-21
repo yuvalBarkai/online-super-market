@@ -1,8 +1,8 @@
 function serverErrorMsg(err) {
     console.log(err);
-    const errorMsg = { message: "Server Error" }
+    const errorMsg = { message: "Error: Server Error" }
     if (err.code == 'ECONNREFUSED')
-        errorMsg.message = "The database has refused the connection";
+        errorMsg.message = "Error: The database has refused the connection";
     return errorMsg;
 }
 

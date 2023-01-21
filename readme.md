@@ -2,9 +2,8 @@
 
 
 ### To do:
-- Make sure data base is well structered.
 - Build Server with Authentication, Validations... 
-
+- Start Frontend
 
 
 ### Reference Sites:
