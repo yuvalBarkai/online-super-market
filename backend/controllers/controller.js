@@ -4,31 +4,9 @@ const serverErrorMsg = require("../utilities/server-error-msg");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const verifyAdmin = require("../middlewares/verify-admin");
 const config = require("../config.json");
-const bll = require("../business/bll");
+const bll = require("../business/public-logic");
 const router = require("express").Router();
 
-router.post("/login", async (req, res) => {
-    try {
-        const body = req.body;
-        const { error } = validator.login(body);
-        if (error)
-            res.status(400).send(error.details[0]);
-        else {
-            const user = await bll.getUserByEmailAsync(body.user_email);
-            if (!user || user.length < 1)
-                res.status(401).send({ message: "Incorrect Email" });
-            else if (user[0].password != body.password)
-                res.status(401).send({ message: "Incorrect Password" });
-            else {
-                user[0].token = jwt.sign({ user: user[0] }, config.jwtEncriptionKey, { expiresIn: config.tokenExpirationTime });
-                const { password, ...userInfo } = user[0];
-                res.send(userInfo);
-            }
-        }
-    } catch (error) {
-        res.status(500).send(serverErrorMsg(error));
-    }
-});
 
 router.use(verifyLoggedIn);
 

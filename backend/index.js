@@ -6,8 +6,10 @@ server.use(cors());
 server.use(express.json());
 
 const controller = require("./controllers/controller");
+const publicController = require("./controllers/pubic-controller");
 
-server.use("/", controller);
+server.use("/public", publicController);
+// server.use("/", controller);
 
 server.use("*", (req, res) => {
     res.send(`The address ${req.originalUrl} was not found`);
