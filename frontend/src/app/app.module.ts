@@ -8,6 +8,8 @@ import { AboutComponent } from './components/home/about/about.component';
 import { StatsComponent } from './components/home/stats/stats.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HttpClientModule } from "@angular/common/http";
+import { ApiRequestsService } from './services/api-requests.service';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,10 @@ import { HeaderComponent } from './components/header/header.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ApiRequestsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
