@@ -5,11 +5,11 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-const controller = require("./controllers/controller");
+const mediumController = require("./controllers/medium-controller");
 const publicController = require("./controllers/pubic-controller");
 
-server.use("/public", publicController);
-// server.use("/", controller);
+server.use(`${config.serverBaseAddr}/public`, publicController);
+server.use(`${config.serverBaseAddr}/medium`, mediumController);
 
 server.use("*", (req, res) => {
     res.send(`The address ${req.originalUrl} was not found`);

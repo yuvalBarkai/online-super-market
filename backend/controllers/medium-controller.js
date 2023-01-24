@@ -11,13 +11,13 @@ const router = require("express").Router();
 router.use(verifyLoggedIn);
 
 router.get("/test", (req, res) => {
-    res.send(req.user);
+    res.send(req.userInfo);
 });
 
 router.use(verifyAdmin);
 
 router.get("/admin/test", (req, res) => {
-    res.send(req.user);
+    res.send(req.userInfo);
 });
 
 module.exports = router;

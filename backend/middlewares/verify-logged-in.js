@@ -24,7 +24,7 @@ function verifyLoggedIn(req, res, next) {
                 res.status(401).send({ message: "You are not logged-in" });
         }
         else {
-            req.user = decodedToken.user;
+            req.userInfo = decodedToken.userInfo;
             next();
         }
     });

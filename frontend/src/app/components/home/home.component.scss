@@ -4,15 +4,8 @@ main {
   grid-template-rows: 300px;
   height: 300px;
 
-  // dont work: 
-  .login {
-    grid-column-start: 0;
-  }
-  .about {
-    grid-column-start: 40%;
-  }
-  .stats {
-    grid-column-start: 60%;
+  router-outlet{ // consider changing this logic
+    display: none;
   }
 }
 

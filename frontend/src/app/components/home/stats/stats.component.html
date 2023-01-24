@@ -1,11 +1,24 @@
-<div *ngIf="amountOfOrders >= 0">
-  We have finished {{amountOfOrders}} orders !!
-</div>
-<div *ngIf="amountOfProducts >= 0">
-  You can go through {{amountOfProducts}} products here and choose the ones your like
-</div>
+<ng-container *ngIf="{next: numberOfOrders$ | async, err:ordersError$ | async} as res">
+  <div *ngIf="res.next">
+    We have finished {{res.next.number_of_orders}} orders !!
+  </div>
+  <div *ngIf="res.err">
+    {{res.err.error.message}}
+  </div>
+</ng-container>
+
+<ng-container *ngIf="{next:numberOfProducts$ |async, err:productsError$ |async} as res">
+  <div *ngIf="res.next">
+    You can go through {{res.next.number_of_products}} products here and choose the ones your like
+  </div>
+  <div *ngIf="res.err">
+    {{res.err.error.message}}
+  </div>
+</ng-container>
+ <button (click)="test()">test</button>
+<hr>
+
 <div class="notification">
-  <hr>
   <div *ngIf="openCartDate">
     You have an open cart from {{openCartDate}}
   </div>

@@ -1,14 +1,30 @@
-<form>
-  <div *ngIf="loggedIn">
+<ng-container *ngIf="userSubject$ | async as userInfo">
+  <div *ngIf="userInfo">
     <button>Start/Resume shopping</button>
   </div>
-  Registered ?
+</ng-container>
+<form (ngSubmit)="loginSubmit()" #f="ngForm">
   <div>
-    <input type="text" placeholder="Username">
+    Registered ?
   </div>
   <div>
-    <input type="password" placeholder="Password">
+    <input type="email" placeholder="Email" autofocus [(ngModel)]="loginInfo.user_email" name="user_email"
+      #user_email="ngModel" required>
   </div>
-  <button>Login</button>
-  <a href="">Signup</a>
+  <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty)">
+    <span *ngIf="user_email.errors['required']" class="error">Missing Email</span>
+  </ng-container>
+  <div>
+    <input type="password" placeholder="Password" [(ngModel)]="loginInfo.password" name="password" #password="ngModel"
+      required minlength="3">
+  </div>
+  <ng-container *ngIf="password.errors && (password.touched || password.dirty)">
+    <span *ngIf="password.errors['required']" class="error">Missing Password</span>
+    <span *ngIf="password.errors['minlength']" class="error">Password must be more than 2 characters</span>
+  </ng-container>
+  <div class="error">{{errorMsg}}</div>
+  <button [disabled]="user_email.errors || password.errors">Login</button>
+  <div>
+    <a href="home/register/part1">Signup</a> if you havent yet
+  </div>
 </form>
