@@ -1,7 +1,7 @@
 const dal = require("../data-access/dal");
 
 function selectUserByEmailAsync(email) {
-    return dal.executeQueryAsync(`SELECT * FROM users WHERE user_email = ?`, [email]);
+    return dal.executeQueryAsync("SELECT * FROM users WHERE user_email = ?", [email]);
 }
 
 function selectNumberOfOrdersAsync() {

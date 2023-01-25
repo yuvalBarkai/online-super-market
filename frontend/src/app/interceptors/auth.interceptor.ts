@@ -33,7 +33,6 @@ export class AuthInterceptor implements HttpInterceptor {
         alert("Please log-in");
       }
     }
-    console.log(clone);
     if (valid)
       return next.handle(clone);
     else

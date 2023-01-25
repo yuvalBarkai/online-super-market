@@ -21,7 +21,7 @@ export class ApiRequestsService {
   postUserLogin(loginInfo: LoginInfo) {
     return this.http.post<{ token: string }>(`${this.BASE_URL}/public/login`, loginInfo);
   }
-  test(){
-    return this.http.get(`${this.BASE_URL}/medium/test`);
+  getCartsByUserId(user_id: number) {
+    return this.http.get<{ cart_id: number, order_id: number }[]>(`${this.BASE_URL}/medium/carts/${user_id}`);
   }
 }

@@ -19,30 +19,29 @@ export class StatsComponent implements OnInit, OnDestroy {
     ignoreElements(), catchError((err) => of(err)));
 
   subscriptions = new Subscription();
-  openCartDate = "";
-  lastPurchaseDate = "";
-  customerName = "";
-  // check if he has any carts/orders
-
-  test() {
-    this.ApiRequests.test().subscribe((res) => console.log(res));
-  }
+  notification = "";
   ngOnInit() {
     this.subscriptions.add(this.UserService.userSubject$.subscribe(userInfo => {
-      if (userInfo) {
-        this.customerName = userInfo.first_name;
-        
-      }
-      else {
-        this.openCartDate = "";
-        this.lastPurchaseDate = "";
-        this.customerName = "";
-      }
+      if (userInfo)
+        this.ApiRequests.getCartsByUserId(userInfo.user_id).subscribe({ // move all of that to a cart service
+          next: carts => {
+            if (carts.length < 1)
+              this.notification = "Welcome !, enjoy your first purchase !!";
+            else {
+              let openCart = -1;
+              for (let c of carts)
+                if (!c.order_id) openCart = c.cart_id;
+              if (openCart == -1)
+                this.notification = "Your last purchase was in the ?? for ?? $";
+              else
+                this.notification = "You have an open cart from the date ??, for ?? $";
+            }
+          },
+          error: err => console.log(err)
+        });
     }));
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-  // "" makes them not shop up
-
 }

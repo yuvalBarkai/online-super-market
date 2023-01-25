@@ -1,1 +1,23 @@
-<p>register-part2 works!</p>
+Go back to the <a [routerLink]="['/home','register','part1']">last page</a>
+<form (ngSubmit)="submit()">
+  <h2>STEP 2</h2>
+  <div>
+    City:
+    <select>
+      <option value="">Select a city</option>
+    </select>
+  </div>
+  <div>
+    Street:
+    <input type="text">
+  </div>
+  <div>
+    First name:
+    <input type="text">
+  </div>
+  <div>
+    Last name:
+    <input type="text">
+  </div>
+  <button>Submit</button>
+</form>

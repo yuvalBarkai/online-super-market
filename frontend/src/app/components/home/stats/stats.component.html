@@ -15,17 +15,9 @@
     {{res.err.error.message}}
   </div>
 </ng-container>
- <button (click)="test()">test</button>
+
 <hr>
 
 <div class="notification">
-  <div *ngIf="openCartDate">
-    You have an open cart from {{openCartDate}}
-  </div>
-  <div *ngIf="lastPurchaseDate">
-    Your last purchase was on {{lastPurchaseDate}}
-  </div>
-  <div *ngIf="customerName">
-    Welcome {{customerName}}
-  </div>
+  {{notification}}
 </div>

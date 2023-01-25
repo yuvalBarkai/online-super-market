@@ -1,1 +1,23 @@
-<p>register-part1 works!</p>
+<div>Already have an account ? <a [routerLink]="['/home/login']">Login</a></div>
+<form (ngSubmit)="goToPart2()">
+  <h2>STEP 1</h2>
+  <div>
+    ID card number:
+    <input type="text" [(ngModel)]="part1Fields.id_card" name="id_card" #id_card="ngModel">
+  </div>
+  <div>
+    Email:
+    <input type="email" [(ngModel)]="part1Fields.email" name="email" #email="ngModel">
+  </div>
+  <div>
+    Password:
+    <input type="password" [(ngModel)]="part1Fields.password" name="password" #password="ngModel">
+  </div>
+  <div>
+    Confirm password:
+    <input type="password" [(ngModel)]="part1Fields.passwordConfirmation" name="passwordConfirmation"
+      #passwordConfirmation="ngModel">
+  </div>
+  <span *ngIf="errorMsg" class="error">{{errorMsg}}</span>
+  <button>Make me a arrow</button>
+</form>

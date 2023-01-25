@@ -24,3 +24,8 @@ export interface Registration {
   city_id: number;
   street_name: string;
 }
+
+export interface City {
+  city_id:number;
+  city_name:string;
+}
