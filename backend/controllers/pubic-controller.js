@@ -23,6 +23,15 @@ router.get("/products/amount", async (req, res) => {
     }
 });
 
+router.get("/cities", async (req, res) => {
+    try {
+        const result = await publicLogic.selectCitiesAsync();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
 router.post("/login", async (req, res) => {
     try {
         const body = req.body;

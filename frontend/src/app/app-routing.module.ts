@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/home/login/login.component';
 import { RegisterPart1Component } from './components/home/register-part1/register-part1.component';
 import { RegisterPart2Component } from './components/home/register-part2/register-part2.component';
+import { Part1CheckGuard } from './guards/part1-check.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       {
         path: "register/part2",
         component: RegisterPart2Component,
+        canActivate: [Part1CheckGuard]
       },
       {
         path: "**",

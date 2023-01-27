@@ -9,7 +9,7 @@ const router = require("express").Router();
 
 router.use(verifyLoggedIn);
 
-router.get("/carts/:userId", async (req, res) => {
+router.get("/cartsorders/:userId", async (req, res) => {
     try {
         if (isNaN(req.params.userId))
             res.status(400).send({ message: "Error: the userId parameter needs to be numberic" });
@@ -19,7 +19,24 @@ router.get("/carts/:userId", async (req, res) => {
         }
     }
     catch (error) {
-        serverErrorMsg(error);
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+router.get("/cartproducts/:cartId", async (req, res) => {
+    try {
+        const cart_id = req.params.cartId;
+        if (isNaN(cart_id))
+            res.status(400).send({ message: "Error: the userId parameter needs to be numberic" });
+        else {
+            const result = await mediumLogic.selectCardProductsByCartId(cart_id);
+            if (!result || result.length == 0)
+                res.status(404).send({ message: `Cart No ${cart_id} was not found` })
+            else
+                res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
     }
 });
 

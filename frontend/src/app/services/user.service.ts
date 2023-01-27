@@ -1,9 +1,9 @@
 import jwtDecode from "jwt-decode";
 import { BehaviorSubject } from "rxjs";
-import { UserInfo } from "src/app/types";
+import { UserInfoType } from "src/app/types";
 
 export class UserService {
-  private subject = new BehaviorSubject<UserInfo | null>(null);
+  private subject = new BehaviorSubject<UserInfoType | null>(null);
 
   get userSubject$() {
     return this.subject.asObservable();
@@ -14,7 +14,7 @@ export class UserService {
   }
 
   login(token: string) {
-    const { userInfo, exp } = jwtDecode<{ exp: number, userInfo: UserInfo }>(token);
+    const { userInfo, exp } = jwtDecode<{ exp: number, userInfo: UserInfoType }>(token);
     const date = new Date(0);
     date.setSeconds(exp);
     userInfo.tokenExpiration = date;

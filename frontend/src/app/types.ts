@@ -1,9 +1,9 @@
-export interface LoginInfo {
+export interface LoginInfoType {
   user_email: string;
   password: string;
 }
 
-export interface UserInfo {
+export interface UserInfoType {
   token: string;
   tokenExpiration: Date;
   user_id: number;
@@ -16,16 +16,53 @@ export interface UserInfo {
   is_admin: number;
 }
 
-export interface Registration {
+export interface RegistrationType {
   first_name: string;
   last_name: string;
   user_email: string;
+  password:number;
   id_card: number;
   city_id: number;
   street_name: string;
 }
 
+export interface RegisterPart1Type {
+  id_card:number | string;
+  user_email:string;
+  password:string;
+  passwordConfirmation?:string;
+}
+
+export interface RegisterPart2Type {
+  first_name: string;
+  last_name: string;
+  city_id: number | string;
+  street_name: string;
+}
+
 export interface City {
-  city_id:number;
-  city_name:string;
+  city_id: number;
+  city_name: string;
+}
+
+export interface CartAndOrderType {
+  cart_id: number;
+  order_id: number;
+  creation_date: string;
+  order_date: string;
+  order_price: number;
+}
+
+export interface CartSubjectType {
+  cartId: null | number;
+  cartTotalPrice: number;
+  cartProdcuts: CartProductType[];
+}
+
+export interface CartProductType {
+  cart_product_id: number;
+  product_id: number;
+  amount: number;
+  total_price: number;
+  cart_id: number;
 }

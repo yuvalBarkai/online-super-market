@@ -12,9 +12,13 @@ function selectNumberOfProductsAsync() {
     return dal.executeQueryAsync("SELECT COUNT(product_id) number_of_products FROM products");
 }
 
+function selectCitiesAsync() {
+    return dal.executeQueryAsync("SELECT * FROM cities");
+}
 
 module.exports = {
     selectUserByEmailAsync,
     selectNumberOfOrdersAsync,
     selectNumberOfProductsAsync,
+    selectCitiesAsync
 }

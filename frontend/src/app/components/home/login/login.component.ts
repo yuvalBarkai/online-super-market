@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { ApiRequestsService } from 'src/app/services/api-requests/api-requests.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { ApiRequestsService } from 'src/app/services/api-requests.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent {
   @ViewChild('f') form: undefined | HTMLFormElement;
 
   loginSubmit() {
-    this.apiRequests.postUserLogin(this.loginInfo).subscribe({
+    this.apiRequests.public.postUserLogin(this.loginInfo).subscribe({
       next: res => {
         this.UserService.login(res.token);
         this.errorMsg = "";
