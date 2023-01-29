@@ -20,14 +20,17 @@ export class ApiRequestsService {
 
   medium = {
     getCartsAndOrdersByUserId: (user_id: number) => {
-      return this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/cartsorders/${user_id}`);
+      return this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/carts-orders/${user_id}`);
     },
     getCartProductsByCartId: (cart_id: number) => {
-      return this.http.get<CartProductType[]>(`${this.MEDIUM_URL}/cartproducts/${cart_id}`);
+      return this.http.get<CartProductType[]>(`${this.MEDIUM_URL}/cart-products/${cart_id}`);
     }
   }
 
   public = {
+    postEmailValidate: (user_email: string) => {
+      return this.http.post<{ valid: boolean }>(`${this.PUBLIC_URL}/register/validate-email`, { user_email });
+    },
     getCities: () => {
       return this.http.get<City[]>(`${this.PUBLIC_URL}/cities`);
     },

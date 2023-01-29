@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
+import { CartService } from 'src/app/services/cart.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,8 +9,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  constructor(private UserService: UserService, private apiRequests: ApiRequestsService) { }
+  constructor(private UserService: UserService, private ApiRequests: ApiRequestsService,
+    private CartService: CartService) { }
   userSubject$ = this.UserService.userSubject$;
+  cartSubject$ = this.CartService.cart$;
   loginInfo = { user_email: "", password: "" };
   // submited = false;
   errorMsg = "";
@@ -17,7 +20,7 @@ export class LoginComponent {
   @ViewChild('f') form: undefined | HTMLFormElement;
 
   loginSubmit() {
-    this.apiRequests.public.postUserLogin(this.loginInfo).subscribe({
+    this.ApiRequests.public.postUserLogin(this.loginInfo).subscribe({
       next: res => {
         this.UserService.login(res.token);
         this.errorMsg = "";

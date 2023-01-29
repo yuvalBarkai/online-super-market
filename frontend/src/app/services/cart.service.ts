@@ -8,6 +8,10 @@ export class CartService {
   constructor(private apiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProdcuts: [] });
 
+  get cart$() {
+    return this.cartSubject.asObservable();
+  }
+
   generateLoginNotification$(carts: CartAndOrderType[]) {
     return new Observable<string>((subscribe) => {
       let notification = "";
@@ -40,7 +44,12 @@ export class CartService {
                 cartTotalPrice += c.total_price;
               this.cartSubject.next({ cartId: openCartId, cartTotalPrice, cartProdcuts: cart_products });
             },
-            error: err => subscribe.error(err)
+            error: err => {
+              if (err.status == 404)
+                this.cartSubject.next({ cartId: openCartId, cartTotalPrice: 0, cartProdcuts: [] });
+              else
+                console.log(err.error);
+            },
           });
           notification = `You have an open cart from the date ${new Date(openCartCreationDate).toLocaleDateString("en-GB")}, for ${this.cartSubject.value.cartTotalPrice} $`;
         }

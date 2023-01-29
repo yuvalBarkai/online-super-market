@@ -16,6 +16,7 @@ function selectCitiesAsync() {
     return dal.executeQueryAsync("SELECT * FROM cities");
 }
 
+
 module.exports = {
     selectUserByEmailAsync,
     selectNumberOfOrdersAsync,

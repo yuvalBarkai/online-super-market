@@ -9,7 +9,7 @@ const router = require("express").Router();
 
 router.use(verifyLoggedIn);
 
-router.get("/cartsorders/:userId", async (req, res) => {
+router.get("/carts-orders/:userId", async (req, res) => {
     try {
         if (isNaN(req.params.userId))
             res.status(400).send({ message: "Error: the userId parameter needs to be numberic" });
@@ -23,7 +23,7 @@ router.get("/cartsorders/:userId", async (req, res) => {
     }
 });
 
-router.get("/cartproducts/:cartId", async (req, res) => {
+router.get("/cart-products/:cartId", async (req, res) => {
     try {
         const cart_id = req.params.cartId;
         if (isNaN(cart_id))

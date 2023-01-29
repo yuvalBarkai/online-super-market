@@ -18,6 +18,6 @@
     <input type="password" [(ngModel)]="part1Fields.passwordConfirmation" name="passwordConfirmation"
       #passwordConfirmation="ngModel">
   </div>
-  <span *ngIf="errorMsg" class="error">{{errorMsg}}</span>
+  <div *ngIf="errorMsg" class="error">{{errorMsg}}</div>
   <button>Make me a arrow</button>
 </form>

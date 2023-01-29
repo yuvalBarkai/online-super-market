@@ -1,6 +1,12 @@
 <ng-container *ngIf="userSubject$ | async as userInfo">
   <div *ngIf="userInfo">
-    <button>Start/Resume shopping</button>
+    <button>
+      <ng-container *ngIf="cartSubject$ | async as cart">
+        <span *ngIf="cart.cartId;else resume">Resume</span>
+        <ng-template #resume>Start</ng-template>
+      </ng-container>
+      shopping
+    </button>
   </div>
 </ng-container>
 <form (ngSubmit)="loginSubmit()" #f="ngForm">
@@ -8,8 +14,8 @@
     Registered ?
   </div>
   <div>
-    <input type="email" placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email"
-      #user_email="ngModel" required>
+    <input type="email" placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email" #user_email="ngModel"
+      required>
   </div>
   <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty)">
     <span *ngIf="user_email.errors['required']" class="error">Missing Email</span>

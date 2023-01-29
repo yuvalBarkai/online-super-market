@@ -9,7 +9,7 @@
 
 <ng-container *ngIf="{next:numberOfProducts$ |async, err:productsError$ |async} as res">
   <div *ngIf="res.next">
-    You can go through {{res.next.number_of_products}} products here and choose the ones your like
+    You can go through {{res.next.number_of_products}} products here and choose the ones you like
   </div>
   <div *ngIf="res.err">
     {{res.err.error.message}}

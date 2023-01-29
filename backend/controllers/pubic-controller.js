@@ -32,6 +32,24 @@ router.get("/cities", async (req, res) => {
     }
 });
 
+router.post("/register/validate-email", async (req, res) => {
+    try {
+        const user_email = req.body.user_email;
+        if (!user_email)
+            res.status(400).send({ message: "Add the part1 registration in the body of the request", valid: false });
+        // validate user_email using regex
+        else {
+            const result = await publicLogic.selectUserByEmailAsync(user_email);
+            if (result.length > 0)
+                res.status(401).send({ message: "That email belongs to an existing account", valid: false });
+            else
+                res.send({ valid: true });
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
 router.post("/login", async (req, res) => {
     try {
         const body = req.body;
