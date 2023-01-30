@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
 import { CartService } from 'src/app/services/cart.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent {
   constructor(private UserService: UserService, private ApiRequests: ApiRequestsService,
-    private CartService: CartService) { }
+    private CartService: CartService, private Router: Router) { }
   userSubject$ = this.UserService.userSubject$;
   cartSubject$ = this.CartService.cart$;
   loginInfo = { user_email: "", password: "" };
@@ -28,5 +29,9 @@ export class LoginComponent {
       },
       error: err => this.errorMsg = err.error.message,
     });
+  }
+
+  shoppingBtn() {
+    this.Router.navigate(['/shopping']);
   }
 }

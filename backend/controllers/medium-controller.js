@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const validator = require("../validations/validator");
+const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const verifyAdmin = require("../middlewares/verify-admin");

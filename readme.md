@@ -2,9 +2,10 @@
 
 ### To do:
 
-- backend validations.
-- frontend validations.
-- document front (services !), document back (api-doc).
+- Consider Improving certain features to be more user friendly.
+- Backend validations.
+- Frontend validations.
+- Document front (services !), document back (api-doc).
 - Make sure the garbage is collected (subscriptions....).
 - Get rid of any console.log.
 

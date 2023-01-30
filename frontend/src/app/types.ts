@@ -20,9 +20,9 @@ export interface RegistrationType {
   first_name: string;
   last_name: string;
   user_email: string;
-  password:number;
-  id_card: number;
-  city_id: number;
+  password:string;
+  id_card: number | string;
+  city_id: number | string;
   street_name: string;
 }
 

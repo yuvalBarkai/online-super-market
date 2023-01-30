@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const validator = require("../validations/validator");
+const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const config = require("../config.json");
 const publicLogic = require("../business/public-logic");
@@ -32,23 +32,43 @@ router.get("/cities", async (req, res) => {
     }
 });
 
-router.post("/register/validate-email", async (req, res) => {
+router.post("/register/validate/part1", async (req, res) => {
     try {
-        const user_email = req.body.user_email;
-        if (!user_email)
-            res.status(400).send({ message: "Add the part1 registration in the body of the request", valid: false });
-        // validate user_email using regex
+        const part1 = req.body;
+        if (!part1.user_email || !part1.id_card)
+            res.status(400).send({ message: "user_email and id_card are missing", valid: false });
+        // validate part1.user_email using regex
         else {
-            const result = await publicLogic.selectUserByEmailAsync(user_email);
-            if (result.length > 0)
+            const userByEmail = await publicLogic.selectUserByEmailAsync(part1.user_email);
+            if (userByEmail.length > 0)
                 res.status(401).send({ message: "That email belongs to an existing account", valid: false });
-            else
-                res.send({ valid: true });
+            else {
+                const userByIdCard = await publicLogic.selectUserByIdAsync(part1.id_card);
+                if (userByIdCard.length > 0)
+                    res.status(401).send({ message: "That ID belongs to an existing account" });
+                else
+                    res.send({ valid: true });
+            }
         }
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
 });
+
+router.post("/register", async (req, res) => {
+    try {
+        const newUser = req.body;
+        const { error } = validator.register(newUser);
+        if (error)
+            res.status(400).send(error.details[0]);
+        else {
+            const success = await publicLogic.insertNewUserAsync(newUser);
+            res.send(success);
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+})
 
 router.post("/login", async (req, res) => {
     try {

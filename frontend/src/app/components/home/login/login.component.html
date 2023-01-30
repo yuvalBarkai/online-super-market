@@ -1,6 +1,6 @@
 <ng-container *ngIf="userSubject$ | async as userInfo">
   <div *ngIf="userInfo">
-    <button>
+    <button (click)="shoppingBtn()">
       <ng-container *ngIf="cartSubject$ | async as cart">
         <span *ngIf="cart.cartId;else resume">Resume</span>
         <ng-template #resume>Start</ng-template>

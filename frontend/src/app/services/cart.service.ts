@@ -13,21 +13,22 @@ export class CartService {
   }
 
   generateLoginNotification$(carts: CartAndOrderType[]) {
-    return new Observable<string>((subscribe) => {
+    return new Observable<string>(subscribe => {
       let notification = "";
       if (carts.length < 1)
         notification = "Welcome !, enjoy your first purchase !!";
       else {
         let openCartId = -1;
         let openCartCreationDate = "";
-        let lastOrder = new Date(0);
-        let lastOrderPrice = 0;
+        let lastOrder = new Date(carts[carts.length - 1].order_date);
+        let lastOrderPrice = carts[carts.length - 1].order_price;
+        console.log(carts);
         for (let c of carts) {
-          const orderDate = new Date(c.order_date);
-          if (orderDate > lastOrder) {
-            lastOrder = orderDate;
-            lastOrderPrice = c.order_price;
-          }
+          // const orderDate = new Date(c.order_date);
+          // if (orderDate > lastOrder) {
+          //   lastOrder = orderDate;
+          //   lastOrderPrice = c.order_price;
+          // }
           if (!c.order_id) {
             openCartId = c.cart_id;
             openCartCreationDate = c.creation_date;

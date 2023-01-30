@@ -16,6 +16,7 @@ import { RegisterPart2Component } from './components/home/register-part2/registe
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CartService } from './services/cart.service';
 import { RegistrationService } from './services/registration.service';
+import { ShoppingComponent } from './components/shopping/shopping.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RegistrationService } from './services/registration.service';
     HeaderComponent,
     RegisterPart1Component,
     RegisterPart2Component,
+    ShoppingComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,9 +14,20 @@ const validator = (schema) => (payload) =>
 const loginSchema = Joi.object({
     user_email: Joi.string().email().required(),
     password: Joi.string().min(2).max(60).required()
-})
+});
+
+const registrationSchema = Joi.object({
+    first_name: Joi.string().max(30).required(),
+    last_name: Joi.string().max(30).required(),
+    user_email: Joi.string().max(60).required(),
+    password: Joi.string().max(60).required(),
+    id_card: Joi.number().required(),
+    city_id: Joi.number().required(),
+    street_name: Joi.string().max(60).required(),
+});
 
 module.exports = {
     login: validator(loginSchema),
+    register: validator(registrationSchema),
 
 }

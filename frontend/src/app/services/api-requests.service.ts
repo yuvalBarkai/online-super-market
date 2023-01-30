@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { shareReplay } from "rxjs/operators";
-import { CartAndOrderType, CartProductType, City, LoginInfoType } from 'src/app/types';
+import { CartAndOrderType, CartProductType, City, LoginInfoType, RegisterPart1Type, RegistrationType } from 'src/app/types';
 
 
 
@@ -28,8 +28,11 @@ export class ApiRequestsService {
   }
 
   public = {
-    postEmailValidate: (user_email: string) => {
-      return this.http.post<{ valid: boolean }>(`${this.PUBLIC_URL}/register/validate-email`, { user_email });
+    postValidatePart1: (part1: RegisterPart1Type) => {
+      return this.http.post<{ valid: boolean }>(`${this.PUBLIC_URL}/register/validate/part1`, part1);
+    },
+    postRegisterNewUser: (newUser: RegistrationType) => {
+      return this.http.post(`${this.PUBLIC_URL}/register`, newUser);
     },
     getCities: () => {
       return this.http.get<City[]>(`${this.PUBLIC_URL}/cities`);

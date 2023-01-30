@@ -6,6 +6,7 @@ function selectCartsAndOrdersByUserAsync(userId) {
     FROM shopping_carts LEFT JOIN ORDERS
     ON shopping_carts.cart_id = orders.cart_id
     WHERE shopping_carts.user_id = ?
+    ORDER BY order_date
     `, [userId]);
 }
 

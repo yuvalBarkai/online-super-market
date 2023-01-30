@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
 
@@ -25,9 +25,8 @@ export class RegisterPart1Component implements OnInit {
     if (passwordConfirmation != part1.password)
       this.errorMsg = "The passwords dont match";
     else {
-      this.ApiRequests.public.postEmailValidate(this.part1Fields.user_email).subscribe({
+      this.ApiRequests.public.postValidatePart1(this.part1Fields).subscribe({
         next: res => {
-          console.log(res.valid);
           this.router.navigate(['home', 'register', 'part2']);
           this.RegistrationService.updatePart1(this.part1Fields);
         },
