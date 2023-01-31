@@ -1,7 +1,10 @@
 <header>
-  <span class="title">{{title}}</span>
+  <span class="title" [routerLink]="['home']">{{title}}</span>
   <span class="contact">
     Contact (0547524226 or yuval120222@gmail.com)
-    Hello {{userFirstName}}
+    <div>
+      Hello {{userFirstName}}
+      <button *ngIf="userFirstName != guestName" (click)="signout()">Sign out</button>
+    </div>
   </span>
 </header>
