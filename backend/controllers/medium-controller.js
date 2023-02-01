@@ -9,6 +9,32 @@ const router = require("express").Router();
 
 router.use(verifyLoggedIn);
 
+router.get("/product-categories", async (req, res) => {
+    try {
+        const result = await mediumLogic.selectAllProductCategories();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+router.get("/products/:productName", async (req, res) => {
+    try {
+        if (/\d/.test(req.params.productName))
+            res.status(400).send({ message: "product name param must not contain numbers" });
+        else {
+            const result = await mediumLogic.selectProductsByProductNameAsync(req.params.productName);
+            if (result.length < 1)
+                res.status(404).send({ message: "There arent any products with the name you entered" });
+            else
+                res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+
 router.get("/carts-orders/:userId", async (req, res) => {
     try {
         if (isNaN(req.params.userId))
@@ -38,16 +64,6 @@ router.get("/cart-products/:cartId", async (req, res) => {
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
-});
-
-router.get("/test", (req, res) => {
-    res.send(req.userInfo);
-});
-
-router.use(verifyAdmin);
-
-router.get("/admin/test", (req, res) => {
-    res.send(req.userInfo);
 });
 
 module.exports = router;

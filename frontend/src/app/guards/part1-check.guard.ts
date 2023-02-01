@@ -18,5 +18,5 @@ export class Part1CheckGuard implements CanActivate {
       return false;
     }
   }
-
 }
+

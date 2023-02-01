@@ -1,15 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CartAndOrderType, CartSubjectType } from 'src/app/types';
+import { CartAndOrderType, CartProductType, CartSubjectType } from 'src/app/types';
 import { ApiRequestsService } from './api-requests.service';
 
 @Injectable()
 export class CartService {
   constructor(private apiRequests: ApiRequestsService) { }
-  private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProdcuts: [] });
+  private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
 
   get cart$() {
     return this.cartSubject.asObservable();
+  }
+
+
+  addCartItem(cartItem: CartProductType) {
+    const cart = this.cartSubject.value;
+    const newCart = [...cart.cartProducts];
+    newCart.push(cartItem);
+    this.cartSubject.next({ cartId: cart.cartId, cartTotalPrice: cart.cartTotalPrice + cartItem.total_price, cartProducts: newCart });
+  }
+
+  removeCartItem(cartItemId: number) {
+    // this.cartSubject.next({ cartId: null, cartTotalPrice: 0, cartProducts: this.cartSubject.value.cartProducts.filter(p => p.cart_product_id == cartItemId) });
   }
 
   generateLoginNotification$(carts: CartAndOrderType[]) {
@@ -20,7 +32,7 @@ export class CartService {
       else {
         let openCartId = -1;
         let openCartCreationDate = "";
-        let lastOrder = new Date(carts[carts.length - 1].order_date);
+        let lastOrder = new Date(carts[carts.length - 1].order_date); // check that it works
         let lastOrderPrice = carts[carts.length - 1].order_price;
         console.log(carts);
         for (let c of carts) {
@@ -43,11 +55,11 @@ export class CartService {
               let cartTotalPrice = 0;
               for (let c of cart_products)
                 cartTotalPrice += c.total_price;
-              this.cartSubject.next({ cartId: openCartId, cartTotalPrice, cartProdcuts: cart_products });
+              this.cartSubject.next({ cartId: openCartId, cartTotalPrice, cartProducts: cart_products });
             },
             error: err => {
               if (err.status == 404)
-                this.cartSubject.next({ cartId: openCartId, cartTotalPrice: 0, cartProdcuts: [] });
+                this.cartSubject.next({ cartId: openCartId, cartTotalPrice: 0, cartProducts: [] });
               else
                 console.log(err.error);
             },

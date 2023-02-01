@@ -17,6 +17,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CartService } from './services/cart.service';
 import { RegistrationService } from './services/registration.service';
 import { ShoppingComponent } from './components/shopping/shopping.component';
+import { SingleProductComponent } from './components/shopping/single-product/single-product.component';
+import { CartSideComponent } from './components/shopping/cart-side/cart-side.component';
+import { ProductsService } from './services/products.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { ShoppingComponent } from './components/shopping/shopping.component';
     RegisterPart1Component,
     RegisterPart2Component,
     ShoppingComponent,
+    SingleProductComponent,
+    CartSideComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { ShoppingComponent } from './components/shopping/shopping.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [ApiRequestsService, UserService, CartService, RegistrationService,
+  providers: [ApiRequestsService, UserService, CartService
+    , RegistrationService, ProductsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

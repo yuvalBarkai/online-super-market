@@ -20,17 +20,17 @@ export interface RegistrationType {
   first_name: string;
   last_name: string;
   user_email: string;
-  password:string;
+  password: string;
   id_card: number | string;
   city_id: number | string;
   street_name: string;
 }
 
 export interface RegisterPart1Type {
-  id_card:number | string;
-  user_email:string;
-  password:string;
-  passwordConfirmation?:string;
+  id_card: number | string;
+  user_email: string;
+  password: string;
+  passwordConfirmation?: string;
 }
 
 export interface RegisterPart2Type {
@@ -56,7 +56,7 @@ export interface CartAndOrderType {
 export interface CartSubjectType {
   cartId: null | number;
   cartTotalPrice: number;
-  cartProdcuts: CartProductType[];
+  cartProducts: CartProductType[];
 }
 
 export interface CartProductType {
@@ -65,4 +65,17 @@ export interface CartProductType {
   amount: number;
   total_price: number;
   cart_id: number;
+}
+
+export interface ProductType {
+  product_id: number;
+  product_name: string;
+  category_id: number;
+  product_price: number;
+  product_image: string;
+}
+
+export interface CategoryType {
+  category_id: number;
+  category_name: string;
 }

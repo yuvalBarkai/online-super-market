@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { shareReplay } from "rxjs/operators";
-import { CartAndOrderType, CartProductType, City, LoginInfoType, RegisterPart1Type, RegistrationType } from 'src/app/types';
+import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegisterPart1Type, RegistrationType } from 'src/app/types';
 
 
 
@@ -19,6 +19,12 @@ export class ApiRequestsService {
   }
 
   medium = {
+    getAllCategories: () => {
+      return this.http.get<CategoryType[]>(`${this.MEDIUM_URL}/product-categories`);
+    },
+    getProductsByProductName: (product_name: string) => {
+      return this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/${product_name}`);
+    },
     getCartsAndOrdersByUserId: (user_id: number) => {
       return this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/carts-orders/${user_id}`);
     },

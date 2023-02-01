@@ -1,1 +1,11 @@
-<p>shopping works!</p>
+<aside>
+  <app-cart-side></app-cart-side>
+</aside>
+<div>
+  <header>
+    <span *ngFor="let c of categoriesList |async">{{c.category_name}} | </span>
+  </header>
+  <div class="productList" *ngFor="let p of productsList | async">
+    <app-single-product [product]="p"></app-single-product>
+  </div>
+</div>
