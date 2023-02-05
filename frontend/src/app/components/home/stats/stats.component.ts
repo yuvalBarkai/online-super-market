@@ -21,20 +21,19 @@ export class StatsComponent implements OnInit, OnDestroy {
     ignoreElements(), catchError((err) => of(err)));
 
   subscriptions = new Subscription();
-  notification: Observable<never> | Observable<string> = EMPTY;
+  notification$: Observable<never> | Observable<string> = EMPTY;
 
   ngOnInit() {
     this.subscriptions.add(this.UserService.userSubject$.subscribe(userInfo => {
-      console.log(userInfo);
       if (userInfo)
-        this.ApiRequests.medium.getCartsAndOrdersByUserId(userInfo.user_id).subscribe({ // move all of that to a cart service
+        this.ApiRequests.medium.getCartsAndOrdersByUserId(userInfo.user_id).subscribe({
           next: carts => {
-            this.notification = this.CartService.generateLoginNotification$(carts);
+            this.notification$ = this.CartService.generateLoginNotification(carts);
           },
           error: err => console.log(err)
         });
       else
-        this.notification = EMPTY;
+        this.notification$ = EMPTY;
     }));
   }
   ngOnDestroy() {

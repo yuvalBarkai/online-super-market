@@ -1,11 +1,20 @@
-<aside>
-  <app-cart-side></app-cart-side>
-</aside>
-<div>
-  <header>
-    <span *ngFor="let c of categoriesList |async">{{c.category_name}} | </span>
-  </header>
-  <div class="productList" *ngFor="let p of productsList | async">
-    <app-single-product [product]="p"></app-single-product>
+<div class="shoppingArea">
+  <aside class="cart">
+    <app-cart-side></app-cart-side>
+  </aside>
+  <div class="products">
+    <header class="categories">
+      <span *ngFor="let c of categoriesList$ |async" (click)="categoryChange(c.category_id)"
+        [class.chosenCategory]="c.category_id == chosenCategoryId">
+        {{c.category_name}} |
+      </span>
+    </header>
+    <div class="productList">
+      <ng-container *ngFor="let p of productsList">
+        <ng-container *ngIf="p.category_id == chosenCategoryId || chosenCategoryId == -1">
+          <app-single-product [product]="p"></app-single-product>
+        </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>

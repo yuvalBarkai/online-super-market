@@ -1,5 +1,13 @@
 <header>
   <span class="title" [routerLink]="['home']">{{title}}</span>
+  <span *ngIf="showing==1" class="productSearch">
+    Search product:
+    <input type="text" placeholder="Product name" [(ngModel)]="productSearchBar" (input)="productSearch()">
+  </span>
+  <span *ngIf="showing==2" class="orderSearch">
+    Search the order:
+    <input type="text" placeholder="word">
+  </span>
   <span class="contact">
     Contact (0547524226 or yuval120222@gmail.com)
     <div>

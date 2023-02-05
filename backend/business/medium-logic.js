@@ -4,8 +4,7 @@ function selectProductsByProductNameAsync(product_name) {
     if (product_name == "all")
         return dal.executeQueryAsync("SELECT * FROM products");
     else
-        return dal.executeQueryAsync("SELECT * FROM products WHERE product_name = ?"
-            , [product_name]);
+        return dal.executeQueryAsync(`SELECT * FROM products WHERE product_name LIKE '%${product_name}%'`);
 }
 
 function selectAllProductCategories() {

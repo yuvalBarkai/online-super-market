@@ -20,6 +20,7 @@ import { ShoppingComponent } from './components/shopping/shopping.component';
 import { SingleProductComponent } from './components/shopping/single-product/single-product.component';
 import { CartSideComponent } from './components/shopping/cart-side/cart-side.component';
 import { ProductsService } from './services/products.service';
+import { ProductIdToNamePipe } from './pipes/product-id-to-name.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ProductsService } from './services/products.service';
     ShoppingComponent,
     SingleProductComponent,
     CartSideComponent,
+    ProductIdToNamePipe,
   ],
   imports: [
     BrowserModule,
