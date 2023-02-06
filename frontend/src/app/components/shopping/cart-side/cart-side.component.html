@@ -8,7 +8,7 @@
         <span>{{c.product_id | pIdToName: products}} - </span>
         <span>Amount: {{c.amount}} </span>
         <span>Price: {{c.total_price}}$ </span>
-        <button>X</button>
+        <button (click)="deleteCartItem(c.cart_product_id)">X</button>
       </div>
     </ng-container>
   </ng-container>

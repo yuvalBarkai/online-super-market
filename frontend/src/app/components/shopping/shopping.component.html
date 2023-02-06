@@ -1,20 +1,16 @@
 <div class="shoppingArea">
-  <aside class="cart">
-    <app-cart-side></app-cart-side>
-  </aside>
+  <app-cart-side class="cart"></app-cart-side>
   <div class="products">
     <header class="categories">
-      <span *ngFor="let c of categoriesList$ |async" (click)="categoryChange(c.category_id)"
+      <span *ngFor="let c of categoriesList$ | async" (click)="categoryChange(c.category_id)"
         [class.chosenCategory]="c.category_id == chosenCategoryId">
-        {{c.category_name}} |
+        {{c.category_name}}
       </span>
     </header>
+    <div *ngIf="productsErrorMsg$ | async as error" class="error">{{error}}</div>
     <div class="productList">
-      <ng-container *ngFor="let p of productsList">
-        <ng-container *ngIf="p.category_id == chosenCategoryId || chosenCategoryId == -1">
-          <app-single-product [product]="p"></app-single-product>
-        </ng-container>
-      </ng-container>
+      <app-single-product *ngFor="let p of productsList" [product]="p"
+      (click)="openDialog(p)"></app-single-product>
     </div>
   </div>
 </div>

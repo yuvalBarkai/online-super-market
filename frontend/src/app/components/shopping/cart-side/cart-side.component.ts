@@ -11,4 +11,9 @@ export class CartSideComponent {
   constructor(private CartService: CartService, private ProductsService: ProductsService) { }
   cart$ = this.CartService.cart$;
   allProducts$ = this.ProductsService.allProducts$;
+
+  deleteCartItem(cartItemId:number | undefined){
+    if(cartItemId)
+      this.CartService.removeCartItem(cartItemId);
+  }
 }

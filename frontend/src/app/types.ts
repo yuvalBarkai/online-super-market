@@ -60,7 +60,7 @@ export interface CartSubjectType {
 }
 
 export interface CartProductType {
-  cart_product_id: number;
+  cart_product_id?: number;
   product_id: number;
   amount: number;
   total_price: number;

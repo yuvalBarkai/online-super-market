@@ -8,6 +8,10 @@ export class CartService {
   constructor(private apiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
 
+  get cartVal() {
+    return this.cartSubject.value;
+  }
+
   get cart$() {
     return this.cartSubject.asObservable();
   }
@@ -16,16 +20,34 @@ export class CartService {
     const cart = this.cartSubject.value;
     const newCart = [...cart.cartProducts];
     newCart.push(cartItem);
-    this.cartSubject.next({ cartId: cart.cartId, cartTotalPrice: cart.cartTotalPrice + cartItem.total_price, cartProducts: newCart });
+    this.cartSubject.next({
+      cartId: cart.cartId,
+      cartTotalPrice: cart.cartTotalPrice + cartItem.total_price,
+      cartProducts: newCart
+    });
   }
 
   removeCartItem(cartItemId: number) {
-    // this.cartSubject.next({ cartId: null, cartTotalPrice: 0, cartProducts: this.cartSubject.value.cartProducts.filter(p => p.cart_product_id == cartItemId) });
+    this.apiRequests.medium.deleteCartProduct(cartItemId)
+      .subscribe({
+        next: res => {
+          console.log(res);
+          const cart = this.cartSubject.value;
+          const newCart = [...cart.cartProducts];
+          const deletedIndex = newCart.findIndex(p => p.cart_product_id == cartItemId);
+          newCart.splice(deletedIndex, 1);
+          this.cartSubject.next({
+            cartId: cart.cartId,
+            cartTotalPrice: cart.cartTotalPrice - newCart[deletedIndex].total_price,
+            cartProducts: newCart
+          });
+        },
+        error: err => console.log(err)
+      });
   }
 
   generateLoginNotification(carts: CartAndOrderType[]) {
     return new Observable<string>(subscribe => {
-      let notification = "";
       if (carts.length < 1)
         subscribe.next("Welcome !, enjoy your first purchase !!");
       else {

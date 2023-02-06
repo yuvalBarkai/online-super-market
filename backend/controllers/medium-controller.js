@@ -2,26 +2,64 @@ const jwt = require("jsonwebtoken");
 const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
-const verifyAdmin = require("../middlewares/verify-admin");
 const config = require("../config.json");
 const mediumLogic = require("../business/medium-logic");
 const router = require("express").Router();
 
 router.use(verifyLoggedIn);
 
-router.get("/product-categories", async (req, res) => {
+router.delete("/cart-product/:id", async (req, res) => {
     try {
-        const result = await mediumLogic.selectAllProductCategories();
+        const cartProductId = req.params.id;
+        const result = await mediumLogic.deleteCartProductAsync(cartProductId);
         res.send(result);
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
 });
 
-router.get("/products/:productName", async (req, res) => {
+router.post("/cart-product", async (req, res) => {
+    try {
+        const cartProduct = req.body;
+        // validation, including if it already exists in the list
+        const result = await mediumLogic.insertCartProductAsync(cartProduct);
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+
+router.get("/product-categories", async (req, res) => {
+    try {
+        const result = await mediumLogic.selectAllProductCategoriesAsync();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+router.get("/products/category-id/:categoryId", async (req, res) => {
+    try {
+        const category_id = req.params.categoryId;
+        if (isNaN(category_id))
+            res.status(400).send({ message: "category id params must be numeric" });
+        else {
+            const result = await mediumLogic.selectProductsByCategoryIdAsync(category_id);
+            if (result.length < 1)
+                res.status(404).send({ message: "There arent any products in this category" });
+            else
+                res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
+router.get("/products/product-name/:productName", async (req, res) => {
     try {
         if (/\d/.test(req.params.productName))
-            res.status(400).send({ message: "product name param must not contain numbers" });
+            res.status(400).send({ message: "Product name cannot contain numbers" });
         else {
             const result = await mediumLogic.selectProductsByProductNameAsync(req.params.productName);
             if (result.length < 1)

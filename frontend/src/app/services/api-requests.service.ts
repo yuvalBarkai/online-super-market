@@ -19,11 +19,20 @@ export class ApiRequestsService {
   }
 
   medium = {
+    deleteCartProduct: (cartProductId: number) => {
+      return this.http.delete(`${this.MEDIUM_URL}/cart-product/${cartProductId}`);
+    },
+    postCartProduct: (newCartProduct: CartProductType) => {
+      return this.http.post(`${this.MEDIUM_URL}/cart-product`, newCartProduct);
+    },
     getAllCategories: () => {
       return this.http.get<CategoryType[]>(`${this.MEDIUM_URL}/product-categories`);
     },
+    getProductsByCategoryId: (category_id: number) => {
+      return this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/category-id/${category_id}`);
+    },
     getProductsByProductName: (product_name: string) => {
-      return this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/${product_name}`);
+      return this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/product-name/${product_name}`);
     },
     getCartsAndOrdersByUserId: (user_id: number) => {
       return this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/carts-orders/${user_id}`);
