@@ -5,7 +5,7 @@ import { ApiRequestsService } from './api-requests.service';
 
 @Injectable()
 export class CartService {
-  constructor(private apiRequests: ApiRequestsService) { }
+  constructor(private ApiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
 
   get cartVal() {
@@ -17,33 +17,61 @@ export class CartService {
   }
 
   addCartItem(cartItem: CartProductType) {
-    const cart = this.cartSubject.value;
-    const newCart = [...cart.cartProducts];
-    newCart.push(cartItem);
-    this.cartSubject.next({
-      cartId: cart.cartId,
-      cartTotalPrice: cart.cartTotalPrice + cartItem.total_price,
-      cartProducts: newCart
+    if (!this.cartVal.cartId) {
+      this.ApiRequests.medium.getNewShoppingCart().subscribe({
+        next: res => {
+          this.cartSubject.next({ cartId: res.insertId, cartTotalPrice: 0, cartProducts: [] })
+          this.addCartItemLocalAndServer(cartItem, res.insertId);
+        },
+        error: err => console.log(err)
+      });
+    }
+    else
+      this.addCartItemLocalAndServer(cartItem);
+  }
+
+  private addCartItemLocalAndServer(cartItem: CartProductType, newCartId?: number) {
+    if (newCartId)
+      cartItem.cart_id = newCartId;
+    this.ApiRequests.medium.postCartProduct(cartItem).subscribe({
+      next: cartProductSuccess => {
+        const cart = this.cartVal;
+        const newCart = [...cart.cartProducts];
+        cartItem.cart_product_id = cartProductSuccess.insertId;
+        newCart.push(cartItem);
+        this.cartSubject.next({
+          cartId: cart.cartId,
+          cartTotalPrice: cart.cartTotalPrice + cartItem.total_price,
+          cartProducts: newCart
+        });
+      },
+      error: err => console.log(err)
     });
   }
 
   removeCartItem(cartItemId: number) {
-    this.apiRequests.medium.deleteCartProduct(cartItemId)
+    console.log(cartItemId);
+    this.ApiRequests.medium.deleteCartProduct(cartItemId)
       .subscribe({
         next: res => {
           console.log(res);
           const cart = this.cartSubject.value;
           const newCart = [...cart.cartProducts];
           const deletedIndex = newCart.findIndex(p => p.cart_product_id == cartItemId);
+          const newTotalPrice = cart.cartTotalPrice - newCart[deletedIndex].total_price;
           newCart.splice(deletedIndex, 1);
           this.cartSubject.next({
             cartId: cart.cartId,
-            cartTotalPrice: cart.cartTotalPrice - newCart[deletedIndex].total_price,
+            cartTotalPrice: newTotalPrice,
             cartProducts: newCart
           });
         },
         error: err => console.log(err)
       });
+  }
+
+  clearCart() {
+    this.cartSubject.next({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
   }
 
   generateLoginNotification(carts: CartAndOrderType[]) {
@@ -70,7 +98,7 @@ export class CartService {
           subscribe.next(`Your last purchase was in ${lastOrder.toLocaleDateString("en-GB")} for ${lastOrderPrice} $`);
         }
         else {
-          this.apiRequests.medium.getCartProductsByCartId(openCartId).pipe(
+          this.ApiRequests.medium.getCartProductsByCartId(openCartId).pipe(
             finalize(() => {
               subscribe.next(`You have an open cart from the date ${new Date(openCartCreationDate).toLocaleDateString("en-GB")}, for ${this.cartSubject.value.cartTotalPrice} $`);
             })).subscribe({

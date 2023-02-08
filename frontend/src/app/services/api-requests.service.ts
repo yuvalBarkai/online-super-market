@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { shareReplay } from "rxjs/operators";
-import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegisterPart1Type, RegistrationType } from 'src/app/types';
+import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegisterPart1Type, RegistrationType, SuccessObjectType } from 'src/app/types';
 
 
 
@@ -19,11 +19,14 @@ export class ApiRequestsService {
   }
 
   medium = {
+    getNewShoppingCart: () => {
+      return this.http.get<SuccessObjectType>(`${this.MEDIUM_URL}/new/shopping-cart`);
+    },
     deleteCartProduct: (cartProductId: number) => {
       return this.http.delete(`${this.MEDIUM_URL}/cart-product/${cartProductId}`);
     },
     postCartProduct: (newCartProduct: CartProductType) => {
-      return this.http.post(`${this.MEDIUM_URL}/cart-product`, newCartProduct);
+      return this.http.post<SuccessObjectType>(`${this.MEDIUM_URL}/cart-product`, newCartProduct);
     },
     getAllCategories: () => {
       return this.http.get<CategoryType[]>(`${this.MEDIUM_URL}/product-categories`);

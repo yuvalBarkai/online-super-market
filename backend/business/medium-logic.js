@@ -1,8 +1,14 @@
 const dal = require("../data-access/dal");
+const util = require("../utilities/util");
 
 function insertCartProductAsync(cart_product) {
     return dal.executeQueryAsync("INSERT INTO cart_products VALUES(DEFAULT,?,?,?,?)",
         [cart_product.product_id, cart_product.amount, cart_product.total_price, cart_product.cart_id]);
+}
+
+function insertShoppingCartAsync(userId) {
+    return dal.executeQueryAsync("INSERT INTO shopping_carts VALUES (DEFAULT,?,?)",
+        [userId, util.formatDate()]);
 }
 
 function deleteCartProductAsync(cart_product_id) {
@@ -40,6 +46,7 @@ function selectCardProductsByCartId(cartId) {
 
 module.exports = {
     insertCartProductAsync,
+    insertShoppingCartAsync,
     deleteCartProductAsync,
     selectProductsByProductNameAsync,
     selectCartsAndOrdersByUserAsync,

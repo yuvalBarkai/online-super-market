@@ -79,3 +79,14 @@ export interface CategoryType {
   category_id: number;
   category_name: string;
 }
+
+export interface SuccessObjectType {
+  affectedRows: number;
+  changedRows: number;
+  fieldCount: number;
+  insertId: number;
+  message: string;
+  protocol41: boolean;
+  serverStatus: number;
+  warningCount: number;
+}

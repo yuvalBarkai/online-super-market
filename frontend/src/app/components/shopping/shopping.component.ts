@@ -50,14 +50,7 @@ export class ShoppingComponent implements OnInit, OnDestroy {
       data: product
     }).afterClosed().subscribe(new_cart_item => {
       if (new_cart_item)
-        this.ApiRequests.medium.postCartProduct(new_cart_item)
-          .subscribe({
-            next: res => {
-              console.log(res);
-              this.CartService.addCartItem(new_cart_item);
-            },
-            error: err => console.log(err)
-          });
+        this.CartService.addCartItem(new_cart_item);
     });
   }
 

@@ -18,6 +18,16 @@ router.delete("/cart-product/:id", async (req, res) => {
     }
 });
 
+router.get("/new/shopping-cart", async (req, res) => {
+    try {
+        const userId = req.userInfo.user_id;
+        const result = await mediumLogic.insertShoppingCartAsync(userId);
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
+
 router.post("/cart-product", async (req, res) => {
     try {
         const cartProduct = req.body;
