@@ -12,6 +12,10 @@ export class CartSideComponent {
   cart$ = this.CartService.cart$;
   allProducts$ = this.ProductsService.allProducts$;
 
+  emptyCartProducts(cartId:number){
+    this.CartService.emptyCart(cartId);
+  }
+
   deleteCartItem(cartItemId:number | undefined){
     if(cartItemId)
       this.CartService.removeCartItem(cartItemId);

@@ -2,7 +2,8 @@
 
 ### To do:
 
-- Auto login via local storage and considering experation date of the token
+- Add treatment for most server requests, error.
+- Style the site well and make sure its responsive and mobile friendly.
 - Consider Improving certain features to be more user friendly.
 - Backend validations - login, registration 1,2.
 - Frontend validations - login, registration 1,2.

@@ -25,7 +25,7 @@ export class RegisterPart1Component implements OnInit {
     if (passwordConfirmation != part1.password)
       this.errorMsg = "The passwords dont match";
     else {
-      this.ApiRequests.public.postValidatePart1(this.part1Fields).subscribe({
+      this.ApiRequests.public.post.validatePart1(this.part1Fields).subscribe({
         next: res => {
           this.router.navigate(['home', 'register', 'part2']);
           this.RegistrationService.updatePart1(this.part1Fields);

@@ -1,20 +1,27 @@
 import { Injectable } from "@angular/core";
 import jwtDecode from "jwt-decode";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable } from "rxjs";
 import { UserInfoType } from "src/app/types";
 import { CartService } from "./cart.service";
+import config from "configuration.json";
+import { ApiRequestsService } from "./api-requests.service";
 
 @Injectable()
 export class UserService {
-  constructor(private CartService: CartService) { }
-  private subject = new BehaviorSubject<UserInfoType | null>(null);
+  constructor(private CartService: CartService, private ApiRequests: ApiRequestsService) { }
+  private userSubject = new BehaviorSubject<UserInfoType | null>(null);
+  private notificationSubject = new BehaviorSubject<string>("");
 
   get userSubject$() {
-    return this.subject.asObservable();
+    return this.userSubject.asObservable();
   }
 
   get userInfo() {
-    return this.subject.getValue();
+    return this.userSubject.getValue();
+  }
+
+  get notification$() {
+    return this.notificationSubject.asObservable();
   }
 
   login(token: string) {
@@ -23,11 +30,23 @@ export class UserService {
     date.setSeconds(exp);
     userInfo.tokenExpiration = date;
     userInfo.token = token;
-    this.subject.next(userInfo);
+    localStorage.setItem(config.localStorageToken, token);
+    localStorage.setItem(config.localStorageTokenExpiration, date.toString());
+    this.userSubject.next(userInfo);
+    this.ApiRequests.medium.get.cartsAndOrdersByUserId(userInfo.user_id).subscribe({
+      next: carts => {
+        this.CartService.generateLoginNotification(carts)
+          .subscribe(res => this.notificationSubject.next(res));
+      },
+      error: err => console.log(err)
+    });
   }
 
   logout() {
-    this.subject.next(null);
+    this.notificationSubject.next("");
+    this.userSubject.next(null);
     this.CartService.clearCart();
+    localStorage.removeItem(config.localStorageToken);
+    localStorage.removeItem(config.localStorageTokenExpiration);
   }
 }

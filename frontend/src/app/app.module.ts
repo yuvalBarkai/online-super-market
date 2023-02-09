@@ -25,8 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CartInsertDialogComponent } from './components/shopping/cart-insert-dialog/cart-insert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatDialogRef  } from '@angular/material/dialog';
-
+import { ProductsComponent } from './components/shopping/products/products.component';
+import { ResizableDirective } from './directives/resizable.directive';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,8 @@ import { MatDialogRef  } from '@angular/material/dialog';
     CartSideComponent,
     ProductIdToNamePipe,
     CartInsertDialogComponent,
+    ProductsComponent,
+    ResizableDirective
   ],
   imports: [
     BrowserModule,

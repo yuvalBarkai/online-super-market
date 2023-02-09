@@ -15,6 +15,10 @@ function deleteCartProductAsync(cart_product_id) {
     return dal.executeQueryAsync("DELETE FROM cart_products WHERE cart_product_id = ?", [cart_product_id]);
 }
 
+function deleteCartProductsByCartIdAsync(cart_id){
+    return dal.executeQueryAsync("DELETE FROM cart_products WHERE cart_id = ?", [cart_id]);
+}
+
 function selectProductsByProductNameAsync(product_name) {
     if (product_name == "all")
         return dal.executeQueryAsync("SELECT * FROM products");
@@ -48,6 +52,7 @@ module.exports = {
     insertCartProductAsync,
     insertShoppingCartAsync,
     deleteCartProductAsync,
+    deleteCartProductsByCartIdAsync,
     selectProductsByProductNameAsync,
     selectCartsAndOrdersByUserAsync,
     selectCardProductsByCartId,

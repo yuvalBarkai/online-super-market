@@ -44,6 +44,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       else
         this.userFirstName = this.guestName;
     }));
+    this.ProductsService.categoryEvent$
+      .subscribe(() => this.productSearchBar = "");
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

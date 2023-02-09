@@ -7,7 +7,6 @@ import { ApiRequestsService } from './api-requests.service';
 export class CartService {
   constructor(private ApiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
-
   get cartVal() {
     return this.cartSubject.value;
   }
@@ -18,7 +17,7 @@ export class CartService {
 
   addCartItem(cartItem: CartProductType) {
     if (!this.cartVal.cartId) {
-      this.ApiRequests.medium.getNewShoppingCart().subscribe({
+      this.ApiRequests.medium.get.newShoppingCart().subscribe({
         next: res => {
           this.cartSubject.next({ cartId: res.insertId, cartTotalPrice: 0, cartProducts: [] })
           this.addCartItemLocalAndServer(cartItem, res.insertId);
@@ -33,7 +32,7 @@ export class CartService {
   private addCartItemLocalAndServer(cartItem: CartProductType, newCartId?: number) {
     if (newCartId)
       cartItem.cart_id = newCartId;
-    this.ApiRequests.medium.postCartProduct(cartItem).subscribe({
+    this.ApiRequests.medium.post.cartProduct(cartItem).subscribe({
       next: cartProductSuccess => {
         const cart = this.cartVal;
         const newCart = [...cart.cartProducts];
@@ -51,7 +50,7 @@ export class CartService {
 
   removeCartItem(cartItemId: number) {
     console.log(cartItemId);
-    this.ApiRequests.medium.deleteCartProduct(cartItemId)
+    this.ApiRequests.medium.delete.cartProduct(cartItemId)
       .subscribe({
         next: res => {
           console.log(res);
@@ -67,6 +66,13 @@ export class CartService {
           });
         },
         error: err => console.log(err)
+      });
+  }
+
+  emptyCart(cart_id: number) {
+    this.ApiRequests.medium.delete.cartProductsByCartId(cart_id)
+      .subscribe(res => {
+        this.cartSubject.next({ cartId: this.cartVal.cartId, cartTotalPrice: 0, cartProducts: [] });
       });
   }
 
@@ -98,7 +104,7 @@ export class CartService {
           subscribe.next(`Your last purchase was in ${lastOrder.toLocaleDateString("en-GB")} for ${lastOrderPrice} $`);
         }
         else {
-          this.ApiRequests.medium.getCartProductsByCartId(openCartId).pipe(
+          this.ApiRequests.medium.get.cartProductsByCartId(openCartId).pipe(
             finalize(() => {
               subscribe.next(`You have an open cart from the date ${new Date(openCartCreationDate).toLocaleDateString("en-GB")}, for ${this.cartSubject.value.cartTotalPrice} $`);
             })).subscribe({

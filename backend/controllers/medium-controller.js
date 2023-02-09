@@ -18,6 +18,20 @@ router.delete("/cart-product/:id", async (req, res) => {
     }
 });
 
+router.delete("/cart-products/cart-id/:cartId", async (req, res) => {
+    try {
+        const cartId = req.params.cartId;
+        if (isNaN(cartId))
+            res.status(400).send({ message: "CartId parameter needs to be numeric" });
+        else {
+            const result = await mediumLogic.deleteCartProductsByCartIdAsync(cartId);
+            res.send(result);
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+})
+
 router.get("/new/shopping-cart", async (req, res) => {
     try {
         const userId = req.userInfo.user_id;

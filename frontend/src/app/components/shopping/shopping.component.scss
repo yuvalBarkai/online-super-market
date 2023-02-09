@@ -1,38 +1,20 @@
 .shoppingArea {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   // grid-template-rows: 1fr min-content;
-  column-fill: balance;
-  gap: 7px;
-  padding: 10px;
+  // column-fill: balance;
+  grid-gap: 2em;
+  padding: 15px;
   box-sizing: border-box;
 
-  .categories {
-    text-align: center;
-
-    span {
-      padding: 10px;
-      cursor: pointer;
-    }
-
-    .chosenCategory {
-      text-decoration: underline;
-      font-weight: 700;
-    }
-  }
-
   .cart {
-    border: 1px solid black;
+    border-right: 15px solid rgba(146, 88, 88, 0.466);
     grid-column: span 2;
+    margin-right: -15px;
   }
 
   .products {
     border: 1px solid black;
-    grid-column: 3/-1;
-
-    .productList {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-    }
+    grid-column: auto / span 4;
   }
 }

@@ -21,7 +21,7 @@ export class LoginComponent {
   @ViewChild('f') form: undefined | HTMLFormElement;
 
   loginSubmit() {
-    this.ApiRequests.public.postUserLogin(this.loginInfo).subscribe({
+    this.ApiRequests.public.post.userLogin(this.loginInfo).subscribe({
       next: res => {
         this.UserService.login(res.token);
         this.errorMsg = "";

@@ -1,16 +1,4 @@
 <div class="shoppingArea">
-  <app-cart-side class="cart"></app-cart-side>
-  <div class="products">
-    <header class="categories">
-      <span *ngFor="let c of categoriesList$ | async" (click)="categoryChange(c.category_id)"
-        [class.chosenCategory]="c.category_id == chosenCategoryId">
-        {{c.category_name}}
-      </span>
-    </header>
-    <div *ngIf="productsErrorMsg$ | async as error" class="error">{{error}}</div>
-    <div class="productList">
-      <app-single-product *ngFor="let p of productsList" [product]="p"
-      (click)="openDialog(p)"></app-single-product>
-    </div>
-  </div>
+  <app-cart-side class="cart" resizable></app-cart-side>
+  <app-products class="products"></app-products>
 </div>

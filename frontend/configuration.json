@@ -1,4 +1,7 @@
 {
   "siteTitle": "supper",
-  "guestName": "guest"
+  "guestName": "guest",
+
+  "localStorageToken":"tokenBackup",
+  "localStorageTokenExpiration":"tokenExpiration"
 }

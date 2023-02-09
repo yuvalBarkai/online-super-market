@@ -9,34 +9,17 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit, OnDestroy {
-  constructor(private ApiRequests: ApiRequestsService, private UserService: UserService,
-    private CartService: CartService) { }
+export class StatsComponent {
+  constructor(private ApiRequests: ApiRequestsService, private UserService: UserService) { }
 
-  numberOfOrders$ = this.ApiRequests.public.getNumberOfOrders();
+  numberOfOrders$ = this.ApiRequests.public.get.numberOfOrders();
   ordersError$ = this.numberOfOrders$.pipe(
     ignoreElements(), catchError((err) => of(err)));
-  numberOfProducts$ = this.ApiRequests.public.getNumberOfProducts();
+  numberOfProducts$ = this.ApiRequests.public.get.numberOfProducts();
   productsError$ = this.numberOfProducts$.pipe(
     ignoreElements(), catchError((err) => of(err)));
 
   subscriptions = new Subscription();
-  notification$: Observable<never> | Observable<string> = EMPTY;
+  notification$ = this.UserService.notification$;
 
-  ngOnInit() {
-    this.subscriptions.add(this.UserService.userSubject$.subscribe(userInfo => {
-      if (userInfo)
-        this.ApiRequests.medium.getCartsAndOrdersByUserId(userInfo.user_id).subscribe({
-          next: carts => {
-            this.notification$ = this.CartService.generateLoginNotification(carts);
-          },
-          error: err => console.log(err)
-        });
-      else
-        this.notification$ = EMPTY;
-    }));
-  }
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
 }

@@ -21,7 +21,7 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
   ngOnInit() {
     this.part1 = this.RegistrationService.part1Val;
     this.part2 = this.RegistrationService.part2Val;
-    this.ApiRequests.public.getCities().subscribe({
+    this.ApiRequests.public.get.cities().subscribe({
       next: cities => {
         this.cityList = cities;
       },
@@ -34,10 +34,10 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
   }
   submit() {
     const newUser = { ...this.part1, ...this.part2 };
-    this.ApiRequests.public.postRegisterNewUser(newUser).subscribe({
+    this.ApiRequests.public.post.registerNewUser(newUser).subscribe({
       next: res => {
         this.ApiRequests.public
-          .postUserLogin({ user_email: newUser.user_email, password: newUser.password }).subscribe({
+          .post.userLogin({ user_email: newUser.user_email, password: newUser.password }).subscribe({
             next: res => {
               this.UserService.login(res.token);
               this.Router.navigate(["/home/login"]);

@@ -1,8 +1,10 @@
+<div class="drag"><span>drag to <br> resize</span></div>
 <h3>My Cart</h3>
 <hr>
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="allProducts$ | async as products">
-    <ng-container *ngIf="cart.cartProducts.length > 0; else emptyCart">
+    <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
+      <button (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
       <div *ngFor="let c of cart.cartProducts" class="cartItem">
         <div>SMALL PIC</div>
         <span>{{c.product_id | pIdToName: products}} - </span>

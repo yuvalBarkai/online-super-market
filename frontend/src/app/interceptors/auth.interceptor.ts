@@ -7,11 +7,12 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private UserService: UserService) { }
+  constructor(private UserService: UserService, private Router: Router) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> | Observable<never> {
     let clone = request.clone();
@@ -24,6 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
           valid = false;
           alert("Your session has been expired, please login again");
           this.UserService.logout();
+          this.Router.navigate(["/home"]);
         }
         else
           clone = request.clone({ headers: request.headers.set("Authorization", `bearer ${userInfo.token}`) });
@@ -31,6 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       else {
         valid = false;
         alert("Please log-in");
+        this.Router.navigate(["/home"]);
       }
     }
     if (valid)

@@ -1,0 +1,18 @@
+.categories {
+  text-align: center;
+
+  span {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .chosenCategory {
+    text-decoration: underline;
+    font-weight: 700;
+  }
+}
+
+.productList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+}
