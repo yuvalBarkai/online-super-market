@@ -1,15 +1,14 @@
 .shoppingArea {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   // grid-template-rows: 1fr min-content;
   // column-fill: balance;
-  grid-gap: 2em;
+  grid-gap: 1em;
   padding: 15px;
-  box-sizing: border-box;
+  // box-sizing: border-box;
 
   .cart {
     border-right: 15px solid rgba(146, 88, 88, 0.466);
-    grid-column: span 2;
     margin-right: -15px;
   }
 

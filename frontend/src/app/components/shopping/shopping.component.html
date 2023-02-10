@@ -1,4 +1,9 @@
-<div class="shoppingArea">
-  <app-cart-side class="cart" resizable></app-cart-side>
+<button *ngIf="isMinimized; else hideCartBtn" (click)="showCart()">Show Cart</button>
+<ng-template #hideCartBtn>
+  <button (click)="hideCart()">Hide Cart</button>
+</ng-template>
+<div class="shoppingArea" [ngStyle]="isResizing ? {'user-select':'none'} : {'user-select':'default'}">
+  <app-cart-side class="cart" resizable (isResizing)="resizing($event)"
+    (minimizing)="minimizing($event)" [ngStyle]="isMinimized ? {'display':'none'} : {'display':'block'}"></app-cart-side>
   <app-products class="products"></app-products>
 </div>
