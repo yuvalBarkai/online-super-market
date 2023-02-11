@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent {
   constructor(private UserService: UserService, private ApiRequests: ApiRequestsService,
     private CartService: CartService, private Router: Router) { }
-  userSubject$ = this.UserService.userSubject$;
+  userSubject$ = this.UserService.userInfo$;
   cartSubject$ = this.CartService.cart$;
   loginInfo = { user_email: "", password: "" };
   // submited = false;

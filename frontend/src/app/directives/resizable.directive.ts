@@ -35,7 +35,7 @@ export class ResizableDirective {
       const x = event.clientX;
       const width = window.innerWidth;
       const span = Math.floor(8 * x / width);
-      if (x < 260) {
+      if (x < (width / 7)) {
         this.MininizingEvent.emit(true);
       }
       else {

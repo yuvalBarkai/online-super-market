@@ -12,8 +12,8 @@
     margin-right: -15px;
   }
 
-  .products {
-    border: 1px solid black;
-    grid-column: auto / span 4;
+  .routerOutlet  {
+    display: none;
   }
+  // There is a global style regarding this
 }

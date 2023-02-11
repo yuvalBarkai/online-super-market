@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       else
         this.showing = Showing.home;
     });
-    this.subscriptions.add(this.UserService.userSubject$.subscribe(userInfo => {
+    this.subscriptions.add(this.UserService.userInfo$.subscribe(userInfo => {
       if (userInfo)
         this.userFirstName = userInfo.first_name;
       else

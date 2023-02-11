@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/home/login/login.component';
 import { RegisterPart1Component } from './components/home/register-part1/register-part1.component';
 import { RegisterPart2Component } from './components/home/register-part2/register-part2.component';
+import { ProductsComponent } from './components/shopping/products/products.component';
 import { ShoppingComponent } from './components/shopping/shopping.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
 import { Part1CheckGuard } from './guards/part1-check.guard';
@@ -36,7 +37,18 @@ const routes: Routes = [
   {
     path: "shopping",
     component: ShoppingComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      {
+        path: "products",
+        component: ProductsComponent
+      },
+      {
+        path: "**",
+        redirectTo: "products",
+        pathMatch: "full"
+      }
+    ],
   },
   {
     path: "**",

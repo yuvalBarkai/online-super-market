@@ -7,6 +7,7 @@ import { ApiRequestsService } from './api-requests.service';
 export class CartService {
   constructor(private ApiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
+  
   get cartVal() {
     return this.cartSubject.value;
   }

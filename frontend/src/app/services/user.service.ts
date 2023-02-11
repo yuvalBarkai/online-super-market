@@ -12,7 +12,7 @@ export class UserService {
   private userSubject = new BehaviorSubject<UserInfoType | null>(null);
   private notificationSubject = new BehaviorSubject<string>("");
 
-  get userSubject$() {
+  get userInfo$() {
     return this.userSubject.asObservable();
   }
 

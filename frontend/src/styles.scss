@@ -38,6 +38,9 @@ $frontend-theme: mat.define-light-theme((
 .error {
   color: rgb(206, 20, 20);
 }
+.routerOutlet + * {
+  grid-column: auto / span 4;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
