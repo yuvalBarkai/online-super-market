@@ -7,5 +7,6 @@ import { ProductType } from 'src/app/types';
   styleUrls: ['./single-product.component.scss']
 })
 export class SingleProductComponent {
+  constructor() { }
   @Input() product: ProductType | null = null;
 }

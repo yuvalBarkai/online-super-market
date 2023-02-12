@@ -11,10 +11,10 @@
  * Otherwise goes next().
  */
 function verifyAdmin(req, res, next) {
-    if (!req.user) {
+    if (!req.userInfo) {
         res.status(500).send({ message: "Server Error: Missing user information" });
     }
-    else if (req.user.is_admin == 1) {
+    else if (req.userInfo.is_admin == 1) {
         next();
     }
     else

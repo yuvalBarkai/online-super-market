@@ -2,6 +2,8 @@
   "siteTitle": "supper",
   "guestName": "guest",
 
+  "apiBaseUrl":"http://localhost:6500/api",
+
   "localStorageToken":"tokenBackup",
   "localStorageTokenExpiration":"tokenExpiration"
 }

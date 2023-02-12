@@ -72,7 +72,7 @@ export interface ProductType {
   product_name: string;
   category_id: number;
   product_price: number;
-  product_image: string;
+  image_name: string;
 }
 
 export interface CategoryType {

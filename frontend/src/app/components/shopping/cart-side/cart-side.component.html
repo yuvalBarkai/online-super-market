@@ -1,20 +1,18 @@
 <div class="drag"><span>drag to <br> resize</span></div>
-<ng-container *ngIf="userInfo$ | async as userInfo">
-  <ng-container *ngIf="userInfo.is_admin == 0; else adminView">
+<ng-container *ngIf="{allProducts:allProducts$ | async, userInfo:userInfo$ | async} as global">
+  <ng-container *ngIf="global.userInfo?.is_admin == 0; else adminView">
     <h3>My Cart</h3>
     <hr>
     <ng-container *ngIf="cart$ | async as cart">
-      <ng-container *ngIf="allProducts$ | async as products">
-        <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
-          <button (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
-          <div *ngFor="let c of cart.cartProducts" class="cartItem">
-            <div>SMALL PIC</div>
-            <span>{{c.product_id | pIdToName: products}} - </span>
-            <span>Amount: {{c.amount}} </span>
-            <span>Price: {{c.total_price}}$ </span>
-            <button (click)="deleteCartItem(c.cart_product_id)">X</button>
-          </div>
-        </ng-container>
+      <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
+        <button (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
+        <div *ngFor="let c of cart.cartProducts" class="cartItem">
+          <div>SMALL PIC</div>
+          <span>{{c.product_id | pIdToName: global.allProducts}} - </span>
+          <span>Amount: {{c.amount}} </span>
+          <span>Price: {{c.total_price}}$ </span>
+          <button (click)="deleteCartItem(c.cart_product_id)">X</button>
+        </div>
       </ng-container>
       <ng-template #emptyCart>
         <h5>Your cart is empty</h5>
@@ -26,7 +24,43 @@
     </ng-container>
   </ng-container>
   <ng-template #adminView>
-    <h2>Product Edit:</h2>
-    <h3>Select a product to edit</h3>
+    <button (click)="addProductView()">+</button>
+    <h2>{{isAddingNewProduct ? 'New Product': selectedProduct?.product_name}}</h2>
+    <hr>
+    <form class="productEditOrAdd" *ngIf="isAddingNewProduct || selectedProduct; else selectMsg"
+      (ngSubmit)="isAddingNewProduct ? addNewProduct(): editProduct()" #f="ngForm">
+      <div>
+        Product name:
+        <input type="text" [(ngModel)]="adminFormFields.product_name" name="product_name" #product_name="ngModel">
+      </div>
+      <div>
+        Product price:
+        <input type="number" [(ngModel)]="adminFormFields.product_price" name="product_price" #product_price="ngModel">$
+      </div>
+      <div>
+        <div *ngIf="!isAddingNewProduct">
+          <input type="checkbox" checked [(ngModel)]="adminFormFields.keepImage" name="keepImage" #keepImage="ngModel">
+          keep the picture same picture
+        </div>
+        <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage">
+          Change Picture:
+          <input type="file" [(ngModel)]="adminFormFields.product_image" name="product_image" #product_image="ngModel">
+        </div>
+      </div>
+      <div>
+        Category:
+        <select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel">
+          <option value="">Select a category</option>
+          <option *ngFor="let c of categoriesList$ | async" [value]="c.category_id"
+            [selected]="!isAddingNewProduct && selectedProduct?.category_id == c.category_id">{{c.category_name}}
+          </option>
+        </select>
+      </div>
+      <button>Save</button>
+    </form>
+    <ng-template #selectMsg>
+      Select a product to edit <br>
+      or click the + to add a new product
+    </ng-template>
   </ng-template>
 </ng-container>

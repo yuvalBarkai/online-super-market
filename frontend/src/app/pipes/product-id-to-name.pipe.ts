@@ -5,8 +5,8 @@ import { ProductType } from '../types';
   name: 'pIdToName'
 })
 export class ProductIdToNamePipe implements PipeTransform {
-  transform(value: number, products: ProductType[]) {
-    let productName = products.find(p => p.product_id == value)?.product_name;
+  transform(value: number, products: ProductType[] | null) {
+    let productName = products?.find(p => p.product_id == value)?.product_name;
     if (!productName)
       productName = "Unknown Product";
     return productName;

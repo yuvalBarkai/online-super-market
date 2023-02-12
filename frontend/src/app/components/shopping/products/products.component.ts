@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
 import { CartService } from 'src/app/services/cart.service';
+import { AdminService } from 'src/app/services/admin.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import { ProductType } from 'src/app/types';
@@ -15,14 +16,15 @@ import { CartInsertDialogComponent } from '../cart-insert-dialog/cart-insert-dia
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private ProductsService: ProductsService, private ApiRequests: ApiRequestsService,
-    private dialogRef: MatDialog, private CartService: CartService, private UserService: UserService) { }
+    private dialogRef: MatDialog, private CartService: CartService, private UserService: UserService,
+    private AdminService: AdminService) { }
 
   userInfo$ = this.UserService.userInfo$;
-  productsList: ProductType[] = [];
   categoriesList$ = this.ApiRequests.medium.get.allCategories();
   productsErrorMsg$ = this.ProductsService.productsErrorMsg$;
+  selectedProduct$ = this.AdminService.selectedProduct$; // for the admin
+  productsList: ProductType[] = [];
   chosenCategoryId = -1; // -1 = all categories
-  productIdToEdit = -1; // -1 = no product is selected
   subscriptions = new Subscription();
 
 
@@ -57,11 +59,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectProduct(product_id: number) {
-    if (this.productIdToEdit == product_id)
-      this.productIdToEdit = -1;
-    else
-      this.productIdToEdit = product_id;
+  selectProduct(product: ProductType | null) {
+    if (product)
+      this.AdminService.selectProduct(product);
   }
 
   ngOnDestroy(): void {

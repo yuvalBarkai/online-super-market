@@ -5,9 +5,13 @@
       {{c.category_name}}
     </span>
   </header>
+
   <div *ngIf="productsErrorMsg$ | async as error" class="error">{{error}}</div>
   <div class="productList">
-    <app-single-product *ngFor="let p of productsList" [product]="p" [class.selected]="p.product_id == productIdToEdit"
-      (click)="userInfo.is_admin ? selectProduct(p.product_id) : openDialog(p)"></app-single-product>
+    <ng-container *ngIf="{selectedProduct:selectedProduct$ | async} as res">
+      <app-single-product *ngFor="let p of productsList" [product]="p"
+        [class.selected]="p.product_id == res.selectedProduct?.product_id"
+        (click)="userInfo.is_admin ? selectProduct(p) : openDialog(p)"></app-single-product>
+    </ng-container>
   </div>
 </div>

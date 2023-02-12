@@ -5,12 +5,14 @@
 - Add treatment for most server requests, error.
 - Style the site well and make sure its responsive and mobile friendly.
 - Consider Improving certain features to be more user friendly.
-- Backend validations - login, registration 1,2.
-- Frontend validations - login, registration 1,2.
+- Backend validations.
+- Frontend validations.
+- Try to sort the back and the front, make them cleaner (consider moving stuff to bll and making it async).
 - Document front (services !), document back (api-doc).
 - Make sure the garbage is collected (subscriptions....).
 - Get rid of any console.log.
-- Add notes for the one that checks the project.
+- Add notes for the one that checks the project such as
+  (decided to not put product_id in the form so it will be handled via the database just like admin assignment).
 
 ### Reference Sites:
 

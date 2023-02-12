@@ -27,6 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './components/shopping/products/products.component';
 import { ResizableDirective } from './directives/resizable.directive';
+import { AdminService } from './services/admin.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { ResizableDirective } from './directives/resizable.directive';
     MatDialogModule
   ],
   providers: [ApiRequestsService, UserService, CartService
-    , RegistrationService, ProductsService, MatDialog,
+    , RegistrationService, ProductsService, MatDialog, AdminService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
