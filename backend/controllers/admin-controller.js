@@ -5,10 +5,9 @@ const fileUpload = require("express-fileUpload");
 const { v4: uuidv4 } = require("uuid");
 const adminLogic = require("../business/admin-logic");
 const path = require("path");
-const fs = require("fs");
+
 
 const router = require("express").Router();
-
 router.use([verifyLoggedIn, verifyAdmin, fileUpload()]);
 
 router.post("/product", async (req, res) => {
@@ -19,14 +18,14 @@ router.post("/product", async (req, res) => {
             res.status(400).send({ message: "Error: please send an image with the product" })
         else {
             // validate the body
-            image.name = `${uuidv4()}.${image.name.split(".").pop()}`;
-            const absolutePath = path.join(__dirname, "..", "images", image.name);
-            await image.mv(absolutePath);
-            const result = await adminLogic.insertNewProductAsync(body, image.name);
+            const result = await adminLogic.insertNewProductAsync(body, image);
             res.status(201).send(result);
         }
     } catch (error) {
-        res.status(500).send(serverErrorMsg(error));
+        if (error.code == 'ER_DUP_ENTRY')
+            res.status(400).send({ message: "That product name already exsits" });
+        else
+            res.status(500).send(serverErrorMsg(error));
     }
 });
 
@@ -38,19 +37,12 @@ router.put("/product/:product_id", async (req, res) => {
         else {
             const body = req.body;
             // validate body
-            if (body.keepImage == false) {
-                const currentImage = await adminLogic.selectImageNameByProductIdAsync(pId);
-                const currentImagePath = path.join(__dirname, "..", "images", currentImage[0].image_name);
-                if (fs.existsSync(currentImagePath))
-                    fs.unlinkSync(currentImagePath); // deletes the current image if it exists
+            if (!body.keepImage || body.keepImage == false) {
                 const image = req.files?.product_image;
                 if (!image)
                     res.status(400).send({ message: "Error: please send an image with the product" });
                 else {
-                    image.name = `${uuidv4()}.${image.name.split(".").pop()}`;
-                    const absolutePath = path.join(__dirname, "..", "images", image.name);
-                    await image.mv(absolutePath);
-                    const result = await adminLogic.updateProductAsync(pId, body, false, image.name);
+                    const result = await adminLogic.updateProductAsync(pId, body, false, image);
                     if (result.affectedRows < 1)
                         res.status(404).send({ message: `Error: The id ${pId} was not found` });
                     else
@@ -66,7 +58,10 @@ router.put("/product/:product_id", async (req, res) => {
             }
         }
     } catch (error) {
-        res.status(500).send(serverErrorMsg(error));
+        if (error.code == 'ER_DUP_ENTRY')
+            res.status(400).send({ message: "That product name already exsits" });
+        else
+            res.status(500).send(serverErrorMsg(error));
     }
 });
 

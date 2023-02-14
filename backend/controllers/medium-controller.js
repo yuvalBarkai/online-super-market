@@ -2,10 +2,9 @@ const jwt = require("jsonwebtoken");
 const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
-const config = require("../config.json");
 const mediumLogic = require("../business/medium-logic");
-const router = require("express").Router();
 
+const router = require("express").Router();
 router.use(verifyLoggedIn);
 
 router.delete("/cart-product/:id", async (req, res) => {

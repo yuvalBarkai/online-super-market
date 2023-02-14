@@ -10,8 +10,8 @@ class AdminFormFields {
 
   toEditFormData() {
     const fd = new FormData();
-    if (this.product_image)
-      fd.append("product_image", this.product_image[0]);
+    if (this.product_image?.item(0))
+      fd.append("product_image", this.product_image.item(0) as Blob);
     if (this.product_id)
       fd.append("product_id", String(this.product_id));
     if (this.keepImage)
@@ -24,8 +24,8 @@ class AdminFormFields {
 
   toAddFormData() {
     const fd = new FormData();
-    if (this.product_image)
-      fd.append("product_image", this.product_image[0]);
+    if (this.product_image?.item(0))
+      fd.append("product_image", this.product_image.item(0) as Blob);
     fd.append("product_name", this.product_name);
     fd.append("product_price", String(this.product_price));
     fd.append("category_id", String(this.category_id));

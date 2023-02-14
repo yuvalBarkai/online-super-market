@@ -1,4 +1,6 @@
 <div class="product">
   <h2>{{product?.product_name}}</h2>
   <h4>{{product?.product_price}}</h4>
+  <img [src]="apiImagesUrl + '/' + product?.image_name" alt="Image not found"
+  class="image">
 </div>

@@ -69,7 +69,7 @@ export class ProductsService {
       },
       error: err => {
         this.productsSubject.next([]);
-        this.productsErrorMsg.next(err.error.message);
+        this.productsErrorMsg.next("There arent any products available at the moment, please come back later");
       }
     });
   }

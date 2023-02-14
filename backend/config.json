@@ -5,6 +5,9 @@
     "jwtEncriptionKey": "wow, so secure, madhim",
     "tokenExpirationTime": "30 minutes",
     
+    "notFoundImgName":"notFound.png",
+    "imagesDirName":"images",
+
     "dbHost": "localhost",
     "dbPort": 3306,
     "dbUser": "root",

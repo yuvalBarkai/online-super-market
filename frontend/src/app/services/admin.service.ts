@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import AdminFormFields from '../components/shopping/cart-side/AdminFormFields';
 import { ProductType } from '../types';
 import { ApiRequestsService } from './api-requests.service';
+import { ProductsService } from './products.service';
 
 @Injectable()
 export class AdminService {
-  constructor(private ApiRequests: ApiRequestsService) { }
+  constructor(private ApiRequests: ApiRequestsService, private ProductsService: ProductsService) { }
   private selectedProductSubject = new BehaviorSubject<ProductType | null>(null);
   private isAddingNewProduct = new BehaviorSubject(false);
 
@@ -37,7 +38,7 @@ export class AdminService {
       this.ApiRequests.admin.put.product(adminFormFields.product_id, adminFormFields.toEditFormData()).subscribe({
         next: res => {
           console.log(res);
-          // add a call for all products
+          this.ProductsService.productsByName("all");
         },
         error: err => console.log(err)
       });
@@ -49,7 +50,7 @@ export class AdminService {
       .subscribe({
         next: res => {
           console.log(res);
-          // add a call for all products
+          this.ProductsService.productsByName("all");
         },
         error: err => {
           console.log(err);

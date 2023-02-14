@@ -44,7 +44,7 @@
         </div>
         <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage">
           Change Picture:
-          <input type="file" [(ngModel)]="adminFormFields.product_image" name="product_image" #product_image="ngModel">
+          <input type="file"(change)="saveImage($event)">
         </div>
       </div>
       <div>

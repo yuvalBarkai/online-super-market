@@ -5,10 +5,12 @@ import { UserInfoType } from "src/app/types";
 import { CartService } from "./cart.service";
 import config from "configuration.json";
 import { ApiRequestsService } from "./api-requests.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class UserService {
-  constructor(private CartService: CartService, private ApiRequests: ApiRequestsService) { }
+  constructor(private CartService: CartService, private ApiRequests: ApiRequestsService,
+    private Router:Router) { }
   private userSubject = new BehaviorSubject<UserInfoType | null>(null);
   private notificationSubject = new BehaviorSubject<string>("");
 
@@ -33,13 +35,16 @@ export class UserService {
     localStorage.setItem(config.localStorageToken, token);
     localStorage.setItem(config.localStorageTokenExpiration, date.toString());
     this.userSubject.next(userInfo);
-    this.ApiRequests.medium.get.cartsAndOrdersByUserId(userInfo.user_id).subscribe({
-      next: carts => {
-        this.CartService.generateLoginNotification(carts)
-          .subscribe(res => this.notificationSubject.next(res));
-      },
-      error: err => console.log(err)
-    });
+    if (userInfo.is_admin)
+      this.Router.navigate(['shopping']);
+    else
+      this.ApiRequests.medium.get.cartsAndOrdersByUserId(userInfo.user_id).subscribe({
+        next: carts => {
+          this.CartService.generateLoginNotification(carts)
+            .subscribe(res => this.notificationSubject.next(res));
+        },
+        error: err => console.log(err)
+      });
   }
 
   logout() {

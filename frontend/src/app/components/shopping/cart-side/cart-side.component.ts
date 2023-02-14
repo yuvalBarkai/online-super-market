@@ -50,6 +50,11 @@ export class CartSideComponent implements OnInit, OnDestroy {
       this.CartService.removeCartItem(cartItemId);
   }
 
+  saveImage(e: Event) {
+    const files = (e.target as HTMLInputElement).files;
+    if (files)
+      this.adminFormFields.product_image = files;
+  }
   addProductView() {
     this.AdminService.addingProductView();
   }

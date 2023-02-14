@@ -3,7 +3,19 @@ const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const config = require("../config.json");
 const publicLogic = require("../business/public-logic");
+const fs = require("fs");
+const path = require("path");
+
 const router = require("express").Router();
+
+router.get("/images/:imageName", (req, res) => {
+    const imageName = req.params.imageName;
+    let imageAddress = path.join(__dirname, "..", config.imagesDirName, imageName);
+    if (!fs.existsSync(imageAddress))
+        imageAddress = path.join(__dirname, "..", config.imagesDirName, config.notFoundImgName);
+
+    res.sendFile(imageAddress);
+});
 
 router.get("/orders/amount", async (req, res) => {
     try {
