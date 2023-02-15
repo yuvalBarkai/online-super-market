@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
     const token = localStorage.getItem(config.localStorageToken);
     if (tokenExp && token) {
       if (new Date(tokenExp) > new Date()) {
-        console.log("autoLogin");
         this.UserService.login(token);
       }
       else {

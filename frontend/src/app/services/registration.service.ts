@@ -1,9 +1,10 @@
 import { BehaviorSubject } from "rxjs";
-import { RegisterPart1Type, RegisterPart2Type } from "../types";
+import RegisterPart1 from "../models/RegisterPart1";
+import RegisterPart2 from "../models/RegisterPart2";
 
 export class RegistrationService {
-  private part1Subject = new BehaviorSubject<RegisterPart1Type>({ id_card: "", user_email: "", password: "" });
-  private part2Subject = new BehaviorSubject<RegisterPart2Type>({ first_name: "", last_name: "", city_id: "", street_name: "" });
+  private part1Subject = new BehaviorSubject(new RegisterPart1());
+  private part2Subject = new BehaviorSubject(new RegisterPart2());
 
   get part1Val() {
     return this.part1Subject.value;
@@ -13,12 +14,12 @@ export class RegistrationService {
     return this.part2Subject.value;
   }
 
-  updatePart1(part1: RegisterPart1Type) {
+  updatePart1(part1: RegisterPart1) {
     const { passwordConfirmation, ...rest } = part1;
     this.part1Subject.next(rest);
   }
 
-  updatePart2(part2: RegisterPart2Type) {
+  updatePart2(part2: RegisterPart2) {
     this.part2Subject.next(part2);
   }
 }

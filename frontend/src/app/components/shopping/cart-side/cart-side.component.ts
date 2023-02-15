@@ -6,7 +6,14 @@ import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
 import { ProductType } from 'src/app/types';
-import AdminFormFields from './AdminFormFields';
+import AdminFormFields from '../../../models/AdminFormFields';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+
+enum Showing {
+  products,
+  order
+}
 
 @Component({
   selector: 'app-cart-side',
@@ -15,20 +22,32 @@ import AdminFormFields from './AdminFormFields';
 })
 export class CartSideComponent implements OnInit, OnDestroy {
   constructor(private CartService: CartService, private ProductsService: ProductsService,
-    private UserService: UserService, private AdminService: AdminService, private ApiRequests: ApiRequestsService) { }
+    private UserService: UserService, private AdminService: AdminService,
+    private ApiRequests: ApiRequestsService, private Location: Location) { }
+
   cart$ = this.CartService.cart$;
   allProducts$ = this.ProductsService.allProducts$;
   userInfo$ = this.UserService.userInfo$;
   categoriesList$ = this.ApiRequests.medium.get.allCategories();
-
   selectedProduct: null | ProductType = null;
   isAddingNewProduct = false;
+  showing = Showing.products;
   private subscriptions = new Subscription();
-
+  private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
   @ViewChild('f') form: undefined | HTMLFormElement;
 
   ngOnInit() {
+    if (this.Location.path().includes("products"))
+      this.showing = Showing.products;
+    else
+      this.showing = Showing.order;
+    this.urlEventUnregister = this.Location.onUrlChange(url => {
+      if (url.includes("products"))
+        this.showing = Showing.products;
+      else
+        this.showing = Showing.order;
+    });
     this.subscriptions.add(this.AdminService.selectedProduct$
       .subscribe(res => {
         this.selectedProduct = res;
@@ -67,5 +86,6 @@ export class CartSideComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    this.urlEventUnregister();
   }
 }

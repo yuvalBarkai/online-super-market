@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import RegisterPart1 from 'src/app/models/RegisterPart1';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
-
 import { RegistrationService } from 'src/app/services/registration.service';
-import { RegisterPart1Type } from 'src/app/types';
+
 
 @Component({
   selector: 'app-register-part1',
@@ -13,7 +13,7 @@ import { RegisterPart1Type } from 'src/app/types';
 export class RegisterPart1Component implements OnInit {
   constructor(private router: Router, private RegistrationService: RegistrationService,
     private ApiRequests: ApiRequestsService) { }
-  part1Fields: RegisterPart1Type = { id_card: "", user_email: "", password: "", passwordConfirmation: "" };
+  part1Fields = new RegisterPart1();
   errorMsg = "";
 
   ngOnInit() {

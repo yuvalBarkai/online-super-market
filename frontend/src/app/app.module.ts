@@ -28,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './components/shopping/products/products.component';
 import { ResizableDirective } from './directives/resizable.directive';
 import { AdminService } from './services/admin.service';
+import { OrderComponent } from './components/shopping/order/order.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AdminService } from './services/admin.service';
     ProductIdToNamePipe,
     CartInsertDialogComponent,
     ProductsComponent,
-    ResizableDirective
+    ResizableDirective,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

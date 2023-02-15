@@ -2,16 +2,18 @@
 <ng-container *ngIf="{allProducts:allProducts$ | async, userInfo:userInfo$ | async} as global">
   <ng-container *ngIf="global.userInfo?.is_admin == 0; else adminView">
     <h3>My Cart</h3>
+    <a *ngIf="showing == 1" routerLink="shopping/products">Continue shopping</a>
     <hr>
+    <h4 *ngIf="showing == 1">To change the cart go back to the shop</h4>
     <ng-container *ngIf="cart$ | async as cart">
       <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
-        <button (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
+        <button *ngIf="showing == 0" (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
         <div *ngFor="let c of cart.cartProducts" class="cartItem">
           <div>SMALL PIC</div>
           <span>{{c.product_id | pIdToName: global.allProducts}} - </span>
           <span>Amount: {{c.amount}} </span>
           <span>Price: {{c.total_price}}$ </span>
-          <button (click)="deleteCartItem(c.cart_product_id)">X</button>
+          <button *ngIf="showing == 0" (click)="deleteCartItem(c.cart_product_id)">X</button>
         </div>
       </ng-container>
       <ng-template #emptyCart>
@@ -19,7 +21,7 @@
       </ng-template>
       <footer class="cartFooter">
         Total cart price: {{cart.cartTotalPrice}}$
-        <a routerLink="">Order</a>
+        <a *ngIf="showing == 0" routerLink="/shopping/order">Order</a>
       </footer>
     </ng-container>
   </ng-container>
@@ -44,7 +46,7 @@
         </div>
         <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage">
           Change Picture:
-          <input type="file"(change)="saveImage($event)">
+          <input type="file" (change)="saveImage($event)">
         </div>
       </div>
       <div>

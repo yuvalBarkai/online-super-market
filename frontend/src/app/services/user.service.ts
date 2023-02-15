@@ -6,11 +6,12 @@ import { CartService } from "./cart.service";
 import config from "configuration.json";
 import { ApiRequestsService } from "./api-requests.service";
 import { Router } from "@angular/router";
+import { ProductsService } from "./products.service";
 
 @Injectable()
 export class UserService {
   constructor(private CartService: CartService, private ApiRequests: ApiRequestsService,
-    private Router:Router) { }
+    private Router: Router, private ProductsService: ProductsService) { }
   private userSubject = new BehaviorSubject<UserInfoType | null>(null);
   private notificationSubject = new BehaviorSubject<string>("");
 
@@ -41,7 +42,10 @@ export class UserService {
       this.ApiRequests.medium.get.cartsAndOrdersByUserId(userInfo.user_id).subscribe({
         next: carts => {
           this.CartService.generateLoginNotification(carts)
-            .subscribe(res => this.notificationSubject.next(res));
+            .subscribe(res => {
+              this.notificationSubject.next(res);
+              this.ProductsService.productsByName("all");
+            });
         },
         error: err => console.log(err)
       });

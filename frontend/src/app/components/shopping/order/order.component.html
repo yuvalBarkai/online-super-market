@@ -1,0 +1,28 @@
+<div class="order">
+  <h3>Order</h3>
+  <hr>
+  <form (ngSubmit)="onSubmit()">
+    <h4>Shipping Details</h4>
+    <hr>
+    <div>
+      City:<select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel">
+        <option value="">Select a city</option>
+        <option *ngFor="let c of cities$ | async" [value]="c.city_id">{{c.city_name}}</option>
+      </select>
+    </div>
+    <div>
+      Street: <input type="text" [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel">
+    </div>
+    <div>
+      Shipping Date: <input type="date" [(ngModel)]="orderFields.arrival_date" name="arrival_date"
+        #arrival_date="ngModel">
+    </div>
+    <h4>Payments</h4>
+    <hr>
+    <div>
+      Credit Card: <input type="number" [(ngModel)]="orderFields.credit_card_digits" name="credit_card_digits"
+        #credit_card_digits="ngModel">
+    </div>
+    <button>Order</button>
+  </form>
+</div>

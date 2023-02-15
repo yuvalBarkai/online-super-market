@@ -26,20 +26,6 @@ export interface RegistrationType {
   street_name: string;
 }
 
-export interface RegisterPart1Type {
-  id_card: number | string;
-  user_email: string;
-  password: string;
-  passwordConfirmation?: string;
-}
-
-export interface RegisterPart2Type {
-  first_name: string;
-  last_name: string;
-  city_id: number | string;
-  street_name: string;
-}
-
 export interface City {
   city_id: number;
   city_name: string;

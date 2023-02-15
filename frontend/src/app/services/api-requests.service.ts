@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { shareReplay } from "rxjs/operators";
-import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegisterPart1Type, RegistrationType, SuccessObjectType } from 'src/app/types';
+import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegistrationType, SuccessObjectType } from 'src/app/types';
 import config from "configuration.json";
+import RegisterPart1 from '../models/RegisterPart1';
 
 
 @Injectable()
@@ -48,7 +49,7 @@ export class ApiRequestsService {
       cities: () => this.http.get<City[]>(`${this.PUBLIC_URL}/cities`),
     },
     post: {
-      validatePart1: (part1: RegisterPart1Type) => this.http.post<{ valid: boolean }>(`${this.PUBLIC_URL}/register/validate/part1`, part1),
+      validatePart1: (part1: RegisterPart1) => this.http.post<{ valid: boolean }>(`${this.PUBLIC_URL}/register/validate/part1`, part1),
       registerNewUser: (newUser: RegistrationType) => this.http.post<SuccessObjectType>(`${this.PUBLIC_URL}/register`, newUser),
       userLogin: (loginInfoType: LoginInfoType) => this.http.post<{ token: string }>(`${this.PUBLIC_URL}/login`, loginInfoType),
     },

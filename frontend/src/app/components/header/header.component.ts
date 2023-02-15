@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
 
 enum Showing {
   home,
-  shopping,
+  products,
   order
 }
 
@@ -23,16 +23,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   title = config.siteTitle;
   guestName = config.guestName;
   userFirstName = this.guestName;
-  subscriptions = new Subscription();
+  private subscriptions = new Subscription();
+  private urlEventUnregister = () => {};
   showing = Showing.home;
   productSearchBar = "";
   productSearch() {
     this.ProductsService.productsByName(this.productSearchBar);
   }
   ngOnInit() {
-    this.Location.onUrlChange(url => {
-      if (url.includes("shopping"))
-        this.showing = Showing.shopping;
+    this.urlEventUnregister = this.Location.onUrlChange(url => {
+      if (url.includes("products"))
+        this.showing = Showing.products;
       else if (url.includes("order"))
         this.showing = Showing.order;
       else
@@ -49,6 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    this.urlEventUnregister();
   }
 
   signout() {

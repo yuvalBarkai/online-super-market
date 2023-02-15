@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import RegisterPart1 from 'src/app/models/RegisterPart1';
+import RegisterPart2 from 'src/app/models/RegisterPart2';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { UserService } from 'src/app/services/user.service';
-import { City, RegisterPart1Type, RegisterPart2Type } from 'src/app/types';
+import { City } from 'src/app/types';
 
 @Component({
   selector: 'app-register-part2',
@@ -15,8 +17,8 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
     private ApiRequests: ApiRequestsService, private Router: Router,
     private UserService: UserService) { }
   cityList: City[] = [];
-  part1: RegisterPart1Type = { id_card: '', user_email: '', password: '' };
-  part2: RegisterPart2Type = { city_id: "", street_name: "", first_name: "", last_name: "" };
+  part1 = new RegisterPart1()
+  part2 = new RegisterPart2()
 
   ngOnInit() {
     this.part1 = this.RegistrationService.part1Val;

@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import AdminFormFields from '../components/shopping/cart-side/AdminFormFields';
+import AdminFormFields from '../models/AdminFormFields';
 import { ProductType } from '../types';
 import { ApiRequestsService } from './api-requests.service';
 import { ProductsService } from './products.service';
