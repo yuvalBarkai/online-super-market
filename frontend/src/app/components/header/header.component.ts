@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import config from "configuration.json";
 import { ProductsService } from 'src/app/services/products.service';
 import { Location } from '@angular/common';
+import { CartService } from 'src/app/services/cart.service';
 
 enum Showing {
   home,
@@ -19,7 +20,8 @@ enum Showing {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private UserService: UserService, private Router: Router,
-    private ProductsService: ProductsService, private Location: Location) { }
+    private ProductsService: ProductsService, private Location: Location,
+    private CartService:CartService) { }
   title = config.siteTitle;
   guestName = config.guestName;
   userFirstName = this.guestName;
@@ -27,6 +29,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private urlEventUnregister = () => {};
   showing = Showing.home;
   productSearchBar = "";
+  receiptSearchWord = "";
+  receiptSearch(){
+    this.CartService.changeReceiptSearchWord(this.receiptSearchWord.toLowerCase());
+  }
   productSearch() {
     this.ProductsService.productsByName(this.productSearchBar);
   }

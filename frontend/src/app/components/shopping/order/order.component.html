@@ -5,16 +5,17 @@
     <h4>Shipping Details</h4>
     <hr>
     <div>
-      City:<select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel">
-        <option value="">Select a city</option>
+      City:<select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel" (dblclick)="autoFillCity()">
+        <option [value]="null">Double click to auto fill</option>
         <option *ngFor="let c of cities$ | async" [value]="c.city_id">{{c.city_name}}</option>
       </select>
     </div>
     <div>
-      Street: <input type="text" [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel">
+      Street: <input type="text" [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel"
+        (dblclick)="autoFillStreet()" placeholder="Double click to auto fill">
     </div>
     <div>
-      Shipping Date: <input type="date" [(ngModel)]="orderFields.arrival_date" name="arrival_date"
+      Arrival Date: <input type="date" [(ngModel)]="orderFields.arrival_date" name="arrival_date"
         #arrival_date="ngModel">
     </div>
     <h4>Payments</h4>

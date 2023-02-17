@@ -9,14 +9,10 @@ export class ResizableDirective {
   private isResizing = false;
   @Output('isResizing') ResizingEvent = new EventEmitter();
   @Output('minimizing') MininizingEvent = new EventEmitter();
-  private initialWidth = 0;
-  private currentX = 0;
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
     if (event.offsetX > this.el.nativeElement.offsetWidth - 30) {
       this.isResizing = true;
-      // this.initialWidth = this.el.nativeElement.offsetWidth;
-      // this.currentX = event.clientX;
       this.ResizingEvent.emit(true);
       this.renderer.setStyle(document.body, 'cursor', 'col-resize');
     }

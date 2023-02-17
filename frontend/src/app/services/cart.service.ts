@@ -7,13 +7,20 @@ import { ApiRequestsService } from './api-requests.service';
 export class CartService {
   constructor(private ApiRequests: ApiRequestsService) { }
   private cartSubject = new BehaviorSubject<CartSubjectType>({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
-  
+  private receiptSearchWord = new BehaviorSubject("");
+
   get cartVal() {
     return this.cartSubject.value;
   }
-
   get cart$() {
     return this.cartSubject.asObservable();
+  }
+  get recepitSearchWord$() {
+    return this.receiptSearchWord.asObservable();
+  }
+
+  changeReceiptSearchWord(newVal: string) {
+    this.receiptSearchWord.next(newVal);
   }
 
   addCartItem(cartItem: CartProductType) {

@@ -6,7 +6,7 @@
   </span>
   <span *ngIf="showing==2" class="orderSearch">
     Search the order:
-    <input type="text" placeholder="word">
+    <input type="text" placeholder="word" [(ngModel)]="receiptSearchWord" (input)="receiptSearch()">
   </span>
   <span class="contact">
     Contact (0547524226 or yuval120222@gmail.com)

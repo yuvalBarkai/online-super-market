@@ -32,6 +32,7 @@ export class CartSideComponent implements OnInit, OnDestroy {
   selectedProduct: null | ProductType = null;
   isAddingNewProduct = false;
   showing = Showing.products;
+  receiptSearchVal: string = "";
   private subscriptions = new Subscription();
   private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
@@ -48,6 +49,8 @@ export class CartSideComponent implements OnInit, OnDestroy {
       else
         this.showing = Showing.order;
     });
+    this.subscriptions.add(this.CartService.recepitSearchWord$
+      .subscribe(newVal => this.receiptSearchVal = newVal));
     this.subscriptions.add(this.AdminService.selectedProduct$
       .subscribe(res => {
         this.selectedProduct = res;

@@ -10,9 +10,18 @@
         <button *ngIf="showing == 0" (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
         <div *ngFor="let c of cart.cartProducts" class="cartItem">
           <div>SMALL PIC</div>
-          <span>{{c.product_id | pIdToName: global.allProducts}} - </span>
-          <span>Amount: {{c.amount}} </span>
-          <span>Price: {{c.total_price}}$ </span>
+          <span
+            [class.receiptSearch]="receiptSearchVal && ((c.product_id | pIdToName: global.allProducts | lowercase).includes(receiptSearchVal))">
+            {{c.product_id | pIdToName: global.allProducts}} -
+          </span>
+          <span
+            [class.receiptSearch]="receiptSearchVal && ('amount:'.includes(receiptSearchVal) || c.amount.toString().includes(receiptSearchVal))">
+            Amount: {{c.amount}}
+          </span>
+          <span
+            [class.receiptSearch]="receiptSearchVal && ('price:'.includes(receiptSearchVal) || (c.total_price+'$').includes(receiptSearchVal))">
+            Price: {{c.total_price}}$
+          </span>
           <button *ngIf="showing == 0" (click)="deleteCartItem(c.cart_product_id)">X</button>
         </div>
       </ng-container>
@@ -20,7 +29,10 @@
         <h5>Your cart is empty</h5>
       </ng-template>
       <footer class="cartFooter">
-        Total cart price: {{cart.cartTotalPrice}}$
+        <span
+          [class.receiptSearch]="receiptSearchVal && ('total cart price'.includes(receiptSearchVal) || cart.cartTotalPrice.toString().includes(receiptSearchVal))">
+          Total cart price: {{cart.cartTotalPrice}}$
+        </span>
         <a *ngIf="showing == 0" routerLink="/shopping/order">Order</a>
       </footer>
     </ng-container>
