@@ -7,7 +7,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import { ProductType } from 'src/app/types';
-import { CartInsertDialogComponent } from '../cart-insert-dialog/cart-insert-dialog.component';
+import { CartInsertDialogComponent } from './cart-insert-dialog/cart-insert-dialog.component';
 
 @Component({
   selector: 'app-products',
@@ -34,9 +34,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.productsList = products;
       }
     }));
+    this.subscriptions.add(this.ProductsService.searchEvent$
+      .subscribe(() => { this.chosenCategoryId = -1 }));
     this.ProductsService.productsByName("all");
-    this.ProductsService.searchEvent$
-      .subscribe(() => { this.chosenCategoryId = -1 });
   }
 
   categoryChange(newCategory: number) {
@@ -54,14 +54,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.dialogRef.open(CartInsertDialogComponent, {
       data: product
     }).afterClosed().subscribe(new_cart_item => {
-      if (new_cart_item)
-        this.CartService.addCartItem(new_cart_item);
+      if (new_cart_item) {
+        const amount = new_cart_item.amount;
+        if (amount > 0 && amount == Math.floor(amount))
+          this.CartService.addCartItem(new_cart_item);
+        else
+          alert('amount needs to be a positive, whole number');
+      }
     });
   }
 
-  selectProduct(product: ProductType | null) {
-    if (product)
-      this.AdminService.selectProduct(product);
+  selectProduct(product: ProductType) {
+    this.AdminService.selectProduct(product);
   }
 
   ngOnDestroy(): void {

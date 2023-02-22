@@ -4,6 +4,7 @@ import { shareReplay } from "rxjs/operators";
 import { CartAndOrderType, CartProductType, CategoryType, City, LoginInfoType, ProductType, RegistrationType, SuccessObjectType } from 'src/app/types';
 import config from "configuration.json";
 import RegisterPart1 from '../models/RegisterPart1';
+import Order from '../models/Order';
 
 
 @Injectable()
@@ -34,6 +35,7 @@ export class ApiRequestsService {
     },
     post: {
       cartProduct: (newCartProduct: CartProductType) => this.http.post<SuccessObjectType>(`${this.MEDIUM_URL}/cart-product`, newCartProduct),
+      order: (orderDetails: Order) => this.http.post<SuccessObjectType>(`${this.MEDIUM_URL}/order`, orderDetails),
     },
     delete: {
       cartProductsByCartId: (cart_id: number) => this.http.delete<SuccessObjectType>(`${this.MEDIUM_URL}/cart-products/cart-id/${cart_id}`),

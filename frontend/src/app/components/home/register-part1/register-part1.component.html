@@ -1,23 +1,33 @@
-<div>Already have an account ? <a [routerLink]="['/home/login']">Login</a></div>
+<div>
+  Already have an account ? <a mat-stroked-button [routerLink]="['/home/login']">Login</a>
+</div>
 <form (ngSubmit)="goToPart2()">
   <h2>STEP 1</h2>
   <div>
-    ID card number:
-    <input type="text" [(ngModel)]="part1Fields.id_card" name="id_card" #id_card="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>ID card number:</mat-label>
+      <input type="text" matInput [(ngModel)]="part1Fields.id_card" name="id_card" #id_card="ngModel">
+    </mat-form-field>
   </div>
   <div>
-    Email:
-    <input type="email" [(ngModel)]="part1Fields.user_email" name="user_email" #user_email="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Email:</mat-label>
+      <input type="email" matInput [(ngModel)]="part1Fields.user_email" name="user_email" #user_email="ngModel">
+    </mat-form-field>
   </div>
   <div>
-    Password:
-    <input type="password" [(ngModel)]="part1Fields.password" name="password" #password="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Password:</mat-label>
+      <input type="password" matInput [(ngModel)]="part1Fields.password" name="password" #password="ngModel">
+    </mat-form-field>
   </div>
   <div>
-    Confirm password:
-    <input type="password" [(ngModel)]="part1Fields.passwordConfirmation" name="passwordConfirmation"
-      #passwordConfirmation="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm password:</mat-label>
+      <input type="password" matInput [(ngModel)]="part1Fields.passwordConfirmation" name="passwordConfirmation"
+        #passwordConfirmation="ngModel">
+    </mat-form-field>
   </div>
   <div *ngIf="errorMsg" class="error">{{errorMsg}}</div>
-  <button>Make me a arrow</button>
+  <button mat-raised-button color="basic">next ➜</button>
 </form>

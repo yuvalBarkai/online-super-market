@@ -22,13 +22,22 @@ import { CartSideComponent } from './components/shopping/cart-side/cart-side.com
 import { ProductsService } from './services/products.service';
 import { ProductIdToNamePipe } from './pipes/product-id-to-name.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CartInsertDialogComponent } from './components/shopping/cart-insert-dialog/cart-insert-dialog.component';
+import { CartInsertDialogComponent } from './components/shopping/products/cart-insert-dialog/cart-insert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './components/shopping/products/products.component';
 import { ResizableDirective } from './directives/resizable.directive';
 import { AdminService } from './services/admin.service';
 import { OrderComponent } from './components/shopping/order/order.component';
+import { OrderDoneDialogComponent } from './components/shopping/order/order-done-dialog/order-done-dialog.component';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 @NgModule({
   declarations: [
@@ -47,7 +56,8 @@ import { OrderComponent } from './components/shopping/order/order.component';
     CartInsertDialogComponent,
     ProductsComponent,
     ResizableDirective,
-    OrderComponent
+    OrderComponent,
+    OrderDoneDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,11 +65,19 @@ import { OrderComponent } from './components/shopping/order/order.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
   ],
   providers: [ApiRequestsService, UserService, CartService
     , RegistrationService, ProductsService, MatDialog, AdminService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   ],
   bootstrap: [AppComponent]
 })

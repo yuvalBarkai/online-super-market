@@ -11,23 +11,20 @@ const Joi = require("joi");
 const validator = (schema) => (payload) =>
     schema.validate(payload, { abortEarly: true });
 
-const loginSchema = Joi.object({
-    user_email: Joi.string().email().required(),
-    password: Joi.string().min(2).max(60).required()
-});
-
-const registrationSchema = Joi.object({
-    first_name: Joi.string().max(30).required(),
-    last_name: Joi.string().max(30).required(),
-    user_email: Joi.string().max(60).required(),
-    password: Joi.string().max(60).required(),
-    id_card: Joi.number().required(),
-    city_id: Joi.number().required(),
-    street_name: Joi.string().max(60).required(),
-});
+const orderSchema = require("../schemas/orderSchema");
+const loginSchema = require("../schemas/loginSchema");
+const registrationPart1Schema = require("../schemas/registrationPart1Schema");
+const registrationSchema = require("../schemas/registrationSchema");
+const cartProductSchema = require("../schemas/cartProductSchema");
+const newProductSchema = require('../schemas/newProductSchema');
+const editProductSchema = require('../schemas/editProductSchema');
 
 module.exports = {
     login: validator(loginSchema),
+    registerationPart1: validator(registrationPart1Schema),
     register: validator(registrationSchema),
-
+    order: validator(orderSchema),
+    cartProduct: validator(cartProductSchema),
+    newProduct: validator(newProductSchema),
+    editProduct: validator(editProductSchema),
 }

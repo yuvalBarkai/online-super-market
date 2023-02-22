@@ -17,8 +17,9 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
     private ApiRequests: ApiRequestsService, private Router: Router,
     private UserService: UserService) { }
   cityList: City[] = [];
-  part1 = new RegisterPart1()
-  part2 = new RegisterPart2()
+  part1 = new RegisterPart1();
+  part2 = new RegisterPart2();
+  errorMsg = "";
 
   ngOnInit() {
     this.part1 = this.RegistrationService.part1Val;
@@ -44,10 +45,10 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
               this.UserService.login(res.token);
               this.Router.navigate(["/home/login"]);
             },
-            error(err) { console.log(err.error.message) },
+            error: (err) => this.errorMsg = err.error.message,
           });
       },
-      error(error) { console.log(error.error.message) }
+      error: (err) => this.errorMsg = err.error.message
     });
     console.log(newUser);
   }

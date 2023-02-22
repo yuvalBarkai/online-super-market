@@ -7,7 +7,7 @@
     <h4 *ngIf="showing == 1">To change the cart go back to the shop</h4>
     <ng-container *ngIf="cart$ | async as cart">
       <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
-        <button *ngIf="showing == 0" (click)="emptyCartProducts(cart.cartId)">Empty Cart</button>
+        <button *ngIf="showing == 0" (click)="emptyCartProducts(cart.cartId)" mat-button>Empty Cart</button>
         <div *ngFor="let c of cart.cartProducts" class="cartItem">
           <div>SMALL PIC</div>
           <span
@@ -33,44 +33,56 @@
           [class.receiptSearch]="receiptSearchVal && ('total cart price'.includes(receiptSearchVal) || cart.cartTotalPrice.toString().includes(receiptSearchVal))">
           Total cart price: {{cart.cartTotalPrice}}$
         </span>
-        <a *ngIf="showing == 0" routerLink="/shopping/order">Order</a>
+        <a *ngIf="showing == 0 && cart.cartProducts.length > 0" routerLink="/shopping/order">Order</a>
       </footer>
     </ng-container>
   </ng-container>
   <ng-template #adminView>
-    <button (click)="addProductView()">+</button>
-    <h2>{{isAddingNewProduct ? 'New Product': selectedProduct?.product_name}}</h2>
+
+    <h2>
+      <button (click)="addProductView()" mat-raised-button>+</button>
+      {{isAddingNewProduct ? 'New Product': selectedProduct?.product_name}}
+    </h2>
     <hr>
     <form class="productEditOrAdd" *ngIf="isAddingNewProduct || selectedProduct; else selectMsg"
       (ngSubmit)="isAddingNewProduct ? addNewProduct(): editProduct()" #f="ngForm">
       <div>
-        Product name:
-        <input type="text" [(ngModel)]="adminFormFields.product_name" name="product_name" #product_name="ngModel">
+        <mat-form-field appearance="fill">
+          <mat-label>Product Name: </mat-label>
+          <input type="text" matInput [(ngModel)]="adminFormFields.product_name" name="product_name"
+            #product_name="ngModel">
+        </mat-form-field>
       </div>
       <div>
-        Product price:
-        <input type="number" [(ngModel)]="adminFormFields.product_price" name="product_price" #product_price="ngModel">$
+        <mat-form-field appearance="fill">
+          <mat-label>Product price ($): </mat-label>
+          <input type="number" matInput [(ngModel)]="adminFormFields.product_price" name="product_price"
+            #product_price="ngModel">
+        </mat-form-field>
       </div>
       <div>
         <div *ngIf="!isAddingNewProduct">
-          <input type="checkbox" checked [(ngModel)]="adminFormFields.keepImage" name="keepImage" #keepImage="ngModel">
-          keep the picture same picture
+          <mat-checkbox type="checkbox" color="primary" checked [(ngModel)]="adminFormFields.keepImage" name="keepImage"
+            #keepImage="ngModel">
+            keep the picture same picture</mat-checkbox>
         </div>
-        <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage">
-          Change Picture:
-          <input type="file" (change)="saveImage($event)">
+        <div>Picture:</div>
+        <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage" class="input-group mb-3">
+          <input type="file" class="form-control" (change)="saveImage($event)">
         </div>
       </div>
       <div>
-        Category:
-        <select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel">
-          <option value="">Select a category</option>
-          <option *ngFor="let c of categoriesList$ | async" [value]="c.category_id"
-            [selected]="!isAddingNewProduct && selectedProduct?.category_id == c.category_id">{{c.category_name}}
-          </option>
-        </select>
+        <mat-form-field appearance="fill">
+          <mat-label>Category:</mat-label>
+          <mat-select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel">
+            <mat-option *ngFor="let c of categoriesList$ | async" [value]="c.category_id">
+              {{c.category_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <button>Save</button>
+      <div class="error">{{errorMsg}}</div>
+      <button mat-raised-button color="primary">Save</button>
     </form>
     <ng-template #selectMsg>
       Select a product to edit <br>

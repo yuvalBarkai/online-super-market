@@ -1,29 +1,65 @@
 <div class="order">
   <h3>Order</h3>
   <hr>
-  <form (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" #f="ngForm">
     <h4>Shipping Details</h4>
     <hr>
     <div>
-      City:<select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel" (dblclick)="autoFillCity()">
-        <option [value]="null">Double click to auto fill</option>
-        <option *ngFor="let c of cities$ | async" [value]="c.city_id">{{c.city_name}}</option>
-      </select>
+      <mat-form-field appearance="fill">
+        <mat-label>City:</mat-label>
+        <mat-select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel" (opened)="autoFillCity()"
+          (closed)="autoFillCity()" required>
+          <mat-option *ngFor="let c of cities$ | async" [value]="c.city_id">{{c.city_name}}</mat-option>
+        </mat-select>
+        <mat-hint>Double click to auto fill</mat-hint>
+      </mat-form-field>
+      <ng-container *ngIf="city_id.errors && (city_id.touched || city_id.dirty || isSubmitted)">
+        <span *ngIf="city_id.errors['required']" class="error">Please choose a city</span>
+      </ng-container>
     </div>
     <div>
-      Street: <input type="text" [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel"
-        (dblclick)="autoFillStreet()" placeholder="Double click to auto fill">
+      <mat-form-field appearance="fill" (dblclick)="autoFillStreet()">
+        <mat-label>Street:</mat-label>
+        <input type="text" matInput [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel"
+          required minlength="2" maxlength="60">
+        <mat-hint>Double click to auto fill</mat-hint>
+      </mat-form-field>
+
+      <ng-container *ngIf="street_name.errors && (street_name.touched || street_name.dirty || isSubmitted)">
+        <span *ngIf="street_name.errors['required']" class="error">Missing street name</span>
+        <span *ngIf="street_name.errors['minlength']" class="error">has to be more then 1 characters</span>
+        <span *ngIf="street_name.errors['maxlength']" class="error">has to be less then 61 characters</span>
+      </ng-container>
     </div>
     <div>
-      Arrival Date: <input type="date" [(ngModel)]="orderFields.arrival_date" name="arrival_date"
-        #arrival_date="ngModel">
+      <mat-form-field appearance="fill">
+        <mat-label>Arrival Date:</mat-label>
+        <input matInput [matDatepicker]="picker" [readonly]="true" [(ngModel)]="orderFields.arrival_date"
+          name="arrival_date" #arrival_date="ngModel" (dateChange)="arrivalDateChange()" required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <ng-container *ngIf="arrival_date.errors && (arrival_date.touched || arrival_date.dirty || isSubmitted)">
+        <span *ngIf="arrival_date.errors['required']" class="error">Missing arrival date</span>
+      </ng-container>
+      <span *ngIf="!arrivalDate.valid" class="error">{{arrivalDate.message}}</span>
     </div>
     <h4>Payments</h4>
     <hr>
     <div>
-      Credit Card: <input type="number" [(ngModel)]="orderFields.credit_card_digits" name="credit_card_digits"
-        #credit_card_digits="ngModel">
+      <mat-form-field appearance="fill">
+        <mat-label>Credit Card: </mat-label>
+        <input type="number" matInput [(ngModel)]="orderFields.credit_card_digits" name="credit_card_digits"
+          #credit_card_digits="ngModel" required min="999" max="9999">
+      </mat-form-field>
+      <ng-container
+        *ngIf="credit_card_digits.errors && (credit_card_digits.touched || credit_card_digits.dirty || isSubmitted)">
+        <span *ngIf="credit_card_digits.errors['required']" class="error">Missing credit card digits</span>
+        <span *ngIf="credit_card_digits.errors['max'] || credit_card_digits.errors['min']" class="error">has to be 4
+          digits</span>
+      </ng-container>
     </div>
-    <button>Order</button>
+    <button mat-raised-button color="primary"
+      [disabled]="isSubmitted && (city_id.errors || street_name.errors || arrival_date.errors || !arrivalDate.valid || credit_card_digits.errors)">Order</button>
   </form>
 </div>

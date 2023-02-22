@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { ProductType } from 'src/app/types';
 import AdminFormFields from '../../../models/AdminFormFields';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 enum Showing {
   products,
@@ -36,7 +36,9 @@ export class CartSideComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
-  @ViewChild('f') form: undefined | HTMLFormElement;
+  errorMsg = "";
+  submitted = false;
+  @ViewChild('f') f: undefined | NgForm;
 
   ngOnInit() {
     if (this.Location.path().includes("products"))
@@ -44,15 +46,17 @@ export class CartSideComponent implements OnInit, OnDestroy {
     else
       this.showing = Showing.order;
     this.urlEventUnregister = this.Location.onUrlChange(url => {
+      this.submitted = false;
       if (url.includes("products"))
         this.showing = Showing.products;
       else
         this.showing = Showing.order;
     });
-    this.subscriptions.add(this.CartService.recepitSearchWord$
+    this.subscriptions.add(this.CartService.receiptSearchWord$
       .subscribe(newVal => this.receiptSearchVal = newVal));
     this.subscriptions.add(this.AdminService.selectedProduct$
       .subscribe(res => {
+        this.submitted = false;
         this.selectedProduct = res;
         if (res?.product_name)
           this.adminFormFields = new AdminFormFields(res?.product_name, res?.product_price,
@@ -60,7 +64,8 @@ export class CartSideComponent implements OnInit, OnDestroy {
       }));
     this.subscriptions.add(this.AdminService.isAddingNewProduct$
       .subscribe(res => {
-        this.isAddingNewProduct = res
+        this.submitted = false;
+        this.isAddingNewProduct = res;
         this.adminFormFields = new AdminFormFields("", "", "");
       }));
   }
@@ -81,10 +86,29 @@ export class CartSideComponent implements OnInit, OnDestroy {
     this.AdminService.addingProductView();
   }
   editProduct() {
-    this.AdminService.editProduct(this.adminFormFields);
+    this.submitted = true;
+    if (this.f?.form.valid)
+      if (this.adminFormFields.product_id)
+        this.ApiRequests.admin.put.product(this.adminFormFields.product_id, this.adminFormFields.toEditFormData())
+          .subscribe({
+            next: res => {
+              this.ProductsService.productsByName("all");
+              this.errorMsg = "";
+            },
+            error: err => this.errorMsg = err.error.message
+          });
   }
   addNewProduct() {
-    this.AdminService.addNewProduct(this.adminFormFields);
+    this.submitted = true;
+    if (this.f?.form.valid)
+      this.ApiRequests.admin.post.newProduct(this.adminFormFields.toAddFormData())
+        .subscribe({
+          next: res => {
+            this.ProductsService.productsByName("all");
+            this.errorMsg = "";
+          },
+          error: err => this.errorMsg = err.error.message
+        });
   }
 
   ngOnDestroy() {

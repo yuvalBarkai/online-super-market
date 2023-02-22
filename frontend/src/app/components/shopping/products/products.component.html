@@ -10,7 +10,7 @@
   <div class="productList">
     <ng-container *ngIf="{selectedProduct:selectedProduct$ | async} as res">
       <app-single-product *ngFor="let p of productsList" [product]="p"
-        [class.selected]="p.product_id == res.selectedProduct?.product_id"
+        [class.selected]="userInfo.is_admin && p.product_id == res.selectedProduct?.product_id"
         (click)="userInfo.is_admin ? selectProduct(p) : openDialog(p)"></app-single-product>
     </ng-container>
   </div>

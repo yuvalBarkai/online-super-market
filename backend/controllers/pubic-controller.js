@@ -37,8 +37,7 @@ router.get("/products/amount", async (req, res) => {
 
 router.get("/cities", async (req, res) => {
     try {
-        const result = await publicLogic.selectCitiesAsync();
-        res.send(result);
+        res.send(await publicLogic.selectCitiesAsync());
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
@@ -47,10 +46,11 @@ router.get("/cities", async (req, res) => {
 router.post("/register/validate/part1", async (req, res) => {
     try {
         const part1 = req.body;
-        if (!part1.user_email || !part1.id_card)
-            res.status(400).send({ message: "user_email and id_card are missing", valid: false });
-        // validate part1.user_email using regex
-        else {
+        const { error } = validator.registerationPart1(part1);
+        if (error) {
+            error.details[0].valid = false;
+            res.status(400).send(error.details[0]);
+        } else {
             const userByEmail = await publicLogic.selectUserByEmailAsync(part1.user_email);
             if (userByEmail.length > 0)
                 res.status(401).send({ message: "That email belongs to an existing account", valid: false });
@@ -73,10 +73,8 @@ router.post("/register", async (req, res) => {
         const { error } = validator.register(newUser);
         if (error)
             res.status(400).send(error.details[0]);
-        else {
-            const success = await publicLogic.insertNewUserAsync(newUser);
-            res.send(success);
-        }
+        else
+            res.send(await publicLogic.insertNewUserAsync(newUser));
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
@@ -104,7 +102,5 @@ router.post("/login", async (req, res) => {
         res.status(500).send(serverErrorMsg(error));
     }
 });
-
-
 
 module.exports = router;

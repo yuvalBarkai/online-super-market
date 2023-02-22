@@ -1,6 +1,7 @@
 {
     "serverListeningPort": 6500,
     "serverBaseAddr":"/api",
+    "ordersPerDayLimit":3,
 
     "jwtEncriptionKey": "wow, so secure, madhim",
     "tokenExpirationTime": "30 minutes",

@@ -3,6 +3,7 @@
   "guestName": "guest",
   "apiBaseUrl": "http://localhost:6500/api",
   "apiImagesUrl": "http://localhost:6500/api/public/images",
+  "apiUrlSiteLogo": "http://localhost:6500/api/public/images/siteLogo.png",
 
   "localStorageToken": "tokenBackup",
   "localStorageTokenExpiration": "tokenExpiration"

@@ -8,6 +8,7 @@ import { OrderComponent } from './components/shopping/order/order.component';
 import { ProductsComponent } from './components/shopping/products/products.component';
 import { ShoppingComponent } from './components/shopping/shopping.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
+import { OrderGuard } from './guards/order.guard';
 import { Part1CheckGuard } from './guards/part1-check.guard';
 
 const routes: Routes = [
@@ -46,7 +47,8 @@ const routes: Routes = [
       },
       {
         path: "order",
-        component: OrderComponent
+        component: OrderComponent,
+        canActivate: [OrderGuard]
       },
       {
         path: "**",

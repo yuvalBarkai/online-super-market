@@ -1,6 +1,6 @@
 <ng-container *ngIf="{userInfo:userSubject$ | async, cart:cartSubject$ | async} as res">
   <div *ngIf="res.userInfo">
-    <button (click)="shoppingBtn()">
+    <button class="shoppingBtn" mat-raised-button color="primary" (click)="shoppingBtn()">
       <span *ngIf="res.cart?.cartId;else resume">Resume</span>
       <ng-template #resume>Start</ng-template>
       shopping
@@ -12,24 +12,38 @@
     </div>
     <ng-template #changeUser>change account</ng-template>
     <div>
-      <input type="email" placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email" #user_email="ngModel"
-        required>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input type="email" matInput placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email"
+          #user_email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+      </mat-form-field>
+      <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty)">
+        <mat-error *ngIf="user_email.errors['required']" class="error">Missing Email</mat-error>
+        <mat-error *ngIf="user_email.errors['pattern']" class="error">Incorret Email format</mat-error>
+      </ng-container>
     </div>
-    <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty)">
-      <span *ngIf="user_email.errors['required']" class="error">Missing Email</span>
-    </ng-container>
     <div>
-      <input type="password" placeholder="Password" [(ngModel)]="loginInfo.password" name="password" #password="ngModel"
-        required minlength="3">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input type="password" matInput placeholder="Password" [(ngModel)]="loginInfo.password" name="password"
+          #password="ngModel" required minlength="3">
+      </mat-form-field>
+      <ng-container *ngIf="password.errors && (password.touched || password.dirty)">
+        <mat-error *ngIf="password.errors['required']" class="error">Missing Password</mat-error>
+        <mat-error *ngIf="password.errors['minlength']" class="error">Password must be more than 2
+          characters</mat-error>
+      </ng-container>
     </div>
-    <ng-container *ngIf="password.errors && (password.touched || password.dirty)">
-      <span *ngIf="password.errors['required']" class="error">Missing Password</span>
-      <span *ngIf="password.errors['minlength']" class="error">Password must be more than 2 characters</span>
-    </ng-container>
+
     <div class="error">{{errorMsg}}</div>
-    <button [disabled]="user_email.errors || password.errors">Login</button>
+    <button *ngIf="!res.userInfo;else reLogin" mat-raised-button color="primary"
+      [disabled]="user_email.errors || password.errors">Login</button>
+    <ng-template #reLogin>
+      <button mat-raised-button color="basic" [disabled]="user_email.errors || password.errors">ReLogin</button>
+    </ng-template>
     <div>
-      <a [routerLink]="['/home','register','part1']">Signup</a> if you havent yet
+      <a mat-stroked-button [routerLink]="['/home','register','part1']">Signup</a>
+      <span>if you haven't yet</span>
     </div>
   </form>
 </ng-container>

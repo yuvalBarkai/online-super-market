@@ -45,7 +45,6 @@ export class AdminService {
   }
 
   addNewProduct(adminFormFields: AdminFormFields) {
-    console.log(adminFormFields);
     this.ApiRequests.admin.post.newProduct(adminFormFields.toAddFormData())
       .subscribe({
         next: res => {

@@ -33,6 +33,10 @@ export class ProductsService {
     return this.searchEvent.asObservable();
   }
 
+  productIdToName(product_id: number) {
+    return this.allProductsSubject.value.find(p => p.product_id == product_id)?.product_name;
+  }
+
   productsByName(product_name: string) {
     this.searchEvent.emit();
     this.productsErrorMsg.next(null);

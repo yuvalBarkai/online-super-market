@@ -7,8 +7,10 @@
 - Style the site well and make sure its responsive and mobile friendly.
 - Consider Improving certain features to be more user friendly.
 - Backend validations.
+- consider not allowing to cart items of the same product
 - Frontend validations.
 - Try to sort the back and the front, make them cleaner (consider moving stuff to bll and making it async).
+- Consider changing configuration file.
 - Document front (services !), document back (api-doc).
 - Make sure the garbage is collected (subscriptions....).
 - Get rid of any console.log.

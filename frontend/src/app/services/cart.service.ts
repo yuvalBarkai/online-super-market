@@ -15,7 +15,7 @@ export class CartService {
   get cart$() {
     return this.cartSubject.asObservable();
   }
-  get recepitSearchWord$() {
+  get receiptSearchWord$() {
     return this.receiptSearchWord.asObservable();
   }
 
@@ -52,7 +52,7 @@ export class CartService {
           cartProducts: newCart
         });
       },
-      error: err => console.log(err)
+      error: err => alert(err.error.message)
     });
   }
 
@@ -90,12 +90,13 @@ export class CartService {
 
   generateLoginNotification(carts: CartAndOrderType[]) {
     return new Observable<string>(subscribe => {
+      this.clearCart();
       if (carts.length < 1)
         subscribe.next("Welcome !, enjoy your first purchase !!");
       else {
         let openCartId = -1;
         let openCartCreationDate = "";
-        let lastOrder = new Date(carts[carts.length - 1].order_date); // check that it works
+        let lastOrder = new Date(carts[carts.length - 1].order_date);
         let lastOrderPrice = carts[carts.length - 1].order_price;
         for (let c of carts) {
           // const orderDate = new Date(c.order_date);

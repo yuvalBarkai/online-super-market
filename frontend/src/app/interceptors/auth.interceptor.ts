@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private UserService: UserService, private Router: Router) { }
-
+  
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> | Observable<never> {
     let clone = request.clone();
     let valid = true;

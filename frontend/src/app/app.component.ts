@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import config from "configuration.json";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,6 @@ import config from "configuration.json";
 })
 export class AppComponent implements OnInit {
   constructor(private UserService: UserService) { }
-
   ngOnInit(): void {
     const tokenExp = localStorage.getItem(config.localStorageTokenExpiration);
     const token = localStorage.getItem(config.localStorageToken);

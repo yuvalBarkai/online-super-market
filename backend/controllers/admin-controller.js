@@ -2,10 +2,8 @@ const verifyAdmin = require("../middlewares/verify-admin");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const fileUpload = require("express-fileUpload");
-const { v4: uuidv4 } = require("uuid");
 const adminLogic = require("../business/admin-logic");
-const path = require("path");
-
+const validator = require("../utilities/validator");
 
 const router = require("express").Router();
 router.use([verifyLoggedIn, verifyAdmin, fileUpload()]);
@@ -15,11 +13,15 @@ router.post("/product", async (req, res) => {
         const body = req.body;
         const image = req.files?.product_image;
         if (!image)
-            res.status(400).send({ message: "Error: please send an image with the product" })
+            res.status(400).send({ message: "Please send an image with the product" });
         else {
-            // validate the body
-            const result = await adminLogic.insertNewProductAsync(body, image);
-            res.status(201).send(result);
+            const { error } = validator.newProduct(body);
+            if (error)
+                res.status(400).send(error.details[0]);
+            else {
+                const result = await adminLogic.insertNewProductAsync(body, image);
+                res.status(201).send(result);
+            }
         }
     } catch (error) {
         if (error.code == 'ER_DUP_ENTRY')
@@ -36,13 +38,16 @@ router.put("/product/:product_id", async (req, res) => {
             res.status(400).send({ message: "product_id parameter must be numeric" });
         else {
             const body = req.body;
-            // validate body
-            if (!body.keepImage || body.keepImage == false) {
+            const { error } = validator.editProduct(body);
+            if (error)
+                res.status(400).send(error.details[0]);
+            else if (!body.keepImage || body.keepImage == 'false') {
+                console.log("replace Image");
                 const image = req.files?.product_image;
                 if (!image)
-                    res.status(400).send({ message: "Error: please send an image with the product" });
+                    res.status(400).send({ message: "Please send a new image if you want to change the old one" });
                 else {
-                    const result = await adminLogic.updateProductAsync(pId, body, false, image);
+                    const result = await adminLogic.updateProductSwapPictureAsync(pId, body, image);
                     if (result.affectedRows < 1)
                         res.status(404).send({ message: `Error: The id ${pId} was not found` });
                     else
@@ -50,7 +55,8 @@ router.put("/product/:product_id", async (req, res) => {
                 }
             }
             else {
-                const result = await adminLogic.updateProductAsync(pId, body, true);
+                console.log("keepImage");
+                const result = await adminLogic.updateProductAsync(pId, body);
                 if (result.affectedRows < 1)
                     res.status(404).send({ message: `Error: The id ${pId} was not found` });
                 else

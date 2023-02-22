@@ -1,0 +1,18 @@
+<ng-container *ngIf="!response.success || response.message != ''; else success">
+  <h2 mat-dialog-title>There was an error, your order was not placed</h2>
+  <mat-dialog-content>
+    <div>{{response.message}}</div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button [mat-dialog-close]="false">Close</button>
+  </mat-dialog-actions>
+</ng-container>
+<ng-template #success>
+  <h2 mat-dialog-title>Your order has been completed successfully</h2>
+  <mat-dialog-content>
+    To download the receipt click <button (click)="downloadReceipt()">Here</button>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button [mat-dialog-close]="true">OK</button>
+  </mat-dialog-actions>
+</ng-template>

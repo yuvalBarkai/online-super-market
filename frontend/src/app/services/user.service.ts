@@ -39,7 +39,12 @@ export class UserService {
     if (userInfo.is_admin)
       this.Router.navigate(['shopping']);
     else
-      this.ApiRequests.medium.get.cartsAndOrdersByUserId(userInfo.user_id).subscribe({
+      this.loginNotificationCartUpdate();
+  }
+
+  loginNotificationCartUpdate() {
+    if (this.userInfo)
+      this.ApiRequests.medium.get.cartsAndOrdersByUserId(this.userInfo.user_id).subscribe({
         next: carts => {
           this.CartService.generateLoginNotification(carts)
             .subscribe(res => {

@@ -1,24 +1,35 @@
-Go back to the <a [routerLink]="['/home','register','part1']">last page</a>
+<div>
+  Go back to the <a mat-stroked-button [routerLink]="['/home','register','part1']">last page</a>
+</div>
 <form (ngSubmit)="submit()">
   <h2>STEP 2</h2>
   <div>
-    City:
-    <select [(ngModel)]="part2.city_id" name="city_id" #city_id="ngModel">
-      <option value="">Select a city</option>
-      <option *ngFor="let c of cityList" [value]="c.city_id">{{c.city_name}}</option>
-    </select>
+    <mat-form-field appearance="fill">
+      <mat-label>City:</mat-label>
+      <mat-select [(ngModel)]="part2.city_id" name="city_id" #city_id="ngModel">
+        <mat-option value="">Select a city</mat-option>
+        <mat-option *ngFor="let c of cityList" [value]="c.city_id">{{c.city_name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div>
-    Street:
-    <input type="text" [(ngModel)]="part2.street_name" name="street_name" #street_name="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Street:</mat-label>
+      <input type="text" matInput [(ngModel)]="part2.street_name" name="street_name" #street_name="ngModel">
+    </mat-form-field>
   </div>
   <div>
-    First name:
-    <input type="text" [(ngModel)]="part2.first_name" name="first_name" #first_name="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>First name:</mat-label>
+      <input type="text" matInput [(ngModel)]="part2.first_name" name="first_name" #first_name="ngModel">
+    </mat-form-field>
   </div>
   <div>
-    Last name:
-    <input type="text" [(ngModel)]="part2.last_name" name="last_name" #last_name="ngModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Last name:</mat-label>
+      <input type="text" matInput [(ngModel)]="part2.last_name" name="last_name" #last_name="ngModel">
+    </mat-form-field>
   </div>
-  <button>Submit</button>
+  <div *ngIf="errorMsg" class="error">{{errorMsg}}</div>
+  <button mat-raised-button color="primary">Submit</button>
 </form>

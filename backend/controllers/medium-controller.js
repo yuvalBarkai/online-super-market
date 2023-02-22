@@ -1,11 +1,34 @@
-const jwt = require("jsonwebtoken");
 const validator = require("../utilities/validator");
 const serverErrorMsg = require("../utilities/server-error-msg");
 const verifyLoggedIn = require("../middlewares/verify-logged-in");
 const mediumLogic = require("../business/medium-logic");
+const config = require("../config.json");
 
 const router = require("express").Router();
 router.use(verifyLoggedIn);
+
+router.post("/order", async (req, res) => {
+    try {
+        const orderDetails = req.body;
+        const { error } = validator.order(orderDetails);
+        if (error)
+            res.status(400).send(error.details[0]);
+        else {
+            const ordersByDate = await mediumLogic.selectOrdersByDateAsync(orderDetails.arrival_date);
+            if (ordersByDate.length > config.ordersPerDayLimit)
+                res.status(400).send({ message: "The choosen arrival date is fully booked, try a different one" });
+            else {
+                const result = await mediumLogic.insertOrderAsync(orderDetails, req.userInfo.user_id);
+                if (result.affectedRows < 1)
+                    res.status(500).send({ message: `Error: Unknown Error` });
+                else
+                    res.status(201).send(result);
+            }
+        }
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
 
 router.delete("/cart-product/:id", async (req, res) => {
     try {
@@ -44,9 +67,12 @@ router.get("/new/shopping-cart", async (req, res) => {
 router.post("/cart-product", async (req, res) => {
     try {
         const cartProduct = req.body;
-        // validation, including if it already exists in the list
-        const result = await mediumLogic.insertCartProductAsync(cartProduct);
-        res.send(result);
+        const { error } = validator.cartProduct(cartProduct);
+        if (error)
+            res.status(400).send(error.details[0]);
+        else {
+            res.send(await mediumLogic.insertCartProductAsync(cartProduct));
+        }
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
@@ -55,8 +81,7 @@ router.post("/cart-product", async (req, res) => {
 
 router.get("/product-categories", async (req, res) => {
     try {
-        const result = await mediumLogic.selectAllProductCategoriesAsync();
-        res.send(result);
+        res.send(await mediumLogic.selectAllProductCategoriesAsync());
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
@@ -101,8 +126,7 @@ router.get("/carts-orders/:userId", async (req, res) => {
         if (isNaN(req.params.userId))
             res.status(400).send({ message: "Error: the userId parameter needs to be numberic" });
         else {
-            const result = await mediumLogic.selectCartsAndOrdersByUserAsync(req.params.userId);
-            res.send(result);
+            res.send(await mediumLogic.selectCartsAndOrdersByUserAsync(req.params.userId));
         }
     }
     catch (error) {
