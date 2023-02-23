@@ -6,7 +6,7 @@
       shopping
     </button>
   </div>
-  <form (ngSubmit)="loginSubmit()" #f="ngForm">
+  <form (ngSubmit)="f.valid && loginSubmit()" #f="ngForm">
     <div *ngIf="!res.userInfo; else changeUser">
       Registered ?
     </div>
@@ -17,7 +17,7 @@
         <input type="email" matInput placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email"
           #user_email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
       </mat-form-field>
-      <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty)">
+      <ng-container *ngIf="user_email.errors && (user_email.touched || user_email.dirty || f.submitted)">
         <mat-error *ngIf="user_email.errors['required']" class="error">Missing Email</mat-error>
         <mat-error *ngIf="user_email.errors['pattern']" class="error">Incorret Email format</mat-error>
       </ng-container>
@@ -26,20 +26,20 @@
       <mat-form-field appearance="fill">
         <mat-label>Enter your password</mat-label>
         <input type="password" matInput placeholder="Password" [(ngModel)]="loginInfo.password" name="password"
-          #password="ngModel" required minlength="3">
+          #password="ngModel" required minlength="3" maxlength="60">
       </mat-form-field>
-      <ng-container *ngIf="password.errors && (password.touched || password.dirty)">
+      <ng-container *ngIf="password.errors && (password.touched || password.dirty || f.submitted)">
         <mat-error *ngIf="password.errors['required']" class="error">Missing Password</mat-error>
-        <mat-error *ngIf="password.errors['minlength']" class="error">Password must be more than 2
-          characters</mat-error>
+        <mat-error *ngIf="password.errors['minlength']" class="error">Password must be more than 2</mat-error>
+        <mat-error *ngIf="password.errors['maxlength']" class="error">Password must be less than
+          60 characters</mat-error>
       </ng-container>
     </div>
-
     <div class="error">{{errorMsg}}</div>
-    <button *ngIf="!res.userInfo;else reLogin" mat-raised-button color="primary"
-      [disabled]="user_email.errors || password.errors">Login</button>
+    <button *ngIf="!res.userInfo;else reLogin" mat-raised-button color="primary">Login
+    </button>
     <ng-template #reLogin>
-      <button mat-raised-button color="basic" [disabled]="user_email.errors || password.errors">ReLogin</button>
+      <button mat-raised-button color="basic">ReLogin</button>
     </ng-template>
     <div>
       <a mat-stroked-button [routerLink]="['/home','register','part1']">Signup</a>

@@ -69,8 +69,9 @@ export class CartSideComponent implements OnInit, OnDestroy {
         this.adminFormFields = new AdminFormFields("", "", "");
       }));
   }
-  emptyCartProducts(cartId: number) {
-    this.CartService.emptyCart(cartId);
+  emptyCartProducts(cartId: number | null) {
+    if (cartId)
+      this.CartService.emptyCart(cartId);
   }
   deleteCartItem(cartItemId: number | undefined) {
     if (cartItemId)

@@ -1,33 +1,51 @@
 <div>
   Go back to the <a mat-stroked-button [routerLink]="['/home','register','part1']">last page</a>
 </div>
-<form (ngSubmit)="submit()">
+<form (ngSubmit)="submit()" #f="ngForm">
   <h2>STEP 2</h2>
   <div>
+    <ng-container *ngIf="city_id.errors && (city_id.touched || city_id.dirty || f.submitted)">
+      <mat-error *ngIf="city_id.errors['required']">City is required</mat-error>
+    </ng-container>
     <mat-form-field appearance="fill">
       <mat-label>City:</mat-label>
-      <mat-select [(ngModel)]="part2.city_id" name="city_id" #city_id="ngModel">
+      <mat-select [(ngModel)]="part2.city_id" name="city_id" #city_id="ngModel" required>
         <mat-option value="">Select a city</mat-option>
         <mat-option *ngFor="let c of cityList" [value]="c.city_id">{{c.city_name}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div>
+    <ng-container *ngIf="street_name.errors && (street_name.touched || street_name.dirty || f.submitted)">
+      <mat-error *ngIf="street_name.errors['required']">Street name is required</mat-error>
+      <mat-error *ngIf="street_name.errors['maxlength']">Street name must be 60 characters or less</mat-error>
+      <mat-error *ngIf="street_name.errors['minlength']">Street name must be 2 characters or more</mat-error>
+    </ng-container>
     <mat-form-field appearance="fill">
       <mat-label>Street:</mat-label>
-      <input type="text" matInput [(ngModel)]="part2.street_name" name="street_name" #street_name="ngModel">
+      <input type="text" matInput [(ngModel)]="part2.street_name" name="street_name" #street_name="ngModel" required
+        maxlength="60" minlength="2">
     </mat-form-field>
   </div>
   <div>
+    <ng-container *ngIf="first_name.errors && (first_name.touched || first_name.dirty || f.submitted)">
+      <mat-error *ngIf="first_name.errors['required']">First name is required</mat-error>
+      <mat-error *ngIf="first_name.errors['maxlength']">First name must 30 characters or less</mat-error>
+    </ng-container>
     <mat-form-field appearance="fill">
       <mat-label>First name:</mat-label>
-      <input type="text" matInput [(ngModel)]="part2.first_name" name="first_name" #first_name="ngModel">
+      <input type="text" matInput [(ngModel)]="part2.first_name" name="first_name" #first_name="ngModel" required
+        maxlength="30">
     </mat-form-field>
   </div>
   <div>
+    <ng-container *ngIf="last_name.errors && (last_name.touched || last_name.dirty || f.submitted)">
+      <mat-error *ngIf="last_name.errors['required']">Last name is required</mat-error>
+      <mat-error *ngIf="last_name.errors['maxlength']">Last name must 30 characters or less</mat-error>
+    </ng-container>
     <mat-form-field appearance="fill">
       <mat-label>Last name:</mat-label>
-      <input type="text" matInput [(ngModel)]="part2.last_name" name="last_name" #last_name="ngModel">
+      <input type="text" matInput [(ngModel)]="part2.last_name" name="last_name" #last_name="ngModel" required maxlength="30">
     </mat-form-field>
   </div>
   <div *ngIf="errorMsg" class="error">{{errorMsg}}</div>

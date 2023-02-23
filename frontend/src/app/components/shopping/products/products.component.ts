@@ -59,7 +59,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         if (amount > 0 && amount == Math.floor(amount))
           this.CartService.addCartItem(new_cart_item);
         else
-          alert('amount needs to be a positive, whole number');
+          alert('Amount needs to be a positive, whole number');
       }
     });
   }

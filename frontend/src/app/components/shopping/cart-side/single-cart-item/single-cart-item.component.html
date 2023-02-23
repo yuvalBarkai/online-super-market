@@ -1,0 +1,16 @@
+<div *ngFor="let c of cartProducts" class="cartItem">
+  <div>SMALL PIC</div>
+  <span
+    [class.receiptSearch]="receiptSearchVal && ((c.product_id | pIdToName: allProducts | lowercase).includes(receiptSearchVal))">
+    {{c.product_id | pIdToName: allProducts}} -
+  </span>
+  <span
+    [class.receiptSearch]="receiptSearchVal && ('amount:'.includes(receiptSearchVal) || c.amount.toString().includes(receiptSearchVal))">
+    Amount: {{c.amount}}
+  </span>
+  <span
+    [class.receiptSearch]="receiptSearchVal && ('price:'.includes(receiptSearchVal) || (c.total_price+'$').includes(receiptSearchVal))">
+    Price: {{c.total_price}}$
+  </span>
+  <button *ngIf="showing == 0" (click)="deleteCartItem(c.cart_product_id)">X</button>
+</div>

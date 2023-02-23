@@ -19,12 +19,10 @@ export class OrderComponent {
     private Cart: CartService, private dialogRef: MatDialog, private Router: Router) { }
   cities$ = this.ApiRequests.public.get.cities();
   orderFields = new Order();
-  isSubmitted = false;
   arrivalDate = { valid: true, message: "" };
   cityClicked = false;
 
   autoFillCity() {
-    console.log(this.cityClicked);
     if (this.cityClicked) {
       const userInfo = this.User.userInfo;
       if (userInfo?.city_id)
@@ -36,7 +34,7 @@ export class OrderComponent {
       clearTimeout(timer);
     }, 1000);
   }
-  
+
   autoFillStreet() {
     const userInfo = this.User.userInfo;
     if (userInfo?.street_name)
@@ -53,15 +51,13 @@ export class OrderComponent {
       this.arrivalDate.message = "";
       this.arrivalDate.valid = true;
     }
-    console.log(this.arrivalDate);
   }
 
   @ViewChild('f') f: undefined | NgForm;
   onSubmit() {
-    this.isSubmitted = true;
     if (!this.Cart.cartVal.cartId)
       this.Router.navigate(['shopping']);
-    else if (this.arrivalDate.valid && this.f?.form.valid && this.orderFields.arrival_date) {
+    else if (this.arrivalDate.valid && this.orderFields.arrival_date) {
       this.orderFields.arrival_date = new Date(this.orderFields.arrival_date);
       this.orderFields.cart_id = this.Cart.cartVal.cartId;
       this.orderFields.order_price = this.Cart.cartVal.cartTotalPrice;

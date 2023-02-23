@@ -38,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { SingleCartItemComponent } from './components/shopping/cart-side/single-cart-item/single-cart-item.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     ProductsComponent,
     ResizableDirective,
     OrderComponent,
-    OrderDoneDialogComponent
+    OrderDoneDialogComponent,
+    SingleCartItemComponent
   ],
   imports: [
     BrowserModule,
