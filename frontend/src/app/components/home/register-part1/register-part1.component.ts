@@ -19,13 +19,16 @@ export class RegisterPart1Component implements OnInit {
   ngOnInit() {
     this.part1Fields = { ...this.RegistrationService.part1Val, passwordConfirmation: this.RegistrationService.part1Val.password };
   }
-
+  /**
+   * Submits the information to the server to validate it and move the user to part 2
+   * of the registeration.
+   */
   goToPart2() {
     const { passwordConfirmation, ...part1 } = this.part1Fields;
     if (passwordConfirmation != part1.password)
       this.errorMsg = "The passwords dont match";
     else {
-      this.ApiRequests.public.post.validatePart1(this.part1Fields).subscribe({
+      this.ApiRequests.public.post.validatePart1(part1).subscribe({
         next: res => {
           this.router.navigate(['home', 'register', 'part2']);
           this.RegistrationService.updatePart1(this.part1Fields);

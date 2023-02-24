@@ -3,6 +3,11 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CartService } from '../services/cart.service';
 
+/**
+ * Protects specifically the shopping/order route in order to not allow
+ * users with not items in the cart to go there, also considers a page refresh
+ * that will also grant access if the last page was the shopping/order page
+ */
 @Injectable({
   providedIn: 'root'
 })

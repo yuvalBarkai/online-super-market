@@ -33,15 +33,17 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Arrival Date:</mat-label>
-        <input matInput [matDatepicker]="picker" [readonly]="true" [(ngModel)]="orderFields.arrival_date"
-          name="arrival_date" #arrival_date="ngModel" (dateChange)="arrivalDateChange()" required>
+        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [readonly]="true"
+          [(ngModel)]="orderFields.arrival_date" name="arrival_date" #arrival_date="ngModel" required>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <ng-container *ngIf="arrival_date.errors && (arrival_date.touched || arrival_date.dirty || f.submitted)">
         <span *ngIf="arrival_date.errors['required']" class="error">Missing arrival date</span>
       </ng-container>
-      <span *ngIf="!arrivalDate.valid" class="error">{{arrivalDate.message}}</span>
+      <div>
+        <mat-hint>The grey dates are either in the past or too occupied with deliveries</mat-hint>
+      </div>
     </div>
     <h4>Payments</h4>
     <hr>

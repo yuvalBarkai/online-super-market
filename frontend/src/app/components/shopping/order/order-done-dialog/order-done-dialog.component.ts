@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SuccessObjectType } from 'src/app/types';
 import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
 import config from "configuration.json"
 import { UserService } from 'src/app/services/user.service';
@@ -81,9 +80,6 @@ export class OrderDoneDialogComponent {
   receiptPdf = jsPDFInvoiceTemplate(this.jsPdfProps).jsPDFDocObject;
 
   downloadReceipt() {
-    if("")
-      console.log("EMpty");
-
     this.receiptPdf?.save(`${config.siteTitle} Invoice`);
   }
 }

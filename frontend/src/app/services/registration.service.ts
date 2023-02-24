@@ -2,6 +2,9 @@ import { BehaviorSubject } from "rxjs";
 import RegisterPart1 from "../models/RegisterPart1";
 import RegisterPart2 from "../models/RegisterPart2";
 
+/**
+ * A service that Manages The registration
+ */
 export class RegistrationService {
   private part1Subject = new BehaviorSubject(new RegisterPart1());
   private part2Subject = new BehaviorSubject(new RegisterPart2());

@@ -1,5 +1,9 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Output, Renderer2 } from '@angular/core';
-
+/**
+ * A directive that makes its parent element be resizeable from the right,
+ * it is based on grid-column, span adjusting so it will be needed to
+ * be applied on a grid item preferably with auto-fit settings for the grid.
+ */
 @Directive({
   selector: '[resizable]'
 })

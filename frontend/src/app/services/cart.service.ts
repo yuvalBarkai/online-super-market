@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, finalize, Observable } from 'rxjs';
 import { CartAndOrderType, CartProductType, CartSubjectType } from 'src/app/types';
 import { ApiRequestsService } from './api-requests.service';
+import config from "configuration.json";
 
+/**
+ * A services that manages the cart and some more businesses regarding it.
+ */
 @Injectable()
 export class CartService {
   constructor(private ApiRequests: ApiRequestsService) { }
@@ -22,7 +26,14 @@ export class CartService {
   changeReceiptSearchWord(newVal: string) {
     this.receiptSearchWord.next(newVal);
   }
-
+  /**
+   * Checks if there is an open cart , if there isn't one then a request to
+   * open a new cart is sent and if it is successfull the subject of the cart
+   * get updated and the function addCartItemLocalAndServer() addss the cart Item
+   * with the new cartId provided.
+   * If there is an open cart the function redirects to the addCartItemLocalAndServer().
+   * @param cartItem new Cart item to be added
+   */
   addCartItem(cartItem: CartProductType) {
     if (!this.cartVal.cartId) {
       this.ApiRequests.medium.get.newShoppingCart().subscribe({
@@ -36,7 +47,12 @@ export class CartService {
     else
       this.addCartItemLocalAndServer(cartItem);
   }
-
+  /**
+   * private function that is used by the addCartItem public function
+   * @param cartItem new Cart item to be added
+   * @param newCartId newCartId in the instance that the cartItem addition triggers a cart creation
+   * (first item in the cart)
+   */
   private addCartItemLocalAndServer(cartItem: CartProductType, newCartId?: number) {
     if (newCartId)
       cartItem.cart_id = newCartId;
@@ -52,16 +68,19 @@ export class CartService {
           cartProducts: newCart
         });
       },
-      error: err => alert(err.error.message)
+      error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
     });
   }
-
+  /**
+   * Sends a request to delete a product, if it is successfull the product is deleted also
+   * on the client side.
+   * @param cartItemId cart_product id that is needed to be deleted.
+   */
   removeCartItem(cartItemId: number) {
     console.log(cartItemId);
     this.ApiRequests.medium.delete.cartProduct(cartItemId)
       .subscribe({
         next: res => {
-          console.log(res);
           const cart = this.cartSubject.value;
           const newCart = [...cart.cartProducts];
           const deletedIndex = newCart.findIndex(p => p.cart_product_id == cartItemId);
@@ -73,14 +92,15 @@ export class CartService {
             cartProducts: newCart
           });
         },
-        error: err => console.log(err)
+        error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
       });
   }
 
   emptyCart(cart_id: number) {
     this.ApiRequests.medium.delete.cartProductsByCartId(cart_id)
-      .subscribe(res => {
-        this.cartSubject.next({ cartId: this.cartVal.cartId, cartTotalPrice: 0, cartProducts: [] });
+      .subscribe({
+        next: res => this.cartSubject.next({ cartId: this.cartVal.cartId, cartTotalPrice: 0, cartProducts: [] }),
+        error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
       });
   }
 
@@ -88,6 +108,12 @@ export class CartService {
     this.cartSubject.next({ cartId: null, cartTotalPrice: 0, cartProducts: [] });
   }
 
+  /**
+   * A function that generates a login notification for the user and also retrieves an open cart if
+   * there is one.
+   * @param carts List of carts and their fitting orders if there are any (taken from api-requests-service).
+   * @returns Observable that contains a message for the user.
+   */
   generateLoginNotification(carts: CartAndOrderType[]) {
     return new Observable<string>(subscribe => {
       this.clearCart();

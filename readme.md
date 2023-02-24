@@ -2,20 +2,17 @@
 
 ### To do:
 
-- Get rid of grey requires or imports
-- Add treatment for most server requests, error.
 - Style the site well and make sure its responsive and mobile friendly.
 - Consider Improving certain features to be more user friendly.
-- Backend validations.
-- consider not allowing to cart items of the same product
+- consider not allowing to cart items of the same product.
 - Frontend validations.
-- Try to sort the back and the front, make them cleaner (consider moving stuff to bll and making it async).
 - Consider changing configuration file.
-- Document front (services !), document back (api-doc).
+- document back (api-doc).
 - Make sure the garbage is collected (subscriptions....).
 - Get rid of any console.log.
 - Add notes for the one that checks the project such as
-  (decided to not put product_id in the form so it will be handled via the database just like admin assignment and the async comment).
+  (Decided to not put product_id in the form so it will be handled via the database just like admin assignment,
+  Decided to write Async in the name of the BLL functions because they return a promise, I know that they are not async but this is how Dov taught us and I decided to stick with it).
 
 ### Reference Sites:
 

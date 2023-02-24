@@ -3,6 +3,9 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
 
+/**
+ * Protects routes that should only be accessed by a logged in user.
+ */
 @Injectable({
   providedIn: 'root'
 })

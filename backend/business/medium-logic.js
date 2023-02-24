@@ -1,6 +1,6 @@
 const dal = require("../data-access/dal");
 const util = require("../utilities/util");
-
+const config = require("../config.json");
 
 const insertOrderAsync = (order, userId) => dal.executeQueryAsync("INSERT INTO orders VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)",
     [userId, order.cart_id, order.order_price, order.city_id, order.street_name, util.formatDate(order.arrival_date), util.formatDate(), order.credit_card_digits]);
@@ -23,6 +23,9 @@ const selectProductsByProductNameAsync = (product_name) => {
     else
         return dal.executeQueryAsync(`SELECT * FROM products WHERE product_name LIKE '%${product_name}%'`);
 }
+
+const selectAllTakenDatesAsync = () => dal.executeQueryAsync(`SELECT arrival_date as takenDate FROM orders
+GROUP BY arrival_date HAVING COUNT(arrival_date) > ?`,[config.ordersPerDayLimit]);
 
 const selectOrdersByDateAsync = (date) => dal.executeQueryAsync("SELECT order_id FROM orders WHERE arrival_date = ?", [util.formatDate(date)]);
 
@@ -49,6 +52,7 @@ module.exports = {
     insertShoppingCartAsync,
     deleteCartProductAsync,
     deleteCartProductsByCartIdAsync,
+    selectAllTakenDatesAsync,
     selectProductsByProductNameAsync,
     selectCartsAndOrdersByUserAsync,
     selectCardProductsByCartId,

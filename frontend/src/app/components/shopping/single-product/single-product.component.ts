@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EMPTY } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { ProductType } from 'src/app/types';
 import config from "configuration.json";
 

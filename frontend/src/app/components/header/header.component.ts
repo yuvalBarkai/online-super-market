@@ -21,21 +21,28 @@ enum Showing {
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private UserService: UserService, private Router: Router,
     private ProductsService: ProductsService, private Location: Location,
-    private CartService:CartService) { }
+    private CartService: CartService) { }
   title = config.siteTitle;
   guestName = config.guestName;
   userFirstName = this.guestName;
   private subscriptions = new Subscription();
-  private urlEventUnregister = () => {};
+  private urlEventUnregister = () => { };
   showing = Showing.home;
   productSearchBar = "";
   receiptSearchWord = "";
-  receiptSearch(){
+  receiptSearch() {
     this.CartService.changeReceiptSearchWord(this.receiptSearchWord.toLowerCase());
   }
   productSearch() {
     this.ProductsService.productsByName(this.productSearchBar);
   }
+
+  /**
+   * Checks the url to determine which components are being shown and accordingly changes
+   * the showing variables who controles certain UI elements.
+   * Also registers to the userInfo's subject to display his name and also to the
+   * category Event to clear the search bar accordingly.
+   */
   ngOnInit() {
     this.urlEventUnregister = this.Location.onUrlChange(url => {
       if (url.includes("products"))
@@ -51,8 +58,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       else
         this.userFirstName = this.guestName;
     }));
-    this.ProductsService.categoryEvent$
-      .subscribe(() => this.productSearchBar = "");
+    this.subscriptions.add(this.ProductsService.categoryEvent$
+      .subscribe(() => this.productSearchBar = ""));
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

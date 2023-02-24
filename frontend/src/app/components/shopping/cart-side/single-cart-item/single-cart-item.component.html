@@ -1,5 +1,5 @@
 <div *ngFor="let c of cartProducts" class="cartItem">
-  <div>SMALL PIC</div>
+  <img [src]="apiImagesUrl + '/' + (c.product_id | pIdToImgName:allProducts)" alt="Image not found" class="image">
   <span
     [class.receiptSearch]="receiptSearchVal && ((c.product_id | pIdToName: allProducts | lowercase).includes(receiptSearchVal))">
     {{c.product_id | pIdToName: allProducts}} -

@@ -5,7 +5,7 @@ class AdminFormFields {
     public category_id: number | string,
     public keepImage?: boolean,
     public product_id?: number,
-    public product_image?: FileList,
+    public product_image?: FileList | undefined,
   ) { }
 
   toEditFormData() {

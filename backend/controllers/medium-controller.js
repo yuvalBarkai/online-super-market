@@ -52,7 +52,16 @@ router.delete("/cart-products/cart-id/:cartId", async (req, res) => {
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }
-})
+});
+
+router.get("/orders/takenDates", async (req, res) => {
+    try {
+        const result = await mediumLogic.selectAllTakenDatesAsync();
+        res.send(result);
+    } catch (error) {
+        res.status(500).send(serverErrorMsg(error));
+    }
+});
 
 router.get("/new/shopping-cart", async (req, res) => {
     try {

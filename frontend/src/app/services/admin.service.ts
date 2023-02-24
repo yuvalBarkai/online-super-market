@@ -1,59 +1,42 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import AdminFormFields from '../models/AdminFormFields';
 import { ProductType } from '../types';
-import { ApiRequestsService } from './api-requests.service';
-import { ProductsService } from './products.service';
 
+/**
+ * A service for the admin view that allows the UI to change for an update
+ * of a product or for an addition of one.
+ */
 @Injectable()
 export class AdminService {
-  constructor(private ApiRequests: ApiRequestsService, private ProductsService: ProductsService) { }
-  private selectedProductSubject = new BehaviorSubject<ProductType | null>(null);
-  private isAddingNewProduct = new BehaviorSubject(false);
+  private selectedPSubject = new BehaviorSubject<ProductType | null>(null);
+  private isAddingNewPSubject = new BehaviorSubject(false);
 
   get selectedProduct$() {
-    return this.selectedProductSubject.asObservable();
+    return this.selectedPSubject.asObservable();
   }
 
   get isAddingNewProduct$() {
-    return this.isAddingNewProduct.asObservable();
+    return this.isAddingNewPSubject.asObservable();
   }
-
+  /**
+   * Changes the selectedP Subject to null (unselected), and
+   * the isAddingNewP Subject to true
+   */
   addingProductView() {
-    this.selectedProductSubject.next(null);
-    this.isAddingNewProduct.next(true);
+    this.selectedPSubject.next(null);
+    this.isAddingNewPSubject.next(true);
   }
-
+  /**
+   * Updates the isAddingNewP subject to false, and either
+   * Changes the selectPSubject to a product or to null,
+   * If the selectProduct is already selected then it goes to null
+   * @param product product that is selected
+   */
   selectProduct(product: ProductType) {
-    this.isAddingNewProduct.next(false);
-    if (this.selectedProductSubject.value?.product_id == product.product_id)
-      this.selectedProductSubject.next(null);
+    this.isAddingNewPSubject.next(false);
+    if (this.selectedPSubject.value?.product_id == product.product_id)
+      this.selectedPSubject.next(null);
     else
-      this.selectedProductSubject.next(product);
-  }
-
-  editProduct(adminFormFields: AdminFormFields) {
-    console.log(adminFormFields.product_id);
-    if (adminFormFields.product_id)
-      this.ApiRequests.admin.put.product(adminFormFields.product_id, adminFormFields.toEditFormData()).subscribe({
-        next: res => {
-          console.log(res);
-          this.ProductsService.productsByName("all");
-        },
-        error: err => console.log(err)
-      });
-  }
-
-  addNewProduct(adminFormFields: AdminFormFields) {
-    this.ApiRequests.admin.post.newProduct(adminFormFields.toAddFormData())
-      .subscribe({
-        next: res => {
-          console.log(res);
-          this.ProductsService.productsByName("all");
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
+      this.selectedPSubject.next(product);
   }
 }

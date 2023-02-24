@@ -29,7 +29,6 @@
     </ng-container>
   </ng-container>
   <ng-template #adminView>
-
     <h2>
       <button (click)="addProductView()" mat-raised-button>+</button>
       {{isAddingNewProduct ? 'New Product': selectedProduct?.product_name}}
@@ -41,21 +40,29 @@
         <mat-form-field appearance="fill">
           <mat-label>Product Name: </mat-label>
           <input type="text" matInput [(ngModel)]="adminFormFields.product_name" name="product_name"
-            #product_name="ngModel">
+            #product_name="ngModel" maxlength="60" required>
         </mat-form-field>
+        <ng-container *ngIf="product_name.errors && (product_name.touched || product_name.dirty || f.submitted)">
+          <mat-error *ngIf="product_name.errors['required']">Product Name is required</mat-error>
+          <mat-error *ngIf="product_name.errors['maxlength']">Product Name needs to be 60 characters or less</mat-error>
+        </ng-container>
       </div>
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Product price ($): </mat-label>
           <input type="number" matInput [(ngModel)]="adminFormFields.product_price" name="product_price"
-            #product_price="ngModel">
+            #product_price="ngModel" min="0" required>
         </mat-form-field>
+        <ng-container *ngIf="product_price.errors && (product_price.touched || product_price.dirty || f.submitted)">
+          <mat-error *ngIf="product_price.errors['required']">Product price is required</mat-error>
+          <mat-error *ngIf="product_price.errors['min']">Product price must be 1 or more</mat-error>
+        </ng-container>
       </div>
       <div>
         <div *ngIf="!isAddingNewProduct">
-          <mat-checkbox type="checkbox" color="primary" checked [(ngModel)]="adminFormFields.keepImage" name="keepImage"
+          <mat-checkbox type="checkbox" color="primary" [(ngModel)]="adminFormFields.keepImage" name="keepImage"
             #keepImage="ngModel">
-            keep the picture same picture</mat-checkbox>
+            Keep the same picture</mat-checkbox>
         </div>
         <div>Picture:</div>
         <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage" class="input-group mb-3">
@@ -65,12 +72,15 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>Category:</mat-label>
-          <mat-select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel">
+          <mat-select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel" required>
             <mat-option *ngFor="let c of categoriesList$ | async" [value]="c.category_id">
               {{c.category_name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <ng-container *ngIf="category_id.errors && (category_id.touched || category_id.dirty || f.submitted)">
+          <mat-error *ngIf="category_id.errors['required']">Category is required</mat-error>
+        </ng-container>
       </div>
       <div class="error">{{errorMsg}}</div>
       <button mat-raised-button color="primary">Save</button>

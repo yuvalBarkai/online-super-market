@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartProductType, ProductType } from 'src/app/types';
+import config from 'configuration.json';
 
 @Component({
   selector: 'app-single-cart-item',
@@ -14,6 +15,8 @@ export class SingleCartItemComponent {
 
   @Output() emptyCart = new EventEmitter();
   @Output() deleteItem = new EventEmitter();
+  
+  apiImagesUrl = config.apiImagesUrl;
 
   deleteCartItem(cartProductId: number | undefined) {
     this.deleteItem.emit(cartProductId);

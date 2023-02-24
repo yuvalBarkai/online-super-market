@@ -37,16 +37,19 @@ export class CartSideComponent implements OnInit, OnDestroy {
   private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
   errorMsg = "";
-  submitted = false;
   @ViewChild('f') f: undefined | NgForm;
-
+  /**
+   * Checks the current url for certain words to update the component
+   * which UI to represent.
+   * Subscribes to the receiptSearchWord, selectProduct, and isAddingNewProduct$
+   * Observables.
+   */
   ngOnInit() {
     if (this.Location.path().includes("products"))
       this.showing = Showing.products;
     else
       this.showing = Showing.order;
     this.urlEventUnregister = this.Location.onUrlChange(url => {
-      this.submitted = false;
       if (url.includes("products"))
         this.showing = Showing.products;
       else
@@ -56,7 +59,7 @@ export class CartSideComponent implements OnInit, OnDestroy {
       .subscribe(newVal => this.receiptSearchVal = newVal));
     this.subscriptions.add(this.AdminService.selectedProduct$
       .subscribe(res => {
-        this.submitted = false;
+        this.errorMsg = "";
         this.selectedProduct = res;
         if (res?.product_name)
           this.adminFormFields = new AdminFormFields(res?.product_name, res?.product_price,
@@ -64,9 +67,9 @@ export class CartSideComponent implements OnInit, OnDestroy {
       }));
     this.subscriptions.add(this.AdminService.isAddingNewProduct$
       .subscribe(res => {
-        this.submitted = false;
         this.isAddingNewProduct = res;
-        this.adminFormFields = new AdminFormFields("", "", "");
+        if (res)
+          this.f?.resetForm();
       }));
   }
   emptyCartProducts(cartId: number | null) {
@@ -82,31 +85,48 @@ export class CartSideComponent implements OnInit, OnDestroy {
     const files = (e.target as HTMLInputElement).files;
     if (files)
       this.adminFormFields.product_image = files;
+    else
+      this.adminFormFields.product_image = undefined;
   }
   addProductView() {
     this.AdminService.addingProductView();
   }
+  /**
+   * edits a product via the admin's form, validates if the picture was added
+   * if the user didn't choose to keep the old one,
+   * request's the server to edit a product, if successfull,
+   * the products list is updated, the form and the error message are cleared
+   */
   editProduct() {
-    this.submitted = true;
-    if (this.f?.form.valid)
-      if (this.adminFormFields.product_id)
-        this.ApiRequests.admin.put.product(this.adminFormFields.product_id, this.adminFormFields.toEditFormData())
-          .subscribe({
-            next: res => {
-              this.ProductsService.productsByName("all");
-              this.errorMsg = "";
-            },
-            error: err => this.errorMsg = err.error.message
-          });
+    if (!this.isAddingNewProduct && !this.adminFormFields.keepImage && (!this.adminFormFields.product_image || this.adminFormFields.product_image.length < 1))
+      this.errorMsg = "Please upload a product picture or check the keep the same picture";
+    else if (this.adminFormFields.product_id && this.f?.valid)
+      this.ApiRequests.admin.put.product(this.adminFormFields.product_id, this.adminFormFields.toEditFormData())
+        .subscribe({
+          next: res => {
+            this.ProductsService.productsByName("all");
+            this.errorMsg = "";
+            this.f?.resetForm();
+          },
+          error: err => this.errorMsg = err.error.message
+        });
   }
+  /**
+   * Adds a new product via the admin's form,
+   * Checks if a picture was chosen, if it was and the form is valid then a
+   * request to the server is sent to add a new product, if the request is successfull,
+   * the products list is updated, the form and the error message are cleared
+   */
   addNewProduct() {
-    this.submitted = true;
-    if (this.f?.form.valid)
+    if (!this.adminFormFields.product_image || this.adminFormFields.product_image.length < 1)
+      this.errorMsg = "The product picture is missing";
+    else if (this.f?.valid)
       this.ApiRequests.admin.post.newProduct(this.adminFormFields.toAddFormData())
         .subscribe({
           next: res => {
             this.ProductsService.productsByName("all");
             this.errorMsg = "";
+            this.f?.resetForm();
           },
           error: err => this.errorMsg = err.error.message
         });

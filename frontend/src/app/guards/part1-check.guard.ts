@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RegistrationService } from '../services/registration.service';
-
+/**
+ * Protects specifically the route home/register/part2 in order to not allow
+ * a user that didnt go though the first part of the registration first.
+ */
 @Injectable({
   providedIn: 'root'
 })

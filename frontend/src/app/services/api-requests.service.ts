@@ -6,7 +6,11 @@ import config from "configuration.json";
 import RegisterPart1 from '../models/RegisterPart1';
 import Order from '../models/Order';
 
-
+/**
+ * Contains all of the Api requests in this project.
+ * They are categorized via objects: admin, medium, public
+ * and inside of them also via objects: get, post, put, delete
+ */
 @Injectable()
 export class ApiRequestsService {
   constructor(private http: HttpClient) { }
@@ -26,6 +30,7 @@ export class ApiRequestsService {
   }
   medium = {
     get: {
+      orderTakenDates: () => this.http.get<{ takenDate: string }[]>(`${this.MEDIUM_URL}/orders/takenDates`),
       newShoppingCart: () => this.http.get<SuccessObjectType>(`${this.MEDIUM_URL}/new/shopping-cart`),
       allCategories: () => this.http.get<CategoryType[]>(`${this.MEDIUM_URL}/product-categories`),
       productsByCategoryId: (category_id: number) => this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/category-id/${category_id}`),

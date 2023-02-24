@@ -4,6 +4,7 @@
   "apiBaseUrl": "http://localhost:6500/api",
   "apiImagesUrl": "http://localhost:6500/api/public/images",
   "apiUrlSiteLogo": "http://localhost:6500/api/public/images/siteLogo.png",
+  "apiErrorMsg": "Sorry for that, try to refresh the page or come back later",
 
   "localStorageToken": "tokenBackup",
   "localStorageTokenExpiration": "tokenExpiration"
