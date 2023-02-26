@@ -6,6 +6,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Components:
 import { AppComponent } from './app.component';
@@ -17,13 +19,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { RegisterPart1Component } from './components/home/register-part1/register-part1.component';
 import { RegisterPart2Component } from './components/home/register-part2/register-part2.component';
 import { ShoppingComponent } from './components/shopping/shopping.component';
-import { SingleProductComponent } from './components/shopping/single-product/single-product.component';
-import { CartSideComponent } from './components/shopping/cart-side/cart-side.component';
+import { SingleProductComponent } from './components/shopping/products/single-product/single-product.component';
 import { CartInsertDialogComponent } from './components/shopping/products/cart-insert-dialog/cart-insert-dialog.component';
 import { ProductsComponent } from './components/shopping/products/products.component';
 import { OrderComponent } from './components/shopping/order/order.component';
 import { OrderDoneDialogComponent } from './components/shopping/order/order-done-dialog/order-done-dialog.component';
-import { SingleCartItemComponent } from './components/shopping/cart-side/single-cart-item/single-cart-item.component';
+import { CartItemsComponent } from './components/shopping/cart-side/cart-items/cart-items.component';
+import { CartSideComponent } from './components/shopping/cart-side/cart-side.component';
 
 // Services:
 import { ApiRequestsService } from './services/api-requests.service';
@@ -55,13 +57,15 @@ import { ProductIdToImageNamePipe } from './pipes/product-id-to-image-name.pipe'
   declarations: [
     AppComponent, LoginComponent, AboutComponent, StatsComponent, HomeComponent, HeaderComponent,
     RegisterPart1Component, RegisterPart2Component, ShoppingComponent, SingleProductComponent,
-    CartSideComponent, ProductIdToNamePipe, CartInsertDialogComponent, ProductsComponent, ResizableDirective,
-    OrderComponent, OrderDoneDialogComponent, SingleCartItemComponent, ProductIdToImageNamePipe
+    CartSideComponent, ProductIdToNamePipe, CartInsertDialogComponent, ProductsComponent,
+    OrderComponent, OrderDoneDialogComponent, CartItemsComponent, ProductIdToImageNamePipe,
+    ResizableDirective
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,
     MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule,
+    MatTableModule, MatToolbarModule 
   ],
   providers: [ApiRequestsService, UserService, CartService
     , RegistrationService, ProductsService, MatDialog, AdminService,

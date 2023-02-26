@@ -96,12 +96,13 @@ export class CartService {
       });
   }
 
-  emptyCart(cart_id: number) {
-    this.ApiRequests.medium.delete.cartProductsByCartId(cart_id)
-      .subscribe({
-        next: res => this.cartSubject.next({ cartId: this.cartVal.cartId, cartTotalPrice: 0, cartProducts: [] }),
-        error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
-      });
+  emptyCart(cart_id: number | null = this.cartVal.cartId) {
+    if (cart_id)
+      this.ApiRequests.medium.delete.cartProductsByCartId(cart_id)
+        .subscribe({
+          next: res => this.cartSubject.next({ cartId: this.cartVal.cartId, cartTotalPrice: 0, cartProducts: [] }),
+          error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
+        });
   }
 
   clearCart() {
@@ -115,6 +116,7 @@ export class CartService {
    * @returns Observable that contains a message for the user.
    */
   generateLoginNotification(carts: CartAndOrderType[]) {
+    console.log(carts);
     return new Observable<string>(subscribe => {
       this.clearCart();
       if (carts.length < 1)

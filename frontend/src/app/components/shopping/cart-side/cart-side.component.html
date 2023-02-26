@@ -4,17 +4,16 @@
     <ng-container *ngIf="cart$ | async as cart">
       <div>
         <span class="cartTitle h4">My Cart</span>
-        <button *ngIf="showing == 0" (click)="emptyCartProducts(cart.cartId)" mat-stroked-button color="warn">Empty
-          Cart</button>
+
       </div>
       <a *ngIf="showing == 1" routerLink="shopping/products">Continue shopping</a>
       <hr>
       <h4 *ngIf="showing == 1">To change the cart go back to the shop</h4>
 
       <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
-        <app-single-cart-item [showing]="showing" [cartProducts]="cart.cartProducts" [allProducts]="global.allProducts"
-          [receiptSearchVal]="receiptSearchVal" (emptyCart)="emptyCartProducts($event)"
-          (deleteItem)="deleteCartItem($event)"></app-single-cart-item>
+        <cart-items [showing]="showing" [cartProducts]="cart.cartProducts" [allProducts]="global.allProducts"
+          [receiptSearchVal]="receiptSearchVal" [cartTotalPrice]="cart.cartTotalPrice" (emptyCart)="emptyCartProducts($event)"
+          (deleteItem)="deleteCartItem($event)"></cart-items>
       </ng-container>
       <ng-template #emptyCart>
         <h5>Your cart is empty</h5>
@@ -22,7 +21,6 @@
       <footer class="cartFooter">
         <span
           [class.receiptSearch]="receiptSearchVal && ('total cart price'.includes(receiptSearchVal) || cart.cartTotalPrice.toString().includes(receiptSearchVal))">
-          Total cart price: {{cart.cartTotalPrice}}$
         </span>
         <a *ngIf="showing == 0 && cart.cartProducts.length > 0" routerLink="/shopping/order">Order</a>
       </footer>
@@ -51,11 +49,11 @@
         <mat-form-field appearance="fill">
           <mat-label>Product price ($): </mat-label>
           <input type="number" matInput [(ngModel)]="adminFormFields.product_price" name="product_price"
-            #product_price="ngModel" min="0" required>
+            #product_price="ngModel" min="0.01" required>
         </mat-form-field>
         <ng-container *ngIf="product_price.errors && (product_price.touched || product_price.dirty || f.submitted)">
           <mat-error *ngIf="product_price.errors['required']">Product price is required</mat-error>
-          <mat-error *ngIf="product_price.errors['min']">Product price must be 1 or more</mat-error>
+          <mat-error *ngIf="product_price.errors['min']">Product price must be more than 0</mat-error>
         </ng-container>
       </div>
       <div>
@@ -83,7 +81,10 @@
         </ng-container>
       </div>
       <div class="error">{{errorMsg}}</div>
-      <button mat-raised-button color="primary">Save</button>
+      <button mat-raised-button color="primary">
+        <ng-container *ngIf="isAddingNewProduct; else editing">Add</ng-container>
+        <ng-template #editing>Save</ng-template>
+      </button>
     </form>
     <ng-template #selectMsg>
       Select a product to edit <br>

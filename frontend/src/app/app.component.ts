@@ -14,9 +14,8 @@ export class AppComponent implements OnInit {
     const tokenExp = localStorage.getItem(config.localStorageTokenExpiration);
     const token = localStorage.getItem(config.localStorageToken);
     if (tokenExp && token) {
-      if (new Date(tokenExp) > new Date()) {
+      if (new Date(tokenExp) > new Date())
         this.UserService.login(token);
-      }
       else {
         localStorage.removeItem(config.localStorageTokenExpiration);
         localStorage.removeItem(config.localStorageToken);

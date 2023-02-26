@@ -1,18 +1,25 @@
-<header>
-  <span class="title" [routerLink]="['home']">{{title}}</span>
-  <span *ngIf="showing==1" class="productSearch">
-    Search product:
-    <input type="text" placeholder="Product name" [(ngModel)]="productSearchBar" (input)="productSearch()">
-  </span>
-  <span *ngIf="showing==2" class="orderSearch">
-    Search the order:
-    <input type="text" placeholder="word" [(ngModel)]="receiptSearchWord" (input)="receiptSearch()">
-  </span>
-  <span class="contact">
-    Contact (0547524226 or yuval120222@gmail.com)
-    <div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="title" [routerLink]="['home']">{{title}}</span>
+    <span class="spacer"></span>
+    <span class="contact">
+      Contact (0547524226 or yuval120222@gmail.com)
+    </span>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <span *ngIf="showing==1" class="productSearch">
+      Search product:
+      <input type="text" placeholder="Product name" [(ngModel)]="productSearchBar" (input)="productSearch()">
+    </span>
+    <span *ngIf="showing==2" class="orderSearch">
+      Search the order:
+      <input type="text" placeholder="word" [(ngModel)]="receiptSearchWord" (input)="receiptSearch()">
+    </span>
+    <span class="spacer"></span>
+    <span>
       Hello {{userFirstName}}
       <button *ngIf="userFirstName != guestName" (click)="signout()">Sign out</button>
-    </div>
-  </span>
-</header>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>

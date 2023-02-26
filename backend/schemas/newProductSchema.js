@@ -12,9 +12,9 @@ module.exports = Joi.object({
         'number.min': Msg.nMin('category_id', 0),
         'any.required': Msg.required('category_id'),
     }),
-    product_price: Joi.number().min(0).required().messages({
+    product_price: Joi.number().positive().required().messages({
         'number.base': Msg.base('product_price', 'number'),
-        'number.min': Msg.min('product_price', 0),
+        'number.positive': Msg.min('product_price', 0),
         'any.required': Msg.required('product_price'),
     }),
 });

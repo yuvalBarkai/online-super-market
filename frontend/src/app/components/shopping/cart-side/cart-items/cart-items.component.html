@@ -1,0 +1,50 @@
+<table mat-table [dataSource]="cartProducts" class="mat-elevation-z8">
+  <ng-container matColumnDef="image" class="tableContainer">
+    <th mat-header-cell *matHeaderCellDef> Image </th>
+    <td mat-cell *matCellDef="let element">
+      <img [src]="apiImagesUrl + '/' + (element.product_id | pIdToImgName:allProducts)" alt="Image not found"
+        class="image">
+    </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+  <ng-container matColumnDef="name" class="tableContainer">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"
+      [class.receiptSearch]="receiptSearchVal && ((element.product_id | pIdToName: allProducts | lowercase).includes(receiptSearchVal))">
+      {{element.product_id | pIdToName: allProducts}}
+    </td>
+    <td mat-footer-cell *matFooterCellDef> Total </td>
+  </ng-container>
+  <ng-container matColumnDef="amount" class="tableContainer">
+    <th mat-header-cell *matHeaderCellDef> Amount </th>
+    <td mat-cell *matCellDef="let element"
+      [class.receiptSearch]="receiptSearchVal && element.amount.toString().includes(receiptSearchVal)">
+      {{element.amount}}
+    </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+  <ng-container matColumnDef="total_price" class="tableContainer">
+    <th mat-header-cell *matHeaderCellDef> Price (includes amount)</th>
+    <td mat-cell *matCellDef="let element"
+      [class.receiptSearch]="receiptSearchVal && (element.total_price+'$').includes(receiptSearchVal)">
+      {{element.total_price | currency}}
+    </td>
+    <td mat-footer-cell *matFooterCellDef
+      [class.receiptSearch]="receiptSearchVal && ('total'.includes(receiptSearchVal) || cartTotalPrice?.toString()?.includes(receiptSearchVal))">
+      {{cartTotalPrice | currency}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="remove" class="tableContainer">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button (click)="deleteCartItem(element.cart_product_id)">X</button>
+    </td>
+    <td mat-footer-cell *matFooterCellDef class="tableContainer">
+      <button *ngIf="showing == 0" (click)="emptyCartProducts()" mat-stroked-button color="warn" class="empty">
+        Empty <br> Cart</button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+</table>

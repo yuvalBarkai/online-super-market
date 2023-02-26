@@ -9,6 +9,7 @@ import { ProductType } from 'src/app/types';
 import AdminFormFields from '../../../models/AdminFormFields';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import config from 'configuration.json';
 
 enum Showing {
   products,
@@ -16,7 +17,7 @@ enum Showing {
 }
 
 @Component({
-  selector: 'app-cart-side',
+  selector: 'cart-side',
   templateUrl: './cart-side.component.html',
   styleUrls: ['./cart-side.component.scss']
 })
@@ -37,6 +38,8 @@ export class CartSideComponent implements OnInit, OnDestroy {
   private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
   errorMsg = "";
+  apiImagesUrl = config.apiImagesUrl;
+
   @ViewChild('f') f: undefined | NgForm;
   /**
    * Checks the current url for certain words to update the component
@@ -75,6 +78,8 @@ export class CartSideComponent implements OnInit, OnDestroy {
   emptyCartProducts(cartId: number | null) {
     if (cartId)
       this.CartService.emptyCart(cartId);
+    else
+      this.CartService.emptyCart();
   }
   deleteCartItem(cartItemId: number | undefined) {
     if (cartItemId)
@@ -89,6 +94,7 @@ export class CartSideComponent implements OnInit, OnDestroy {
       this.adminFormFields.product_image = undefined;
   }
   addProductView() {
+    this.f?.resetForm();
     this.AdminService.addingProductView();
   }
   /**
@@ -106,7 +112,6 @@ export class CartSideComponent implements OnInit, OnDestroy {
           next: res => {
             this.ProductsService.productsByName("all");
             this.errorMsg = "";
-            this.f?.resetForm();
           },
           error: err => this.errorMsg = err.error.message
         });

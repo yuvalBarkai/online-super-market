@@ -79,9 +79,8 @@ router.post("/cart-product", async (req, res) => {
         const { error } = validator.cartProduct(cartProduct);
         if (error)
             res.status(400).send(error.details[0]);
-        else {
+        else
             res.send(await mediumLogic.insertCartProductAsync(cartProduct));
-        }
     } catch (error) {
         res.status(500).send(serverErrorMsg(error));
     }

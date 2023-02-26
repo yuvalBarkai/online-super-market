@@ -19,6 +19,7 @@ router.post("/product", async (req, res) => {
             if (error)
                 res.status(400).send(error.details[0]);
             else {
+                console.log(body);
                 const result = await adminLogic.insertNewProductAsync(body, image);
                 res.status(201).send(result);
             }
@@ -38,11 +39,11 @@ router.put("/product/:product_id", async (req, res) => {
             res.status(400).send({ message: "product_id parameter must be numeric" });
         else {
             const body = req.body;
+            console.log(body);
             const { error } = validator.editProduct(body);
             if (error)
                 res.status(400).send(error.details[0]);
             else if (!body.keepImage || body.keepImage == 'false') {
-                console.log("replace Image");
                 const image = req.files?.product_image;
                 if (!image)
                     res.status(400).send({ message: "Please send a new image if you want to change the old one" });
@@ -55,7 +56,6 @@ router.put("/product/:product_id", async (req, res) => {
                 }
             }
             else {
-                console.log("keepImage");
                 const result = await adminLogic.updateProductAsync(pId, body);
                 if (result.affectedRows < 1)
                     res.status(404).send({ message: `Error: The id ${pId} was not found` });

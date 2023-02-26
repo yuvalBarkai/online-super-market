@@ -35,7 +35,7 @@ export class ProductsService {
   get searchEvent$() {
     return this.searchEvent.asObservable();
   }
-  
+
   productIdToName(product_id: number) {
     return this.allProductsSubject.value.find(p => p.product_id == product_id)?.product_name;
   }
@@ -50,16 +50,16 @@ export class ProductsService {
     product_name = product_name.toLowerCase();
     this.searchEvent.emit();
     this.productsErrorMsg.next(null);
-    if (product_name == "" || product_name == "all") {
+    if (product_name == "" || product_name == "all")
       this.allProductsUpdate();
-    }
-    this.ApiRequests.medium.get.productsByProductName(product_name).subscribe({
-      next: res => this.productsSubject.next(res),
-      error: err => {
-        this.productsSubject.next([]);
-        this.productsErrorMsg.next(err.error.message);
-      }
-    });
+    else
+      this.ApiRequests.medium.get.productsByProductName(product_name).subscribe({
+        next: res => this.productsSubject.next(res),
+        error: err => {
+          this.productsSubject.next([]);
+          this.productsErrorMsg.next(err.error.message);
+        }
+      });
   }
   /**
    * Emits categoryEvent, clears the productsErrorMsg,
@@ -91,6 +91,7 @@ export class ProductsService {
         this.productsSubject.next(products);
       },
       error: err => {
+        console.log("hello ?");
         this.productsSubject.next([]);
         this.productsErrorMsg.next("There aren't any products available at the moment, please come back later");
       }

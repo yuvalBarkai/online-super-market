@@ -3,8 +3,8 @@
   <button (click)="hideCart()">Hide Sidebar</button>
 </ng-template>
 <div class="shoppingArea" [ngStyle]="isResizing ? {'user-select':'none'} : {'user-select':'default'}">
-  <app-cart-side class="cart" resizable (isResizing)="resizing($event)" (minimizing)="minimizing($event)"
-    [ngStyle]="isMinimized ? {'display':'none'} : {'display':'block'}"></app-cart-side>
+  <cart-side class="cart" resizable (isResizing)="resizing($event)" (minimizing)="minimizing($event)"
+    [ngStyle]="isMinimized ? {'display':'none'} : {'display':'block'}"></cart-side>
 
   <router-outlet class="routerOutlet"></router-outlet>
 </div>
