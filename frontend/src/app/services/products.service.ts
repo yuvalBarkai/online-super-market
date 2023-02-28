@@ -91,7 +91,6 @@ export class ProductsService {
         this.productsSubject.next(products);
       },
       error: err => {
-        console.log("hello ?");
         this.productsSubject.next([]);
         this.productsErrorMsg.next("There aren't any products available at the moment, please come back later");
       }

@@ -41,7 +41,7 @@ export class CartService {
           this.cartSubject.next({ cartId: res.insertId, cartTotalPrice: 0, cartProducts: [] })
           this.addCartItemLocalAndServer(cartItem, res.insertId);
         },
-        error: err => console.log(err)
+        error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
       });
     }
     else
@@ -77,7 +77,6 @@ export class CartService {
    * @param cartItemId cart_product id that is needed to be deleted.
    */
   removeCartItem(cartItemId: number) {
-    console.log(cartItemId);
     this.ApiRequests.medium.delete.cartProduct(cartItemId)
       .subscribe({
         next: res => {
@@ -116,7 +115,6 @@ export class CartService {
    * @returns Observable that contains a message for the user.
    */
   generateLoginNotification(carts: CartAndOrderType[]) {
-    console.log(carts);
     return new Observable<string>(subscribe => {
       this.clearCart();
       if (carts.length < 1)
@@ -155,7 +153,7 @@ export class CartService {
                 if (err.status == 404)
                   this.cartSubject.next({ cartId: openCartId, cartTotalPrice: 0, cartProducts: [] });
                 else
-                  console.log(err.error);
+                  alert(`${err.error.message} \n ${config.apiErrorMsg}`)
               },
             });
         }

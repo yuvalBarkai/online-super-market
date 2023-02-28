@@ -84,8 +84,6 @@ export class OrderComponent implements OnInit {
               this.User.loginNotificationCartUpdate();
               this.Router.navigate(["home"]);
             }
-            else
-              console.log(serverResponse);
           });
         })).subscribe({
           next: (res) => serverResponse.success = true,

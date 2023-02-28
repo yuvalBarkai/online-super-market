@@ -8,7 +8,10 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  host:{
+    class:'loginPage'
+  }
 })
 export class LoginComponent {
   constructor(private UserService: UserService, private ApiRequests: ApiRequestsService,
@@ -16,10 +19,12 @@ export class LoginComponent {
   userSubject$ = this.UserService.userInfo$;
   cartSubject$ = this.CartService.cart$;
   loginInfo = { user_email: "", password: "" };
-  errorMsg = "";
+
   @ViewChild('f') f: undefined | NgForm;
 
+  errorMsg = "";
   loginSubmit() {
+    
     this.ApiRequests.public.post.userLogin(this.loginInfo).subscribe({
       next: res => {
         this.UserService.login(res.token);

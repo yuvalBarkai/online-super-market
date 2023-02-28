@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ApiRequestsService } from 'src/app/services/api-requests.service';
 import { CartService } from 'src/app/services/cart.service';
 import { AdminService } from 'src/app/services/admin.service';
@@ -10,11 +10,6 @@ import AdminFormFields from '../../../models/AdminFormFields';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import config from 'configuration.json';
-
-enum Showing {
-  products,
-  order
-}
 
 @Component({
   selector: 'cart-side',
@@ -32,10 +27,9 @@ export class CartSideComponent implements OnInit, OnDestroy {
   categoriesList$ = this.ApiRequests.medium.get.allCategories();
   selectedProduct: null | ProductType = null;
   isAddingNewProduct = false;
-  showing = Showing.products;
+  @Input() showing = 0;
   receiptSearchVal: string = "";
   private subscriptions = new Subscription();
-  private urlEventUnregister = () => { };
   adminFormFields = new AdminFormFields("", "", "");
   errorMsg = "";
   apiImagesUrl = config.apiImagesUrl;
@@ -48,16 +42,6 @@ export class CartSideComponent implements OnInit, OnDestroy {
    * Observables.
    */
   ngOnInit() {
-    if (this.Location.path().includes("products"))
-      this.showing = Showing.products;
-    else
-      this.showing = Showing.order;
-    this.urlEventUnregister = this.Location.onUrlChange(url => {
-      if (url.includes("products"))
-        this.showing = Showing.products;
-      else
-        this.showing = Showing.order;
-    });
     this.subscriptions.add(this.CartService.receiptSearchWord$
       .subscribe(newVal => this.receiptSearchVal = newVal));
     this.subscriptions.add(this.AdminService.selectedProduct$
@@ -139,6 +123,5 @@ export class CartSideComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-    this.urlEventUnregister();
   }
 }

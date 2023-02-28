@@ -35,7 +35,7 @@ export class ApiRequestsService {
       allCategories: () => this.http.get<CategoryType[]>(`${this.MEDIUM_URL}/product-categories`),
       productsByCategoryId: (category_id: number) => this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/category-id/${category_id}`),
       productsByProductName: (product_name: string) => this.http.get<ProductType[]>(`${this.MEDIUM_URL}/products/product-name/${product_name}`),
-      cartsAndOrdersByUserId: (user_id: number) => this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/carts-orders/${user_id}`),
+      cartsAndOrdersByUserId: () => this.http.get<CartAndOrderType[]>(`${this.MEDIUM_URL}/carts-orders`),
       cartProductsByCartId: (cart_id: number) => this.http.get<CartProductType[]>(`${this.MEDIUM_URL}/cart-products/${cart_id}`),
     },
     post: {

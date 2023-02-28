@@ -1,12 +1,12 @@
-<div class="drag"><span>drag to <br> resize</span></div>
+<div class="drag"><span>drag border to resize</span><mat-icon>drag_indicator</mat-icon></div>
 <ng-container *ngIf="{allProducts:allProducts$ | async, userInfo:userInfo$ | async} as global">
   <ng-container *ngIf="global.userInfo?.is_admin == 0; else adminView">
     <ng-container *ngIf="cart$ | async as cart">
-      <div>
-        <span class="cartTitle h4">My Cart</span>
-
+      <div class="cartTitle">
+        <span class="h2">Cart</span>
+        <button *ngIf="showing == 0 && cart.cartProducts.length > 0" mat-raised-button class="btn button"
+          routerLink="/shopping/order">Order</button>
       </div>
-      <a *ngIf="showing == 1" routerLink="shopping/products">Continue shopping</a>
       <hr>
       <h4 *ngIf="showing == 1">To change the cart go back to the shop</h4>
 
@@ -18,12 +18,6 @@
       <ng-template #emptyCart>
         <h5>Your cart is empty</h5>
       </ng-template>
-      <footer class="cartFooter">
-        <span
-          [class.receiptSearch]="receiptSearchVal && ('total cart price'.includes(receiptSearchVal) || cart.cartTotalPrice.toString().includes(receiptSearchVal))">
-        </span>
-        <a *ngIf="showing == 0 && cart.cartProducts.length > 0" routerLink="/shopping/order">Order</a>
-      </footer>
     </ng-container>
   </ng-container>
   <ng-template #adminView>
@@ -64,7 +58,7 @@
         </div>
         <div>Picture:</div>
         <div *ngIf="isAddingNewProduct || !adminFormFields.keepImage" class="input-group mb-3">
-          <input type="file" class="form-control" (change)="saveImage($event)">
+          <input type="file" class="form-control fileInput" (change)="saveImage($event)">
         </div>
       </div>
       <div>

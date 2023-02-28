@@ -10,6 +10,17 @@
         margin-left: 8px;
       }
     }
+    .title {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(153, 209, 92, 0.598) 1%, rgba(186, 218, 104, 0.422) 61%, rgba(255,255,255,0.4822303921568627) 100%);
+      padding: 15px;
+      padding-right: 5px;
+      font-size: larger;
+    }
+    .button {
+      background-color: #99d15caa;
+      font-weight: 500;
+      font-size: x-large;
+    }
   }
   mat-hint{
     opacity: 50%;

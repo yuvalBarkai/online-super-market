@@ -15,8 +15,9 @@ import { ProductsService } from "./products.service";
 export class UserService {
   constructor(private CartService: CartService, private ApiRequests: ApiRequestsService,
     private Router: Router, private ProductsService: ProductsService) { }
-  private userSubject = new BehaviorSubject<UserInfoType | null>(null);
+
   private notificationSubject = new BehaviorSubject<string>("");
+  private userSubject = new BehaviorSubject<UserInfoType | null>(null);
 
   get userInfo$() {
     return this.userSubject.asObservable();
@@ -59,17 +60,16 @@ export class UserService {
    * If the requests fails the user is informated via an alert.
    */
   loginNotificationCartUpdate() {
-    if (this.userInfo)
-      this.ApiRequests.medium.get.cartsAndOrdersByUserId(this.userInfo.user_id).subscribe({
-        next: carts => {
-          this.CartService.generateLoginNotification(carts)
-            .subscribe(res => {
-              this.notificationSubject.next(res);
-              this.ProductsService.productsByName("all");
-            });
-        },
-        error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
-      });
+    this.ApiRequests.medium.get.cartsAndOrdersByUserId().subscribe({
+      next: carts => {
+        this.CartService.generateLoginNotification(carts)
+          .subscribe(res => {
+            this.notificationSubject.next(res);
+            this.ProductsService.productsByName("all");
+          });
+      },
+      error: err => alert(`${err.error.message} \n ${config.apiErrorMsg}`)
+    });
   }
   /**
    * Logs out the users by clearing the notificationSubject, the userSubject,

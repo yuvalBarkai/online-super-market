@@ -1,10 +1,10 @@
-import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
 import config from "configuration.json"
 import { UserService } from 'src/app/services/user.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { Component, Inject } from '@angular/core';
 
 
 @Component({
@@ -59,7 +59,7 @@ export class OrderDoneDialogComponent {
         },
         { title: "Price" },
         { title: "Quantity" },
-        { title: "Total" }
+        { title: "Total price (Price * Quantity)" }
       ],
       table: Array.from(this.Cart.cartVal.cartProducts, (item, index) => ([
         index + 1,
@@ -68,10 +68,12 @@ export class OrderDoneDialogComponent {
         item.amount,
         `${item.total_price}$`
       ])),
-      additionalRows: [{
+      // This additionalRows acts really has an error with its type, It can work if
+      // type is changed in its module but I decided to just comment it because node_modules  is not trandered
+      /* additionalRows: [{
         col1: 'Total:',
         col2: `${this.Cart.cartVal.cartTotalPrice}$`,
-      }]
+      }] */
     },
     pageEnable: true,
     pageLabel: "Page ",

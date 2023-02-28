@@ -1,23 +1,100 @@
 mat-toolbar {
+  min-height: 140px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background: url('../../../assets/spaghettiBackground.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #98d15c;
+  color: white;
+
   .title {
-    font-size: 40px;
+    padding-top: 15px;
+    font-size: 50px;
     font-weight: bolder;
-    padding-left: 30px;
     cursor: pointer;
   }
 
-  .orderSearch, .productSearch{
-    padding-left: 60px;
+  .productSearch,
+  .orderSearch {
+    margin-top: 55px;
   }
 
   .contact {
-    font-size: 20px;
+    font-weight: 700;
+    padding-top: 15px;
+    display: inline-block;
+
+    .email {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    div {
+      margin-right: 8%;
+    }
+
     display: inline-block;
     text-align: right;
     width: 90%;
   }
 
-  .spacer {
-    flex: 1 1 auto;
+  .signout {
+    margin-right: 30px;
+    margin-left: 5%;
+    font-size: 20px;
+    height: 40px !important;
+    width: 100px;
   }
+
+  @media (min-width: 670px) {
+    .title {
+      font-size: 80px;
+      padding: 1%;
+    }
+
+    .productSearch,
+    .orderSearch {
+      margin-left: 40px;
+    }
+
+    .contact {
+      font-size: 25px;
+    }
+
+    .greeting {
+      padding-bottom: 20px;
+      font-size: 35px;
+
+      button {
+        height: 50px;
+      }
+    }
+  }
+
+  @media (min-width: 1300px) {
+    .title {
+      font-size: 100px;
+      margin: 2%;
+      margin-top: 4%;
+    }
+
+    .productSearch,
+    .orderSearch {
+      margin-bottom: 120px;
+      margin-right: auto;
+      margin-left: auto;
+      min-width: 350px;
+    }
+
+    .email {
+      margin-right: 3%;
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

@@ -24,7 +24,6 @@ export class CartItemsComponent implements OnInit, OnDestroy {
   unSubscribe = () => { };
 
   ngOnInit() {
-    console.log(this.cartProducts);
     if (this.showing == 1)
       this.displayedColumns = ['image', 'name', 'amount', 'total_price'];
     this.unSubscribe = this.Location.onUrlChange(() => {

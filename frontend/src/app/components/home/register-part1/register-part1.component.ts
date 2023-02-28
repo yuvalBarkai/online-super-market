@@ -8,7 +8,10 @@ import { RegistrationService } from 'src/app/services/registration.service';
 @Component({
   selector: 'app-register-part1',
   templateUrl: './register-part1.component.html',
-  styleUrls: ['./register-part1.component.scss']
+  styleUrls: ['./register-part1.component.scss'],
+  host:{
+    class:'registerPart1'
+  }
 })
 export class RegisterPart1Component implements OnInit {
   constructor(private router: Router, private RegistrationService: RegistrationService,

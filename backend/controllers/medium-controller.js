@@ -129,13 +129,10 @@ router.get("/products/product-name/:productName", async (req, res) => {
 });
 
 
-router.get("/carts-orders/:userId", async (req, res) => {
+router.get("/carts-orders", async (req, res) => {
     try {
-        if (isNaN(req.params.userId))
-            res.status(400).send({ message: "Error: the userId parameter needs to be numberic" });
-        else {
-            res.send(await mediumLogic.selectCartsAndOrdersByUserAsync(req.params.userId));
-        }
+        const userId = req.userInfo.user_id;
+        res.send(await mediumLogic.selectCartsAndOrdersByUserAsync(userId));
     }
     catch (error) {
         res.status(500).send(serverErrorMsg(error));

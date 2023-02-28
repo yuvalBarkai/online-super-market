@@ -3,11 +3,22 @@
 }
 
 .drag {
+  margin-right: -20px;
   text-align: right;
+  opacity: 65%;
+  pointer-events: none;
 }
 
-.cartFooter {
-  padding-top: 20px;
+.button {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  background-color: #99d15caa;
+  font-weight: 500;
+  font-size: x-large;
+}
+
+.fileInput {
+  max-width: 300px;
 }
 
 .productEditOrAdd div {
@@ -25,4 +36,3 @@ ngx-mat-file-input {
 .image {
   width: 100px;
 }
-  

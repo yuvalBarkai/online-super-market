@@ -8,6 +8,5 @@ import config from 'configuration.json';
 })
 export class AboutComponent {
   imgUrl = config.apiUrlSiteLogo;
-  description = `This is the best shop, buy only here !!,
-  dont you dare going to rami levi`;
+  description = config.siteDescription;
 }

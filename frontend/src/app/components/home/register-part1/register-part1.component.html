@@ -1,5 +1,5 @@
 <div>
-  Already have an account ? <a mat-stroked-button [routerLink]="['/home/login']">Login</a>
+  Already have an account ? <button mat-stroked-button [routerLink]="['/home/login']" class="btn button">Login</button>
 </div>
 <form (ngSubmit)="f.valid && goToPart2()" #f="ngForm">
   <h2>STEP 1</h2>

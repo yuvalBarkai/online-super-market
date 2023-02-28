@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Components:
 import { AppComponent } from './app.component';
@@ -53,19 +55,20 @@ import { ProductIdToNamePipe } from './pipes/product-id-to-name.pipe';
 import { ResizableDirective } from './directives/resizable.directive';
 import { ProductIdToImageNamePipe } from './pipes/product-id-to-image-name.pipe';
 
+
 @NgModule({
   declarations: [
     AppComponent, LoginComponent, AboutComponent, StatsComponent, HomeComponent, HeaderComponent,
     RegisterPart1Component, RegisterPart2Component, ShoppingComponent, SingleProductComponent,
     CartSideComponent, ProductIdToNamePipe, CartInsertDialogComponent, ProductsComponent,
     OrderComponent, OrderDoneDialogComponent, CartItemsComponent, ProductIdToImageNamePipe,
-    ResizableDirective
+    ResizableDirective,
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,
     MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule,
-    MatTableModule, MatToolbarModule 
+    MatTableModule, MatToolbarModule, MatIconModule, MatTooltipModule
   ],
   providers: [ApiRequestsService, UserService, CartService
     , RegistrationService, ProductsService, MatDialog, AdminService,

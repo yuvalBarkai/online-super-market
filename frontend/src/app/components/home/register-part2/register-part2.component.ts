@@ -11,7 +11,10 @@ import config from 'configuration.json';
 @Component({
   selector: 'app-register-part2',
   templateUrl: './register-part2.component.html',
-  styleUrls: ['./register-part2.component.scss']
+  styleUrls: ['./register-part2.component.scss'],
+  host:{
+    class:'registerPart2'
+  }
 })
 export class RegisterPart2Component implements OnInit, OnDestroy {
   constructor(private RegistrationService: RegistrationService,
@@ -56,6 +59,5 @@ export class RegisterPart2Component implements OnInit, OnDestroy {
       },
       error: (err) => this.errorMsg = err.error.message
     });
-    console.log(newUser);
   }
 }

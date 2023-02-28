@@ -1,14 +1,36 @@
 main {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 300px;
-  height: 300px;
-
-  router-outlet{ // consider changing this logic
+  height: 750px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  /* background: url('../../../assets/oliveOilBackground.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
+  router-outlet {
     display: none;
   }
+
+  text-align: center;
 }
 
-main>* {
-  border: 2px solid purple;
+
+/* app-stats {
+  border: 1px solid red;
+}
+app-about {
+  border: 1px solid red;
+} */
+
+@media (min-width: 780px) {
+  main {
+    text-align: initial;
+    display: grid;
+    grid-template-columns: 65%,
+      35%;
+    grid-template-areas: "a b";
+  }
+  .b {
+    width: 65%;
+  }
 }

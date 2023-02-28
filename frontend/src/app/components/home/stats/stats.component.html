@@ -1,25 +1,24 @@
-<ng-container *ngIf="{next: numberOfOrders$ | async, err:ordersError$ | async} as res">
-  <div *ngIf="res.next">
-    We have finished {{res.next.number_of_orders}} orders !!
-  </div>
-  <div *ngIf="res.err" class="error">
-    {{res.err.error.message}} <br>
-    {{apiErrorMsg}}
-  </div>
-</ng-container>
+<main>
+  <ng-container *ngIf="{next: numberOfOrders$ | async, err:ordersError$ | async} as res">
+    <div *ngIf="res.next">
+      We have finished {{res.next.number_of_orders}} orders !!
+    </div>
+    <div *ngIf="res.err" class="error">
+      {{res.err.error.message}} <br>
+      {{apiErrorMsg}}
+    </div>
+  </ng-container>
 
-<ng-container *ngIf="{next:numberOfProducts$ |async, err:productsError$ |async} as res">
-  <div *ngIf="res.next">
-    You can go through {{res.next.number_of_products}} products here and choose the ones you like
+  <ng-container *ngIf="{next:numberOfProducts$ |async, err:productsError$ |async} as res">
+    <div *ngIf="res.next">
+      You can go through {{res.next.number_of_products}} products here and choose the ones you like
+    </div>
+    <div *ngIf="res.err" class="error">
+      {{res.err.error.message}} <br>
+      {{apiErrorMsg}}
+    </div>
+  </ng-container> 
+  <div class="notification">
+    {{notification$ | async}}
   </div>
-  <div *ngIf="res.err" class="error">
-    {{res.err.error.message}} <br>
-    {{apiErrorMsg}}
-  </div>
-</ng-container>
-
-<hr>
-
-<div class="notification">
-  {{notification$ | async}}
-</div>
+</main>

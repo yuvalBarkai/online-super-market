@@ -61,6 +61,7 @@ export interface ProductType {
   image_name: string;
 }
 
+
 export interface CategoryType {
   category_id: number;
   category_name: string;

@@ -1,25 +1,33 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span class="title" [routerLink]="['home']">{{title}}</span>
-    <span class="spacer"></span>
-    <span class="contact">
-      Contact (0547524226 or yuval120222@gmail.com)
-    </span>
-  </mat-toolbar-row>
-
-  <mat-toolbar-row>
-    <span *ngIf="showing==1" class="productSearch">
-      Search product:
-      <input type="text" placeholder="Product name" [(ngModel)]="productSearchBar" (input)="productSearch()">
-    </span>
-    <span *ngIf="showing==2" class="orderSearch">
-      Search the order:
-      <input type="text" placeholder="word" [(ngModel)]="receiptSearchWord" (input)="receiptSearch()">
-    </span>
-    <span class="spacer"></span>
-    <span>
-      Hello {{userFirstName}}
-      <button *ngIf="userFirstName != guestName" (click)="signout()">Sign out</button>
-    </span>
-  </mat-toolbar-row>
-</mat-toolbar>
+<main>
+  <mat-toolbar color="basic">
+    <mat-toolbar-row matTooltip="press the title on the left for the home page" [matTooltipShowDelay]="500">
+      <span class="title" [routerLink]="['home']">{{title}}</span>
+      <span class="spacer"></span>
+      <span class="contact">
+        <div>Contact information</div>
+        <a class="email" mat-button target="_blank"
+          href="https://mail.google.com/mail/u/0/?source=mailto&to=yuval120222@gmail.com&fs=1&tf=cm"
+          matTooltip="press to send an email">
+          yuval120222@gmail.com</a>
+      </span>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <mat-form-field *ngIf="showing==1" class="productSearch">
+        <mat-label>Search product:</mat-label>
+        <input matInput type="text" placeholder="Product name" [(ngModel)]="productSearchBar" (input)="productSearch()">
+      </mat-form-field>
+      <mat-form-field *ngIf="showing==2" class="orderSearch">
+        <mat-label>Search the order:</mat-label>
+        <input matInput type="text" placeholder="word" [(ngModel)]="receiptSearchWord" (input)="receiptSearch()">
+      </mat-form-field>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <span class="spacer"></span>
+      <span class="greeting">
+        Hello {{userFirstName}}
+        <button mat-raised-button color="warn" class="signout" *ngIf="userFirstName != guestName"
+          (click)="signout()">Sign out</button>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</main>

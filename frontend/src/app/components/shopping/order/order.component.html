@@ -1,8 +1,8 @@
 <div class="order">
-  <h3>Order</h3>
+  <h3 class="title">Order</h3>
   <hr>
   <form (ngSubmit)="f.valid && onSubmit()" #f="ngForm">
-    <h4>Shipping Details</h4>
+    <h4 class="title">Shipping Details</h4>
     <hr>
     <div>
       <mat-form-field appearance="fill">
@@ -45,7 +45,7 @@
         <mat-hint>The grey dates are either in the past or too occupied with deliveries</mat-hint>
       </div>
     </div>
-    <h4>Payments</h4>
+    <h4 class="title">Payments</h4>
     <hr>
     <div>
       <mat-form-field appearance="fill">
@@ -60,6 +60,6 @@
           digits</span>
       </ng-container>
     </div>
-    <button mat-raised-button color="primary">Order</button>
+    <button mat-raised-button class="btn button">Order</button>
   </form>
 </div>
