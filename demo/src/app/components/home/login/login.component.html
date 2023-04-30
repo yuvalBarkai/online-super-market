@@ -1,0 +1,38 @@
+<ng-container *ngIf="{userInfo:userSubject$ | async, cart:cartSubject$ | async} as res">
+  <div *ngIf="res.userInfo; else login">
+    <button class="shoppingBtn" mat-raised-button class="btn button" (click)="shoppingBtn()">
+      <span *ngIf="res.cart?.cartId;else resume">Resume</span>
+      <ng-template #resume>Start</ng-template>
+      shopping
+    </button>
+  </div>
+  <ng-template #login>
+    <form>
+      <div *ngIf="!res.userInfo; else changeUser">
+        Press submit for user UI or Admin for Admin UI
+      </div>
+      <ng-template #changeUser>change account</ng-template>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input type="email" matInput placeholder="Email" [(ngModel)]="loginInfo.user_email" name="user_email"
+            #user_email="ngModel" disabled>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input type="password" matInput placeholder="Password" [(ngModel)]="loginInfo.password" name="password"
+            #password="ngModel" disabled>
+        </mat-form-field>
+      </div>
+      <div class="error">{{errorMsg}}</div>
+      <input mat-raised-button class="btn button" type="button" value="Submit" (click)="userSubmit()"/>
+      <input mat-raised-button class="btn button" type="button" value="Admin" (click)="adminSubmit()"/>
+      <div class="grey">
+        <button mat-stroked-button class="signup" disabled>Signup</button>
+        <span>if you haven't yet</span>
+      </div>
+    </form>
+  </ng-template>
+</ng-container>

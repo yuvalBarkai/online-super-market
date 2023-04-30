@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "virtumarket-project-4"
+  },
+  "targets": {
+    "virtumarket-project-4": {
+      "hosting": {
+        "frontend": [
+          "virtumarket-project-4-yuval"
+        ]
+      }
+    }
+  }
+}

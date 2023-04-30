@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'andika';
+  src: url(../../../../assets/Andika-Regular.ttf);
+}
+
+main {
+  font-family: 'andika';
+  font-size: larger;
+
+  div {
+    padding: 10px;
+  }
+
+  .notification {
+    color: rgb(142, 142, 0);
+  }
+}

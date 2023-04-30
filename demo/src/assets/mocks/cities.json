@@ -1,0 +1,22 @@
+[
+  {
+    "city_id": 1,
+    "city_name": "Jerusalem"
+  },
+  {
+    "city_id": 2,
+    "city_name": "Haifa"
+  },
+  {
+    "city_id": 3,
+    "city_name": "Tel aviv"
+  },
+  {
+    "city_id": 4,
+    "city_name": "Baka El Garbia"
+  },
+  {
+    "city_id": 5,
+    "city_name": "Be'er Sheva"
+  }
+]

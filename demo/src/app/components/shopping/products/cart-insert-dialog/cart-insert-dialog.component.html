@@ -1,0 +1,14 @@
+<main>
+  <h1 mat-dialog-title class="title">{{clickedProduct.product_id | pIdToName:allProducts}}</h1>
+  <div>
+    Amount: <br>
+    <mat-form-field>
+      <input matInput type="number" [(ngModel)]="amount" (input)="amountChange()">
+    </mat-form-field>
+    <div class="error">{{errorMsg}}</div>
+  </div>
+  <mat-dialog-actions>
+    <button [mat-dialog-close]="newCartProduct()" [disabled]="errorMsg" class="btn button">add to cart</button>
+    <button [mat-dialog-close]="null" class="btn close">cancel</button>
+  </mat-dialog-actions>
+</main>

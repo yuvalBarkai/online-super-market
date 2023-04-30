@@ -1,0 +1,11 @@
+{
+  "siteTitle": "virtumarket",
+  "siteDescription": "Our market was Founded in 1875, back then it was much simpler, we had just 1 small shop. Customers would bring their barter items and we would trade. Now there are no shops, everything is imaginary but our quality is still guaranteed, enjoy !",
+  "guestName": "guest",
+  "apiBaseUrl": "http://localhost:6500/api",
+  "apiImagesUrl": "assets/images",
+  "apiUrlSiteLogo": "siteLogo.png",
+  "apiErrorMsg": "Sorry for that, try to refresh the page or come back later",
+  "localStorageToken": "tokenBackup",
+  "localStorageTokenExpiration": "tokenExpiration"
+}

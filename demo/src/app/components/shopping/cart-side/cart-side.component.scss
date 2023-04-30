@@ -1,0 +1,43 @@
+.cartItem {
+  padding: 5px;
+}
+
+.drag {
+  margin-right: -20px;
+  text-align: right;
+  opacity: 65%;
+  pointer-events: none;
+}
+
+.button {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  background-color: #99d15caa;
+  font-weight: 500;
+  font-size: x-large;
+}
+
+.fileInput {
+  max-width: 300px;
+}
+
+.productEditOrAdd div {
+  padding: 10px;
+}
+
+@media (max-width:1380px) {
+.drag {
+  display: none;
+}
+}
+.receiptSearch {
+  background-color: yellow;
+}
+
+ngx-mat-file-input {
+  width: 80%;
+}
+
+.image {
+  width: 100px;
+}

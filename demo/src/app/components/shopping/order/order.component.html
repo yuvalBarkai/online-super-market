@@ -1,0 +1,62 @@
+<div class="order">
+  <h3 class="title">Order</h3>
+  <hr>
+  <form (ngSubmit)="f.valid && onSubmit()" #f="ngForm">
+    <h4 class="title">Shipping Details</h4>
+    <hr>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>City:</mat-label>
+        <mat-select [(ngModel)]="orderFields.city_id" name="city_id" #city_id="ngModel" (opened)="autoFillCity()"
+          (closed)="autoFillCity()" required>
+          <mat-option *ngFor="let c of cities$ | async" [value]="c.city_id">{{c.city_name}}</mat-option>
+        </mat-select>
+        <mat-hint>Double click to auto fill</mat-hint>
+      </mat-form-field>
+      <ng-container *ngIf="city_id.errors && (city_id.touched || city_id.dirty || f.submitted)">
+        <span *ngIf="city_id.errors['required']" class="error">Please choose a city</span>
+      </ng-container>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" (dblclick)="autoFillStreet()">
+        <mat-label>Street:</mat-label>
+        <input type="text" matInput [(ngModel)]="orderFields.street_name" name="street_name" #street_name="ngModel"
+          required minlength="2" maxlength="60">
+        <mat-hint>Double click to auto fill</mat-hint>
+      </mat-form-field>
+      <ng-container *ngIf="street_name.errors && (street_name.touched || street_name.dirty || f.submitted)">
+        <span *ngIf="street_name.errors['required']" class="error">Missing street name</span>
+        <span *ngIf="street_name.errors['minlength']" class="error">has to be more 2 characters or more</span>
+        <span *ngIf="street_name.errors['maxlength']" class="error">has to be 60 characters or less</span>
+      </ng-container>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Arrival Date:</mat-label>
+        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" [readonly]="true"
+          [(ngModel)]="orderFields.arrival_date" name="arrival_date" #arrival_date="ngModel" required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <ng-container *ngIf="arrival_date.errors && (arrival_date.touched || arrival_date.dirty || f.submitted)">
+        <span *ngIf="arrival_date.errors['required']" class="error">Missing arrival date</span>
+      </ng-container>
+    </div>
+    <h4 class="title">Payments</h4>
+    <hr>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Credit Card: </mat-label>
+        <input type="number" matInput [(ngModel)]="orderFields.credit_card_digits" name="credit_card_digits"
+          #credit_card_digits="ngModel" required min="1000" max="9999">
+      </mat-form-field>
+      <ng-container
+        *ngIf="credit_card_digits.errors && (credit_card_digits.touched || credit_card_digits.dirty || f.submitted)">
+        <span *ngIf="credit_card_digits.errors['required']" class="error">Missing credit card digits</span>
+        <span *ngIf="credit_card_digits.errors['max'] || credit_card_digits.errors['min']" class="error">has to be 4
+          digits</span>
+      </ng-container>
+    </div>
+    <button mat-raised-button class="btn button">Order</button>
+  </form>
+</div>

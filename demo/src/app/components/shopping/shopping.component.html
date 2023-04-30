@@ -1,0 +1,11 @@
+<button mat-raised-button *ngIf="isMinimized; else hideCartBtn" (click)="showCart()">Show Sidebar</button>
+<button mat-raised-button class="btn button" *ngIf="showing == 1" routerLink="shopping/products">Continue shopping</button>
+<ng-template #hideCartBtn>
+  <button mat-raised-button (click)="hideCart()">Hide Sidebar</button>
+</ng-template>
+<div class="shoppingArea" [ngStyle]="isResizing ? {'user-select':'none'} : {'user-select':'default'}">
+  <cart-side class="cart" resizable (isResizing)="resizing($event)" (minimizing)="minimizing($event)"
+    [ngStyle]="isMinimized ? {'display':'none'} : {'display':'block'}" [showing]="showing"></cart-side>
+
+  <router-outlet></router-outlet>
+</div>

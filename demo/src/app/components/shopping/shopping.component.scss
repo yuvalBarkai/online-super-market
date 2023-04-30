@@ -1,0 +1,33 @@
+@media (min-width: 1380px) {
+  .shoppingArea {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  .cart {
+    min-height: 700px;
+  }
+}
+
+.button {
+  background-color: #99d15caa;
+  font-weight: 500;
+  font-size: x-large;
+}
+
+.shoppingArea {
+  // grid-template-rows: 1fr min-content;
+  // column-fill: auto;
+  grid-gap: 1em;
+  padding: 10px;
+
+  .cart {
+    border-right: 15px solid #99d15ca2;
+    margin-right: -15px;
+    border-style: groove;
+  }
+
+  .routerOutlet {
+    // There is a global style regarding this
+    display: none;
+  }
+}

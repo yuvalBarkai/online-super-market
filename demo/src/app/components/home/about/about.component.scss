@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'andika';
+  src: url(../../../../assets/Andika-Regular.ttf);
+}
+main{
+  margin-top: 20px;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 50%);
+  .desc {
+    overflow-wrap: break-word;
+    font-family: 'andika';
+    min-height: 50px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bolder;
+  }
+
+  .pic{
+    // border: 2px solid black;
+    min-height: 550px;
+    background-image: url('../../../../assets/groceriesNobackground.png');
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: contain;
+    background-position: bottom;
+  }
+
+
+}

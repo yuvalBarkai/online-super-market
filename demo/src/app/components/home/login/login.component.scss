@@ -1,0 +1,38 @@
+form {
+  padding-left: 30px;
+
+  div {
+    padding: 20px;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .signup {
+    height: 50px;
+    margin-right: 10px;
+  }
+
+}
+
+.button {
+  margin: 5px;
+  background-color: #99d15caa;
+  font-weight: 500;
+  font-size: 45px;
+  height: 100px;
+}
+
+@media (max-width:400px) {
+  mat-form-field {
+    display: none;
+  }
+}
+
+form .button {
+  background-color: #99d15caa;
+  font-weight: 500;
+  font-size: 25px;
+  height: 50px;
+}

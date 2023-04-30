@@ -7,7 +7,6 @@ function formatDate(date = new Date()) {
     return `${year}-${month}-${day}`;
 }
 
-
 module.exports = {
     formatDate,
 }

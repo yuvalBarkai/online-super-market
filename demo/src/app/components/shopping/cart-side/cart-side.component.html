@@ -1,0 +1,77 @@
+<div class="drag"><span>drag border to resize</span><mat-icon>drag_indicator</mat-icon></div>
+<ng-container *ngIf="{allProducts:allProducts$ | async, userInfo:userInfo$ | async} as global">
+  <ng-container *ngIf="global.userInfo?.is_admin == 0; else adminView">
+    <ng-container *ngIf="cart$ | async as cart">
+      <div class="cartTitle">
+        <span class="h2">Cart</span>
+        <button *ngIf="showing == 0 && cart.cartProducts.length > 0" mat-raised-button class="btn button"
+          routerLink="/shopping/order">Order</button>
+      </div>
+      <hr>
+      <h4 *ngIf="showing == 1">To change the cart go back to the shop</h4>
+
+      <ng-container *ngIf="cart.cartProducts.length > 0 && cart.cartId; else emptyCart">
+        <cart-items [showing]="showing" [cartProducts]="cart.cartProducts" [allProducts]="global.allProducts"
+          [receiptSearchVal]="receiptSearchVal" [cartTotalPrice]="cart.cartTotalPrice"
+          (emptyCart)="emptyCartProducts($event)" (deleteItem)="deleteCartItem($event)"></cart-items>
+      </ng-container>
+      <ng-template #emptyCart>
+        <h5>Your cart is empty</h5>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-template #adminView>
+    <h2>
+      <button (click)="addProductView()" mat-raised-button>+</button>
+      {{isAddingNewProduct ? 'New Product': selectedProduct?.product_name}}
+    </h2>
+    <hr>
+    <form class="productEditOrAdd" *ngIf="isAddingNewProduct || selectedProduct; else selectMsg"
+      (ngSubmit)="isAddingNewProduct ? addNewProduct(): editProduct()" #f="ngForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Product Name: </mat-label>
+          <input type="text" matInput [(ngModel)]="adminFormFields.product_name" name="product_name"
+            #product_name="ngModel" maxlength="60" required>
+        </mat-form-field>
+        <ng-container *ngIf="product_name.errors && (product_name.touched || product_name.dirty || f.submitted)">
+          <mat-error *ngIf="product_name.errors['required']">Product Name is required</mat-error>
+          <mat-error *ngIf="product_name.errors['maxlength']">Product Name needs to be 60 characters or less</mat-error>
+        </ng-container>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Product price ($): </mat-label>
+          <input type="number" matInput [(ngModel)]="adminFormFields.product_price" name="product_price"
+            #product_price="ngModel" min="0.01" required>
+        </mat-form-field>
+        <ng-container *ngIf="product_price.errors && (product_price.touched || product_price.dirty || f.submitted)">
+          <mat-error *ngIf="product_price.errors['required']">Product price is required</mat-error>
+          <mat-error *ngIf="product_price.errors['min']">Product price must be more than 0</mat-error>
+        </ng-container>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Category:</mat-label>
+          <mat-select [(ngModel)]="adminFormFields.category_id" name="category_id" #category_id="ngModel" required>
+            <mat-option *ngFor="let c of categoriesList$ | async" [value]="c.category_id">
+              {{c.category_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="category_id.errors && (category_id.touched || category_id.dirty || f.submitted)">
+          <mat-error *ngIf="category_id.errors['required']">Category is required</mat-error>
+        </ng-container>
+      </div>
+      <div class="error">{{errorMsg}}</div>
+      <button mat-raised-button color="primary">
+        <ng-container *ngIf="isAddingNewProduct; else editing">Add</ng-container>
+        <ng-template #editing>Save</ng-template>
+      </button>
+    </form>
+    <ng-template #selectMsg>
+      Select a product to edit <br>
+      or click the + to add a new product
+    </ng-template>
+  </ng-template>
+</ng-container>

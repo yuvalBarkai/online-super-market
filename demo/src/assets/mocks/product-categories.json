@@ -1,0 +1,22 @@
+[
+  {
+    "category_id":1,
+    "category_name":"Fruits & Vegetables"
+  },
+  {
+    "category_id":2,
+    "category_name":"Dairy & Eggs"
+  },
+  {
+    "category_id":3,
+    "category_name":"Meat & Fish"
+  },
+  {
+    "category_id":4,
+    "category_name":"Snacks & Beverages"
+  },
+  {
+    "category_id":5,
+    "category_name":"Cooking & Baking"
+  }
+]

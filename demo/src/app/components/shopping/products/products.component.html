@@ -1,0 +1,17 @@
+<div class="products" *ngIf="userInfo$ | async as userInfo">
+  <header class="categories">
+    <span *ngFor="let c of categoriesList$ | async" (click)="categoryChange(c.category_id)"
+      [class.chosenCategory]="c.category_id == chosenCategoryId">
+      {{c.category_name}}
+    </span>
+  </header>
+
+  <div *ngIf="productsErrorMsg$ | async as error" class="error">{{error}}</div>
+  <div class="productList">
+    <ng-container *ngIf="{selectedProduct:selectedProduct$ | async} as res">
+      <app-single-product *ngFor="let p of productsList" [product]="p"
+        [class.selected]="userInfo.is_admin && p.product_id == res.selectedProduct?.product_id"
+        (click)="userInfo.is_admin ? selectProduct(p) : openDialog(p)"></app-single-product>
+    </ng-container>
+  </div>
+</div>
